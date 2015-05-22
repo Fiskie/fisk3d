@@ -15,6 +15,7 @@
 		C126E8D11B0FA54B003D9AA0 /* event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8CF1B0FA54B003D9AA0 /* event.cpp */; };
 		C1513C8F1B0E503F00F75DC4 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1513C8E1B0E503F00F75DC4 /* main.cpp */; };
 		C1513C961B0E522500F75DC4 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1513C951B0E522500F75DC4 /* SDL2.framework */; };
+		C1B754861B0FDD760033CD70 /* debuggame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1B754841B0FDD760033CD70 /* debuggame.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,8 @@
 		C1513C8B1B0E503E00F75DC4 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1513C8E1B0E503F00F75DC4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C1513C951B0E522500F75DC4 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		C1B754841B0FDD760033CD70 /* debuggame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debuggame.cpp; sourceTree = "<group>"; };
+		C1B754851B0FDD760033CD70 /* debuggame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debuggame.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +94,8 @@
 				C126E8CD1B0F72CF003D9AA0 /* game.h */,
 				C126E8CF1B0FA54B003D9AA0 /* event.cpp */,
 				C126E8D01B0FA54B003D9AA0 /* event.h */,
+				C1B754841B0FDD760033CD70 /* debuggame.cpp */,
+				C1B754851B0FDD760033CD70 /* debuggame.h */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 			files = (
 				C126E8CB1B0F72A1003D9AA0 /* structs.cpp in Sources */,
 				C1513C8F1B0E503F00F75DC4 /* main.cpp in Sources */,
+				C1B754861B0FDD760033CD70 /* debuggame.cpp in Sources */,
 				C126E8D11B0FA54B003D9AA0 /* event.cpp in Sources */,
 				C126E8C41B0F53EA003D9AA0 /* timer.cpp in Sources */,
 				C126E8CE1B0F72CF003D9AA0 /* game.cpp in Sources */,

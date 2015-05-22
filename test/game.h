@@ -24,11 +24,10 @@ protected:
     
 public:
     Game();
-	void update(double delta);
-    void render();
+	virtual void update(double delta);
+    virtual void render();
+    virtual void setup();
     bool initialize();
-    void processInput();
-    void onKeyPress(SDL_Keycode key);
     void run();
     void exit();
     

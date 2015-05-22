@@ -27,6 +27,10 @@ void Game::render() {
     // Render code here
 }
 
+void Game::setup() {
+    // Setup code here
+}
+
 bool Game::initialize() {
     // Initialize SDL
     if (SDL_Init( SDL_INIT_VIDEO ) < 0) {
@@ -35,7 +39,7 @@ bool Game::initialize() {
     }
     
     // Create window
-    window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("SDL Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     
     if (window == NULL) {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -52,13 +56,18 @@ bool Game::initialize() {
     // Fill
     SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF)); */
     
+    setup();
+    
     return true;
 }
 
 void Game::run() {
+    if (!initialize())
+        return;
+    
     Timer timer;
     
-    double frameRate = 0.1;
+    double frameRate = 10000;
     double previous = clock();
     double lag = 0.0;
     
@@ -69,12 +78,12 @@ void Game::run() {
         previous = current;
         lag += elapsed;
         
-        event->handle();
-        
         while (lag >= frameRate)
         {
+            event->handle();
             update(lag);
             lag -= frameRate;
+            SDL_Delay(100);
         }
         
         render();

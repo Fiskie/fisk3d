@@ -14,22 +14,7 @@ Event::Event(Game *game) {
 
 
 void Event::onKeyPress(SDL_Keycode key) {
-    printf("Key pressed: %d", key);
-    /*
-     switch (e.key.keysym.sym) {
-     case SDLK_w:
-     player.loc.x += 1;
-     break;
-     case SDLK_s:
-     player.loc.x -= 1;
-     break;
-     case SDLK_a:
-     player.loc.z = 1;
-     break;
-     case SDLK_d:
-     player.loc.z -= 1;
-     break;
-     }*/
+    printf("Key ID: %d\n", key);
 }
 
 void Event::handle() {
@@ -40,6 +25,7 @@ void Event::handle() {
     {
         switch (e.type) {
             case SDL_QUIT:
+                puts("Game exit called.\n");
                 game->exit();
                 break;
             case SDL_KEYDOWN:
