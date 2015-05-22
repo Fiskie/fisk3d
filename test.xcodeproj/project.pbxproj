@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		C126E8C11B0F4C1E003D9AA0 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C126E8C01B0F4C1E003D9AA0 /* SDL2_ttf.framework */; };
 		C126E8C41B0F53EA003D9AA0 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8C21B0F53EA003D9AA0 /* timer.cpp */; };
+		C126E8C81B0F6B9F003D9AA0 /* worldobject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8C61B0F6B9F003D9AA0 /* worldobject.cpp */; };
+		C126E8CB1B0F72A1003D9AA0 /* structs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8C91B0F72A1003D9AA0 /* structs.cpp */; };
+		C126E8CE1B0F72CF003D9AA0 /* game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8CC1B0F72CF003D9AA0 /* game.cpp */; };
+		C126E8D11B0FA54B003D9AA0 /* event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C126E8CF1B0FA54B003D9AA0 /* event.cpp */; };
 		C1513C8F1B0E503F00F75DC4 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1513C8E1B0E503F00F75DC4 /* main.cpp */; };
 		C1513C961B0E522500F75DC4 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1513C951B0E522500F75DC4 /* SDL2.framework */; };
 /* End PBXBuildFile section */
@@ -29,6 +33,14 @@
 		C126E8C01B0F4C1E003D9AA0 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
 		C126E8C21B0F53EA003D9AA0 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
 		C126E8C51B0F668D003D9AA0 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		C126E8C61B0F6B9F003D9AA0 /* worldobject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = worldobject.cpp; sourceTree = "<group>"; };
+		C126E8C71B0F6B9F003D9AA0 /* worldobject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = worldobject.h; sourceTree = "<group>"; };
+		C126E8C91B0F72A1003D9AA0 /* structs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = structs.cpp; sourceTree = "<group>"; };
+		C126E8CA1B0F72A1003D9AA0 /* structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
+		C126E8CC1B0F72CF003D9AA0 /* game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = game.cpp; sourceTree = "<group>"; };
+		C126E8CD1B0F72CF003D9AA0 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		C126E8CF1B0FA54B003D9AA0 /* event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event.cpp; sourceTree = "<group>"; };
+		C126E8D01B0FA54B003D9AA0 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		C1513C8B1B0E503E00F75DC4 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1513C8E1B0E503F00F75DC4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C1513C951B0E522500F75DC4 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
@@ -71,6 +83,14 @@
 				C1513C8E1B0E503F00F75DC4 /* main.cpp */,
 				C126E8C21B0F53EA003D9AA0 /* timer.cpp */,
 				C126E8C51B0F668D003D9AA0 /* timer.h */,
+				C126E8C61B0F6B9F003D9AA0 /* worldobject.cpp */,
+				C126E8C71B0F6B9F003D9AA0 /* worldobject.h */,
+				C126E8C91B0F72A1003D9AA0 /* structs.cpp */,
+				C126E8CA1B0F72A1003D9AA0 /* structs.h */,
+				C126E8CC1B0F72CF003D9AA0 /* game.cpp */,
+				C126E8CD1B0F72CF003D9AA0 /* game.h */,
+				C126E8CF1B0FA54B003D9AA0 /* event.cpp */,
+				C126E8D01B0FA54B003D9AA0 /* event.h */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -131,8 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C126E8CB1B0F72A1003D9AA0 /* structs.cpp in Sources */,
 				C1513C8F1B0E503F00F75DC4 /* main.cpp in Sources */,
+				C126E8D11B0FA54B003D9AA0 /* event.cpp in Sources */,
 				C126E8C41B0F53EA003D9AA0 /* timer.cpp in Sources */,
+				C126E8CE1B0F72CF003D9AA0 /* game.cpp in Sources */,
+				C126E8C81B0F6B9F003D9AA0 /* worldobject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

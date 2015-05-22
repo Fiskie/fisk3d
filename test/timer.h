@@ -9,8 +9,6 @@
 #ifndef __test__timer__
 #define __test__timer__
 
-#include <stdio.h>
-
 class Timer {
 private:
     int startTicks;
