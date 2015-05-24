@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(fisk3d)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_FLAGS "-std=c++0x")
 
 # Look up SDL2 and add the include directory to our include path
 find_package(SDL2 REQUIRED)
