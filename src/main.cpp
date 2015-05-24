@@ -8,8 +8,8 @@
 
 #include "DebugGame.h"
 
-int main(int argc, const char* argv[]) {
-    DebugGame* game = new DebugGame();
+int main(int argc, const char *argv[]) {
+    DebugGame *game = new DebugGame();
     game->run();
     game->exit();
     return 0;

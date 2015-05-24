@@ -8,7 +8,7 @@
 
 #include "Event.h"
 
-Event::Event(Game* game) {
+Event::Event(Game *game) {
     this->game = game;
 }
 

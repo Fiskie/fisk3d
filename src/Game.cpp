@@ -31,12 +31,11 @@ bool Game::initialize() {
     }
 
     renderer = SDL_CreateRenderer(window, 0, 0);
-    
-    // Get window surface
-    screenSurface = SDL_GetWindowSurface( window );
-    
-    // Fill
-    // SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+
+    if (renderer == NULL) {
+        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        return false;
+    }
 
     setup();
 
@@ -61,7 +60,7 @@ void Game::run() {
 
         prev = now;
 
-        if (delta >= 0.05) { // Game logic updates 1/20th a second.
+        if (delta >= 1) { // Game logic updates 1/20th a second.
             update(delta);
             render();
             delta = 0;
@@ -70,7 +69,7 @@ void Game::run() {
             // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
             printf("FPS: %f\n", (now / (double) frames));
         } else {
-            SDL_Delay(0.05 - delta);
+            SDL_Delay(1 - delta);
         }
     }
 }
@@ -84,4 +83,16 @@ void Game::exit() {
 
     // Quit SDL subsystems
     SDL_Quit();
+}
+
+SDL_Window *Game::getWindow() {
+    return window;
+}
+
+SDL_Renderer *Game::getRenderer() {
+    return renderer;
+}
+
+SDL_Surface *Game::getSurface() {
+    return screenSurface;
 }

@@ -16,11 +16,13 @@ class Game;
 
 class Event {
 private:
-    Game* game;
+    Game *game;
 
 public:
-    Event(Game* game);
+    Event(Game *game);
+
     void handle();
+
     void onKeyPress(SDL_Keycode key);
 };
 

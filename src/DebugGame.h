@@ -35,7 +35,9 @@ private:
 
 public:
     virtual void render() override;
+
     virtual void update(double delta) override;
+
     virtual void setup() override;
 
     void drawWall(Wall wall);

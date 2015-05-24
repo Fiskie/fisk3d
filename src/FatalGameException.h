@@ -13,14 +13,14 @@ using namespace std;
 
 class FatalGameException : public exception {
 private:
-    const char* message;
+    const char *message;
 
 public:
-    FatalGameException(char* message) {
+    FatalGameException(char *message) {
         this->message = message;
     }
 
-    virtual const char* what() const throw() {
+    virtual const char *what() const throw() {
         char str[] = "Fatal game exception";
 
         return strcat(str, message);
