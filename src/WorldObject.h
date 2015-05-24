@@ -9,8 +9,13 @@
 #ifndef __fisk3d__worldobject__
 #define __fisk3d__worldobject__
 
-class WorldObject {
+#include "Structs.h"
 
+class WorldObject {
+public:
+    Pos loc;
+    Pos rot;
+    Pos vol;
 };
 
 #endif //__fisk3d__worldobject__

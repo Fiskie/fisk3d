@@ -7,27 +7,29 @@
 //
 
 #include "DebugGame.h"
+#include "Player.h"
+#include "Wall.h"
 
-void DebugGame::drawWall(Wall wall) {
+void DebugGame::drawWall(Wall *wall) {
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
-    SDL_RenderDrawLine(renderer, (int) wall.loc.x, (int) wall.loc.z, (int) (wall.loc.x + wall.vol.x), (int) wall.loc.z);
-    SDL_RenderDrawLine(renderer, (int) wall.loc.x, (int) wall.loc.z, (int) wall.loc.x, (int) (wall.loc.z + wall.vol.z));
-    SDL_RenderDrawLine(renderer, (int) (wall.loc.x + wall.vol.x), (int) wall.loc.z, (int) (wall.loc.x + wall.vol.x),
-                       (int) (wall.loc.z + wall.vol.z));
-    SDL_RenderDrawLine(renderer, (int) wall.loc.x, (int) (wall.loc.z + wall.vol.z), (int) (wall.loc.x + wall.vol.x),
-                       (int) (wall.loc.z + wall.vol.z));
+    SDL_RenderDrawLine(renderer, (int) wall->loc.x, (int) wall->loc.z, (int) (wall->loc.x + wall->vol.x), (int) wall->loc.z);
+    SDL_RenderDrawLine(renderer, (int) wall->loc.x, (int) wall->loc.z, (int) wall->loc.x, (int) (wall->loc.z + wall->vol.z));
+    SDL_RenderDrawLine(renderer, (int) (wall->loc.x + wall->vol.x), (int) wall->loc.z, (int) (wall->loc.x + wall->vol.x),
+                       (int) (wall->loc.z + wall->vol.z));
+    SDL_RenderDrawLine(renderer, (int) wall->loc.x, (int) (wall->loc.z + wall->vol.z), (int) (wall->loc.x + wall->vol.x),
+                       (int) (wall->loc.z + wall->vol.z));
 }
 
-void DebugGame::drawPlayer(Player player) {
+void DebugGame::drawPlayer(Player *player) {
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
-    SDL_RenderDrawLine(renderer, (int) player.loc.x, (int) player.loc.z, (int) (player.loc.x + player.vol.x),
-                       (int) player.loc.z);
-    SDL_RenderDrawLine(renderer, (int) player.loc.x, (int) player.loc.z, (int) player.loc.x,
-                       (int) (player.loc.z + player.vol.z));
-    SDL_RenderDrawLine(renderer, (int) (player.loc.x + player.vol.x), (int) player.loc.z, (int) (player.loc.x + player.vol.x),
-                       (int) (player.loc.z + player.vol.z));
-    SDL_RenderDrawLine(renderer, (int) player.loc.x, (int) (player.loc.z + player.vol.z),
-                       (int) (player.loc.x + player.vol.x), (int) (player.loc.z + player.vol.z));
+    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) (player->loc.x + player->vol.x),
+                       (int) player->loc.z);
+    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) player->loc.x,
+                       (int) (player->loc.z + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) (player->loc.x + player->vol.x), (int) player->loc.z, (int) (player->loc.x + player->vol.x),
+                       (int) (player->loc.z + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) (player->loc.z + player->vol.z),
+                       (int) (player->loc.x + player->vol.x), (int) (player->loc.z + player->vol.z));
 }
 
 void DebugGame::drawDebugInfo() {
@@ -35,7 +37,7 @@ void DebugGame::drawDebugInfo() {
 }
 
 void DebugGame::render() {
-    printf("Rendering...\n");
+    // printf("Rendering...\n");
 
     SDL_RenderClear(renderer);
 
@@ -53,35 +55,45 @@ void DebugGame::render() {
 }
 
 void DebugGame::update(double delta) {
-    printf("Updating... %f\n", delta);
+    // printf("Updating... %f\n", delta);
 }
 
 void DebugGame::setup() {
-    player.vol.x = 20;
-    player.vol.y = 80;
-    player.vol.z = 20;
+    player = new Player();
+    wall1 = new Wall();
+    wall2 = new Wall();
+    wall3 = new Wall();
+    wall4 = new Wall();
 
-    player.loc.x = 300;
-    player.loc.z = 300;
+    player->vol.x = 10;
+    player->vol.y = 80;
+    player->vol.z = 10;
 
-    wall1.loc.x = 200;
-    wall2.loc.z = 200;
+    player->loc.x = 300;
+    player->loc.z = 300;
 
-    wall3.loc.x = 400;
-    wall4.loc.z = 400;
+    wall1->loc.x = 200;
+    wall2->loc.z = 200;
 
-    wall1.vol.x = 100;
-    wall2.vol.x = 100;
-    wall3.vol.x = 100;
-    wall4.vol.x = 100;
+    wall3->loc.x = 400;
+    wall4->loc.z = 400;
 
-    wall1.vol.z = 100;
-    wall2.vol.z = 100;
-    wall3.vol.z = 100;
-    wall4.vol.z = 100;
+    wall1->vol.x = 100;
+    wall2->vol.x = 100;
+    wall3->vol.x = 100;
+    wall4->vol.x = 100;
 
-    wall1.vol.y = 100;
-    wall2.vol.y = 100;
-    wall3.vol.y = 100;
-    wall4.vol.y = 100;
+    wall1->vol.z = 100;
+    wall2->vol.z = 100;
+    wall3->vol.z = 100;
+    wall4->vol.z = 100;
+
+    wall1->vol.y = 100;
+    wall2->vol.y = 100;
+    wall3->vol.y = 100;
+    wall4->vol.y = 100;
+}
+
+Player* DebugGame::getPlayer() {
+    return player;
 }

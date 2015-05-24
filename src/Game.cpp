@@ -49,6 +49,9 @@ void Game::run() {
     double delta = 0;
     long prev = SDL_GetTicks();
 
+    const int FRAME_RATE = 60;
+    const int TICK_TIME = 1 / FRAME_RATE;
+
     int frames = 0;
 
     while (running) {
@@ -60,16 +63,17 @@ void Game::run() {
 
         prev = now;
 
-        if (delta >= 1) { // Game logic updates 1/20th a second.
+        if (delta >= TICK_TIME) {
+            event->handle();
             update(delta);
             render();
             delta = 0;
             frames++;
 
             // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
-            printf("FPS: %f\n", (now / (double) frames));
+            // printf("FPS: %f\n", (now / (double) frames));
         } else {
-            SDL_Delay(1 - delta);
+            SDL_Delay(TICK_TIME - delta);
         }
     }
 }
@@ -91,8 +95,4 @@ SDL_Window *Game::getWindow() {
 
 SDL_Renderer *Game::getRenderer() {
     return renderer;
-}
-
-SDL_Surface *Game::getSurface() {
-    return screenSurface;
 }

@@ -22,7 +22,6 @@ class Game {
 protected:
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
-    SDL_Surface *screenSurface = NULL;
     Event *event = NULL;
     Timer *fpsTimer = new Timer();
     bool running;
@@ -44,8 +43,6 @@ public:
     SDL_Window *getWindow();
 
     SDL_Renderer *getRenderer();
-
-    SDL_Surface *getSurface();
 };
 
 #endif //__fisk3d__game__

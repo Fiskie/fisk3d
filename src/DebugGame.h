@@ -12,26 +12,16 @@
 #include <stdio.h>
 #include "Game.h"
 #include "Structs.h"
-
-struct Player {
-    Pos loc;
-    Pos rot;
-    Pos vol;
-};
-
-struct Wall {
-    Pos loc;
-    Pos rot;
-    Pos vol;
-};
+#include "Player.h"
+#include "Wall.h"
 
 class DebugGame : public Game {
 private:
-    Player player;
-    Wall wall1;
-    Wall wall2;
-    Wall wall3;
-    Wall wall4;
+    Player *player;
+    Wall *wall1;
+    Wall *wall2;
+    Wall *wall3;
+    Wall *wall4;
 
 public:
     virtual void render() override;
@@ -40,11 +30,13 @@ public:
 
     virtual void setup() override;
 
-    void drawWall(Wall wall);
+    void drawWall(Wall *wall);
 
-    void drawPlayer(Player player);
+    void drawPlayer(Player *player);
 
     void drawDebugInfo();
+
+    Player* getPlayer();
 };
 
 #endif // __fisk3d__debuggame__

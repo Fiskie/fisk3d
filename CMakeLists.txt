@@ -10,5 +10,5 @@ include_directories(${SDL2_INCLUDE_DIR})
 
 set(SOURCE_FILES src/main.cpp)
 
-add_executable(SDL2_App ${SOURCE_FILES} src/Timer.cpp src/Event.cpp src/Game.cpp src/DebugGame.cpp src/FatalGameException.cpp src/FatalGameException.h)
+add_executable(SDL2_App ${SOURCE_FILES} src/Timer.cpp src/Structs.cpp src/WorldObject.cpp src/Event.cpp src/Game.cpp src/DebugGame.cpp src/FatalGameException.cpp src/FatalGameException.h src/Player.cpp src/Player.h src/Wall.cpp src/Wall.h)
 target_link_libraries(SDL2_App ${SDL2_LIBRARY})
