@@ -6,11 +6,7 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include <SDL2/sdl.h>
-#include "timer.h"
-
-Timer::Timer()
-{
+Timer::Timer() {
     startTicks = 0;
     pausedTicks = 0;
     paused = false;
@@ -51,7 +47,7 @@ int Timer::getTicks() {
             return SDL_GetTicks() - startTicks;
         }
     }
-    
+
     return 0;
 }
 

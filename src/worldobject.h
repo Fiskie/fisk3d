@@ -10,7 +10,7 @@
 #define __test__worldobject__
 
 class WorldObject {
-    
+
 };
 
 #endif /* defined(__test__worldobject__) */

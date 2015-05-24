@@ -32,12 +32,16 @@ private:
     Wall wall2;
     Wall wall3;
     Wall wall4;
-    
+
 public:
     void render();
+
     void update(double delta);
+
     void setup();
+
     void drawWall(Wall wall);
+
     void drawPlayer(Player player);
 };
 

@@ -6,4 +6,3 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include "structs.h"

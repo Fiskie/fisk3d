@@ -25,15 +25,23 @@ protected:
     bool running;
 public:
     Game();
-	virtual void update(double delta);
+
+    virtual void update(double delta);
+
     virtual void render();
+
     virtual void setup();
+
     bool initialize();
+
     void run();
+
     void exit();
-    
+
     SDL_Window getWindow();
+
     SDL_Renderer getRenderer();
+
     SDL_Surface getSurface();
 };
 

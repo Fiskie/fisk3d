@@ -18,10 +18,12 @@ class Game;
 class Event {
 private:
     Game *game;
-    
+
 public:
     Event(Game *game);
+
     void handle();
+
     void onKeyPress(SDL_Keycode key);
 };
 

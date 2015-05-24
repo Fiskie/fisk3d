@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include "event.h"
-
 Event::Event(Game *game) {
     this->game = game;
 }
@@ -19,10 +17,9 @@ void Event::onKeyPress(SDL_Keycode key) {
 
 void Event::handle() {
     SDL_Event e;
-    
+
     // Handle events on queue
-    while (SDL_PollEvent(&e) != 0)
-    {
+    while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
             case SDL_QUIT:
                 puts("Game exit called.\n");
