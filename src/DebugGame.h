@@ -10,8 +10,8 @@
 #define __fisk3d__debuggame__
 
 #include <stdio.h>
-#include "game.h"
-#include "structs.h"
+#include "Game.h"
+#include "Structs.h"
 
 struct Player {
     Pos loc;
@@ -34,9 +34,9 @@ private:
     Wall wall4;
 
 public:
-    void render() override;
-    void update(double delta) override;
-    void setup() override;
+    virtual void render() override;
+    virtual void update(double delta) override;
+    virtual void setup() override;
 
     void drawWall(Wall wall);
 

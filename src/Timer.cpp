@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
+#include "Timer.h"
+
 Timer::Timer() {
     startTicks = 0;
     pausedTicks = 0;

@@ -10,8 +10,13 @@
 #define __fisk3d__game__
 
 #include <SDL2/sdl.h>
-#include "event.h"
-#include "timer.h"
+#include "Event.h"
+#include "Timer.h"
+
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+
+class Event;
 
 class Game {
 protected:
@@ -22,17 +27,13 @@ protected:
     Timer* fpsTimer = new Timer();
     bool running;
 public:
-    Game() {
-        running = true;
-        event = new Event(this);
-        fpsTimer->start();
-    }
+    Game();
 
-    virtual void update(double delta);
+    virtual void update(double delta) = 0;
 
-    virtual void render();
+    virtual void render() = 0;
 
-    virtual void setup();
+    virtual void setup() = 0;
 
     bool initialize();
 

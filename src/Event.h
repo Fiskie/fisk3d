@@ -10,8 +10,7 @@
 #define __fisk3d__events__
 
 #include <stdio.h>
-#include <SDL2/sdl.h>
-#include "game.h"
+#include "Game.h"
 
 class Game;
 

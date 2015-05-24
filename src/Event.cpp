@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include "event.h"
+#include "Event.h"
 
 Event::Event(Game* game) {
     this->game = game;
@@ -29,6 +29,8 @@ void Event::handle() {
             case SDL_KEYDOWN:
                 // Key press code here
                 onKeyPress(e.key.keysym.sym);
+                break;
+            default:
                 break;
         }
     }

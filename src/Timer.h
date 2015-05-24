@@ -9,6 +9,8 @@
 #ifndef __fisk3d__timer__
 #define __fisk3d__timer__
 
+#include <SDL2/SDL_timer.h>
+
 class Timer {
 private:
     int startTicks;

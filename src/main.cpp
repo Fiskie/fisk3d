@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include "debuggame.h"
+#include "DebugGame.h"
 
 int main(int argc, const char* argv[]) {
     DebugGame* game = new DebugGame();
