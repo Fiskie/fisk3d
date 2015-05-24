@@ -6,26 +6,10 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
+#include "game.h";
+
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-
-Game::Game() {
-    running = true;
-    event = new Event(this);
-    fpsTimer->start();
-}
-
-void Game::update(double delta) {
-    // Logic here
-}
-
-void Game::render() {
-    // Render code here
-}
-
-void Game::setup() {
-    // Setup code here
-}
 
 bool Game::initialize() {
     // Initialize SDL
@@ -51,7 +35,7 @@ bool Game::initialize() {
     screenSurface = SDL_GetWindowSurface( window );
     
     // Fill
-    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF)); */
+    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));* /
 
     setup();
 

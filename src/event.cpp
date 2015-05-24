@@ -6,10 +6,11 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-Event::Event(Game *game) {
+#include "event.h"
+
+Event::Event(Game* game) {
     this->game = game;
 }
-
 
 void Event::onKeyPress(SDL_Keycode key) {
     printf("Key ID: %d\n", key);

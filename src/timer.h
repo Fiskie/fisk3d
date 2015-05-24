@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__timer__
-#define __test__timer__
+#ifndef __fisk3d__timer__
+#define __fisk3d__timer__
 
 class Timer {
 private:
@@ -34,4 +34,4 @@ public:
     bool isPaused();
 };
 
-#endif /* defined(__test__timer__) */
+#endif //__fisk3d__timer__

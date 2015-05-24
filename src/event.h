@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__events__
-#define __test__events__
+#ifndef __fisk3d__events__
+#define __fisk3d__events__
 
 #include <stdio.h>
 #include <SDL2/sdl.h>
@@ -17,14 +17,12 @@ class Game;
 
 class Event {
 private:
-    Game *game;
+    Game* game;
 
 public:
-    Event(Game *game);
-
+    Event(Game* game);
     void handle();
-
     void onKeyPress(SDL_Keycode key);
 };
 
-#endif /* defined(__test__events__) */
+#endif //__fisk3d__events__

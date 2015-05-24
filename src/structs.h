@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__structs__
-#define __test__structs__
+#ifndef __fisk3d__structs__
+#define __fisk3d__structs__
 
 #include <stdio.h>
 
@@ -17,4 +17,4 @@ struct Pos {
     double z = 0;
 };
 
-#endif /* defined(__test__structs__) */
+#endif //__fisk3d__structs__

@@ -6,25 +6,27 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__game__
-#define __test__game__
+#ifndef __fisk3d__game__
+#define __fisk3d__game__
 
 #include <SDL2/sdl.h>
 #include "event.h"
 #include "timer.h"
 
-class Event;
-
 class Game {
 protected:
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    SDL_Surface *screenSurface = NULL;
-    Event *event = NULL;
-    Timer *fpsTimer = new Timer();
+    SDL_Window* window = NULL;
+    SDL_Renderer* renderer = NULL;
+    SDL_Surface* screenSurface = NULL;
+    Event* event = NULL;
+    Timer* fpsTimer = new Timer();
     bool running;
 public:
-    Game();
+    Game() {
+        running = true;
+        event = new Event(this);
+        fpsTimer->start();
+    }
 
     virtual void update(double delta);
 
@@ -34,9 +36,9 @@ public:
 
     bool initialize();
 
-    void run();
+    virtual void run();
 
-    void exit();
+    virtual void exit();
 
     SDL_Window getWindow();
 
@@ -45,4 +47,4 @@ public:
     SDL_Surface getSurface();
 };
 
-#endif /* defined(__test__game__) */
+#endif //__fisk3d__game__

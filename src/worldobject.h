@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__worldobject__
-#define __test__worldobject__
+#ifndef __fisk3d__worldobject__
+#define __fisk3d__worldobject__
 
 class WorldObject {
 
 };
 
-#endif /* defined(__test__worldobject__) */
+#endif //__fisk3d__worldobject__

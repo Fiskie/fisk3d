@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#ifndef __test__debuggame__
-#define __test__debuggame__
+#ifndef __fisk3d__debuggame__
+#define __fisk3d__debuggame__
 
 #include <stdio.h>
 #include "game.h"
@@ -34,15 +34,15 @@ private:
     Wall wall4;
 
 public:
-    void render();
-
-    void update(double delta);
-
-    void setup();
+    void render() override;
+    void update(double delta) override;
+    void setup() override;
 
     void drawWall(Wall wall);
 
     void drawPlayer(Player player);
+
+    void drawDebugInfo();
 };
 
-#endif /* defined(__test__debuggame__) */
+#endif // __fisk3d__debuggame__

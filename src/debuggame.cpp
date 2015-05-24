@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
+#include "debuggame.h"
+
 void DebugGame::drawWall(Wall wall) {
     SDL_SetRenderDrawColor(renderer, 66, 66, 255, 1);
     SDL_RenderDrawLine(renderer, wall.loc.x, wall.loc.z, wall.loc.x + wall.vol.x, wall.loc.z);
@@ -22,7 +24,7 @@ void DebugGame::drawPlayer(Player player) {
     SDL_RenderDrawLine(renderer, player.loc.x, player.loc.z + player.vol.z, player.loc.x + player.vol.x, player.loc.z);
 }
 
-void drawDebugOverlay() {
+void DebugGame::drawDebugInfo() {
 
 }
 
@@ -33,7 +35,7 @@ void DebugGame::render() {
     drawWall(wall2);
     drawWall(wall3);
     drawWall(wall4);
-    drawDebugOverlay();
+    drawDebugInfo();
 }
 
 void DebugGame::update(double delta) {
