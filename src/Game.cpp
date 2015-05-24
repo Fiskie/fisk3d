@@ -36,7 +36,7 @@ bool Game::initialize() {
     screenSurface = SDL_GetWindowSurface( window );
     
     // Fill
-    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+    // SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
     setup();
 
@@ -47,27 +47,31 @@ void Game::run() {
     if (!initialize())
         return;
 
-    Timer timer;
+    double delta = 0;
+    long prev = SDL_GetTicks();
 
-    double frameRate = 10000;
-    double previous = SDL_GetTicks();
-    double lag = 0.0;
+    int frames = 0;
 
     while (running) {
-        double current = SDL_GetTicks();
-        double elapsed = current - previous;
 
-        previous = current;
-        lag += elapsed;
+        long now = SDL_GetTicks();
+        long updateLength = now - prev;
 
-        while (lag >= frameRate) {
-            event->handle();
-            update(lag);
-            lag -= frameRate;
-            SDL_Delay(100);
+        delta += ((double) updateLength / 1000);
+
+        prev = now;
+
+        if (delta >= 0.05) { // Game logic updates 1/20th a second.
+            update(delta);
+            render();
+            delta = 0;
+            frames++;
+
+            // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
+            printf("FPS: %f\n", (now / (double) frames));
+        } else {
+            SDL_Delay(0.05 - delta);
         }
-
-        render();
     }
 }
 

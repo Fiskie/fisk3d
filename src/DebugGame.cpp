@@ -29,13 +29,13 @@ void DebugGame::drawDebugInfo() {
 }
 
 void DebugGame::render() {
-    printf("Rendering...\n");
-    drawPlayer(player);
-    drawWall(wall1);
-    drawWall(wall2);
-    drawWall(wall3);
-    drawWall(wall4);
-    drawDebugInfo();
+    // printf("Rendering...\n");
+    // drawPlayer(player);
+    // drawWall(wall1);
+    // drawWall(wall2);
+    // drawWall(wall3);
+    // drawWall(wall4);
+    // drawDebugInfo();
 }
 
 void DebugGame::update(double delta) {
