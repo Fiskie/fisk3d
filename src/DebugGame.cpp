@@ -9,30 +9,46 @@
 #include "DebugGame.h"
 
 void DebugGame::drawBrush(Brush *brush) {
+    double lX = brush->loc.x;
+    double lY = brush->loc.y;
+    double lZ = brush->loc.z;
+    double vX = brush->vol.x;
+    double vY = brush->vol.y;
+    double vZ = brush->vol.z;
+
+    double pX = player->loc.x;
+    double pY = player->loc.y;
+    double pZ = player->loc.z;
+
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
-    SDL_RenderDrawLine(renderer, (int) brush->loc.x, (int) brush->loc.z, (int) (brush->loc.x + brush->vol.x),
-                       (int) brush->loc.z);
-    SDL_RenderDrawLine(renderer, (int) brush->loc.x, (int) brush->loc.z, (int) brush->loc.x,
-                       (int) (brush->loc.z + brush->vol.z));
-    SDL_RenderDrawLine(renderer, (int) (brush->loc.x + brush->vol.x), (int) brush->loc.z,
-                       (int) (brush->loc.x + brush->vol.x),
-                       (int) (brush->loc.z + brush->vol.z));
-    SDL_RenderDrawLine(renderer, (int) brush->loc.x, (int) (brush->loc.z + brush->vol.z),
-                       (int) (brush->loc.x + brush->vol.x),
-                       (int) (brush->loc.z + brush->vol.z));
+    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) (lX + vX), (int) lZ);
+    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) lX, (int) (lZ + vZ));
+    SDL_RenderDrawLine(renderer, (int) (lX + vX), (int) lZ, (int) (lX + vX), (int) (lZ + vZ));
+    SDL_RenderDrawLine(renderer, (int) lX, (int) (lZ + vZ), (int) (lX + vX), (int) (lZ + vZ));
 }
 
 void DebugGame::drawPlayer(Player *player) {
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
-    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) (player->loc.x + player->vol.x),
-                       (int) player->loc.z);
-    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) player->loc.x,
-                       (int) (player->loc.z + player->vol.z));
-    SDL_RenderDrawLine(renderer, (int) (player->loc.x + player->vol.x), (int) player->loc.z,
-                       (int) (player->loc.x + player->vol.x),
-                       (int) (player->loc.z + player->vol.z));
-    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) (player->loc.z + player->vol.z),
-                       (int) (player->loc.x + player->vol.x), (int) (player->loc.z + player->vol.z));
+
+    double relX = player->loc.x - player->vol.x / 2;
+    double relY = player->loc.y - player->vol.y / 2;
+    double relZ = player->loc.z - player->vol.z / 2;
+
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) (relX + player->vol.x),
+                       (int) relZ);
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) relX,
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) (relX + player->vol.x), (int) relZ,
+                       (int) (relX + player->vol.x),
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) relX, (int) (relZ + player->vol.z),
+                       (int) (relX + player->vol.x), (int) (relZ + player->vol.z));
+
+    // Render rotation
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
+
+    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) player->loc.x - 10, (int) player->loc.z);
 }
 
 void DebugGame::drawDebugInfo() {

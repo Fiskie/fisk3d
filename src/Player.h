@@ -8,7 +8,6 @@
 #include "WorldObject.h"
 
 class Player : public WorldObject {
-
 };
 
 

@@ -20,16 +20,20 @@ void Event::onKeyPress(SDL_Keycode key) {
 
     switch (key) {
         case SDLK_w:
+        case SDLK_UP:
             player->loc.z--;
             break;
+        case SDLK_DOWN:
         case SDLK_s:
             player->loc.z++;
             break;
+        case SDLK_LEFT:
         case SDLK_a:
-            player->loc.x--;
+            player->rot.x--;
             break;
+        case SDLK_RIGHT:
         case SDLK_d:
-            player->loc.x++;
+            player->rot.x++;
             break;
     }
 }
