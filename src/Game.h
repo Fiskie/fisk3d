@@ -34,7 +34,7 @@ public:
 
     virtual void setup() = 0;
 
-    bool initialize();
+    void initialize();
 
     virtual void run();
 

@@ -20,8 +20,12 @@ public:
         this->message = message;
     }
 
+    FatalGameException(const char *message) {
+        this->message = message;
+    }
+
     virtual const char *what() const throw() {
-        char str[] = "Fatal game exception";
+        char str[] = "Fatal game exception: ";
 
         return strcat(str, message);
     }

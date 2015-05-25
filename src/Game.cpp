@@ -8,6 +8,7 @@
 
 #include <SDL2_ttf/SDL_ttf.h>
 #include "Game.h"
+#include "FatalGameException.h"
 
 Game::Game() {
     running = true;
@@ -15,18 +16,18 @@ Game::Game() {
     fpsTimer->start();
 }
 
-bool Game::initialize() {
-    // todo exceptions, what the fuck is this
-
+void Game::initialize() {
     if (TTF_Init() < 0) {
-        printf("SDL_TTF could not initialize! Error: %s\n", TTF_GetError());
-        return false;
+        char err[] = "SDL_TTF could not initialize! Error: ";
+        strcat(err, TTF_GetError());
+        throw new FatalGameException(err);
     }
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        return false;
+        char err[] = "SDL could not initialize! Error: ";
+        strcat(err, SDL_GetError());
+        throw new FatalGameException(err);
     }
 
     // Create window
@@ -34,55 +35,58 @@ bool Game::initialize() {
                               SDL_WINDOW_SHOWN);
 
     if (window == NULL) {
-        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-        return false;
+        char err[] = "Window could not be created! Error: ";
+        strcat(err, SDL_GetError());
+        throw new FatalGameException(err);
     }
 
     renderer = SDL_CreateRenderer(window, 0, 0);
 
     if (renderer == NULL) {
-        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
-        return false;
+        char err[] = "Renderer could not be created! Error: ";
+        strcat(err, SDL_GetError());
+        throw new FatalGameException(err);
     }
 
     setup();
-
-    return true;
 }
 
 void Game::run() {
-    if (!initialize())
-        return;
+    try {
+        initialize();
 
-    double delta = 0;
-    long prev = SDL_GetTicks();
+        double delta = 0;
+        long prev = SDL_GetTicks();
 
-    const int FRAME_RATE = 60;
-    const int TICK_TIME = 1 / FRAME_RATE;
+        const int FRAME_RATE = 60;
+        const int TICK_TIME = 1 / FRAME_RATE;
 
-    int frames = 0;
+        int frames = 0;
 
-    while (running) {
+        while (running) {
 
-        long now = SDL_GetTicks();
-        long updateLength = now - prev;
+            long now = SDL_GetTicks();
+            long updateLength = now - prev;
 
-        delta += ((double) updateLength / 1000);
+            delta += ((double) updateLength / 1000);
 
-        prev = now;
+            prev = now;
 
-        if (delta >= TICK_TIME) {
-            event->handle();
-            update(delta);
-            render();
-            delta = 0;
-            frames++;
+            if (delta >= TICK_TIME) {
+                event->handle();
+                update(delta);
+                render();
+                delta = 0;
+                frames++;
 
-            // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
-            // printf("FPS: %f\n", (now / (double) frames));
-        } else {
-            SDL_Delay(TICK_TIME - delta);
+                // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
+                // printf("FPS: %f\n", (now / (double) frames));
+            } else {
+                SDL_Delay(TICK_TIME - delta);
+            }
         }
+    } catch (FatalGameException ex) {
+        printf("%s\n", ex.what());
     }
 }
 
