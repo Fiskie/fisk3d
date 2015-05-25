@@ -10,12 +10,15 @@
 #define __fisk3d__worldobject__
 
 #include "Structs.h"
+#include <string>
 
 class WorldObject {
 public:
     Pos loc;
     Pos rot;
     Pos vol;
+
+    std::string posAsString();
 };
 
 #endif //__fisk3d__worldobject__

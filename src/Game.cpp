@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
+#include <SDL2_ttf/SDL_ttf.h>
 #include "Game.h"
 
 Game::Game() {
@@ -16,6 +17,11 @@ Game::Game() {
 
 bool Game::initialize() {
     // todo exceptions, what the fuck is this
+
+    if (TTF_Init() < 0) {
+        printf("SDL_TTF could not initialize! Error: %s\n", TTF_GetError());
+        return false;
+    }
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -99,10 +105,10 @@ SDL_Renderer *Game::getRenderer() {
     return renderer;
 }
 
-void Game::setMap(Map map) {
+void Game::setMap(Map *map) {
     this->map = map;
 }
 
-Map Game::getMap() {
+Map *Game::getMap() {
     return map;
 }

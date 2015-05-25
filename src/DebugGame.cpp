@@ -7,11 +7,12 @@
 //
 
 #include "DebugGame.h"
+#include <SDL2_ttf/SDL_ttf.h>
 
 void DebugGame::drawBrush(Brush *brush) {
-    double lX = brush->loc.x;
-    double lY = brush->loc.y;
-    double lZ = brush->loc.z;
+    double lX = brush->loc.x + player->loc.x;
+    double lY = brush->loc.y + player->loc.y;
+    double lZ = brush->loc.z + player->loc.z;
     double vX = brush->vol.x;
     double vY = brush->vol.y;
     double vZ = brush->vol.z;
@@ -25,11 +26,18 @@ void DebugGame::drawBrush(Brush *brush) {
     SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) lX, (int) (lZ + vZ));
     SDL_RenderDrawLine(renderer, (int) (lX + vX), (int) lZ, (int) (lX + vX), (int) (lZ + vZ));
     SDL_RenderDrawLine(renderer, (int) lX, (int) (lZ + vZ), (int) (lX + vX), (int) (lZ + vZ));
+
+    //char* text = "Text";
+}
+
+void DebugGame::drawLabel(char* text, double x, double z) {
+
 }
 
 void DebugGame::drawPlayer(Player *player) {
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
 
+    /*
     double relX = player->loc.x - player->vol.x / 2;
     double relY = player->loc.y - player->vol.y / 2;
     double relZ = player->loc.z - player->vol.z / 2;
@@ -43,12 +51,28 @@ void DebugGame::drawPlayer(Player *player) {
                        (int) (relZ + player->vol.z));
     SDL_RenderDrawLine(renderer, (int) relX, (int) (relZ + player->vol.z),
                        (int) (relX + player->vol.x), (int) (relZ + player->vol.z));
-
+    */
     // Render rotation
+
+    // SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) player->loc.x - 10, (int) player->loc.z);
+
+    double relX = map->getOriginX() - player->vol.x / 2;
+    double relY = 0 - player->vol.y / 2;
+    double relZ = map->getOriginZ() - player->vol.z / 2;
+
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) (relX + player->vol.x),
+                       (int) relZ);
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) relX,
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) (relX + player->vol.x), (int) relZ,
+                       (int) (relX + player->vol.x),
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) relX, (int) (relZ + player->vol.z),
+                       (int) (relX + player->vol.x), (int) (relZ + player->vol.z));
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
 
-    SDL_RenderDrawLine(renderer, (int) player->loc.x, (int) player->loc.z, (int) player->loc.x - 10, (int) player->loc.z);
+    SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(), (int) map->getOriginZ() - 10);
 }
 
 void DebugGame::drawDebugInfo() {
@@ -60,9 +84,9 @@ void DebugGame::render() {
 
     SDL_RenderClear(renderer);
 
-    list<Brush> *objs = map.getBrushes();
+    std::list<Brush> *objs = map->getBrushes();
 
-    list<Brush>::iterator i;
+    std::list<Brush>::iterator i;
 
     for (i = objs->begin(); i != objs->end(); ++i) {
         drawBrush(&(*i));

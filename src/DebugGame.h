@@ -33,6 +33,8 @@ public:
     void drawDebugInfo();
 
     Player *getPlayer();
+
+    void drawLabel(char *text, double x, double z);
 };
 
 #endif // __fisk3d__debuggame__

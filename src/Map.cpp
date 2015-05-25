@@ -9,5 +9,5 @@ void Map::addBrush(Brush brush) {
 }
 
 Map::Map() {
-    brushes = new list<Brush>();
+    brushes = new std::list<Brush>();
 }

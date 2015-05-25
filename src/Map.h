@@ -6,19 +6,33 @@
 #define FISK3D_MAP_H
 
 #include "Brush.h"
+#include "Game.h"
 #include <list>
 
-using namespace std;
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
 
 class Map {
 private:
-    list<Brush> *brushes;
+    std::list<Brush> *brushes;
 
 public:
     Map();
     void addBrush(Brush brush);
-    list<Brush> *getBrushes() {
+    std::list<Brush> *getBrushes() {
         return brushes;
+    }
+
+    double getOriginX() {
+        return SCREEN_WIDTH / 2;
+    }
+
+    double getOriginY() {
+        return 0;
+    }
+
+    double getOriginZ() {
+        return SCREEN_HEIGHT / 2;
     }
 };
 

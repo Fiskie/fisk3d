@@ -44,7 +44,7 @@ int main(int argc, const char *argv[]) {
     map->addBrush(*wall3);
     map->addBrush(*wall4);
 
-    game->setMap(*map);
+    game->setMap(map);
 
     game->run();
     game->exit();

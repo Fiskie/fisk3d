@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
+#include <iostream>
 #include "Event.h"
 #include "DebugGame.h"
+
+void onMouseMotion(SDL_MouseMotionEvent event);
 
 Event::Event(Game *game) {
     this->game = game;
@@ -21,21 +24,36 @@ void Event::onKeyPress(SDL_Keycode key) {
     switch (key) {
         case SDLK_w:
         case SDLK_UP:
-            player->loc.z--;
+            player->loc.z += 10;
             break;
         case SDLK_DOWN:
         case SDLK_s:
-            player->loc.z++;
+            player->loc.z -= 10;
             break;
         case SDLK_LEFT:
         case SDLK_a:
-            player->rot.x--;
+            player->loc.x += 10;
             break;
         case SDLK_RIGHT:
         case SDLK_d:
-            player->rot.x++;
+            player->loc.x -= 10;
             break;
     }
+
+    std::cout << player->posAsString() << "\n";
+}
+
+void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
+    Player *player = ((DebugGame *) game)->getPlayer();
+
+    player->rot.x += motion.xrel;
+    player->rot.y += motion.yrel;
+
+    std::cout << player->posAsString() << "\n";
+}
+
+void Event::onMousePress(SDL_MouseButtonEvent event) {
+    //
 }
 
 void Event::handle() {
@@ -53,10 +71,10 @@ void Event::handle() {
                 onKeyPress(e.key.keysym.sym);
                 break;
             case SDL_MOUSEMOTION:
-                printf("Mouse motion! %d %d\n", e.motion.xrel, e.motion.yrel);
+                onMouseMotion(e.motion);
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                printf("Click at %d, %d", e.button.x, e.button.y);
+                onMousePress(e.button);
                 break;
             default:
                 break;

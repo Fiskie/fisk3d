@@ -14,10 +14,8 @@
 #include "Timer.h"
 #include "Map.h"
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-
 class Event;
+class Map;
 
 class Game {
 protected:
@@ -26,7 +24,7 @@ protected:
     Event *event = NULL;
     Timer *fpsTimer = new Timer();
     bool running;
-    Map map;
+    Map *map;
 public:
     Game();
 
@@ -42,9 +40,9 @@ public:
 
     virtual void exit();
 
-    Map getMap();
+    Map *getMap();
 
-    void setMap(Map map);
+    void setMap(Map *map);
 
     SDL_Window *getWindow();
 

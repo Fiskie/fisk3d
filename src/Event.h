@@ -24,6 +24,10 @@ public:
     void handle();
 
     void onKeyPress(SDL_Keycode key);
+
+    void onMouseMotion(SDL_MouseMotionEvent motion);
+
+    void onMousePress(SDL_MouseButtonEvent event);
 };
 
 #endif //__fisk3d__events__
