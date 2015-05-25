@@ -7,7 +7,7 @@
 
 #include "WorldObject.h"
 
-class Wall : public WorldObject {
+class Brush : public WorldObject {
 
 };
 

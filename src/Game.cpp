@@ -15,6 +15,8 @@ Game::Game() {
 }
 
 bool Game::initialize() {
+    // todo exceptions, what the fuck is this
+
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -95,4 +97,12 @@ SDL_Window *Game::getWindow() {
 
 SDL_Renderer *Game::getRenderer() {
     return renderer;
+}
+
+void Game::setMap(Map map) {
+    this->map = map;
+}
+
+Map Game::getMap() {
+    return map;
 }

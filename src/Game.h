@@ -12,6 +12,7 @@
 #include <SDL2/sdl.h>
 #include "Event.h"
 #include "Timer.h"
+#include "Map.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -25,6 +26,7 @@ protected:
     Event *event = NULL;
     Timer *fpsTimer = new Timer();
     bool running;
+    Map map;
 public:
     Game();
 
@@ -39,6 +41,10 @@ public:
     virtual void run();
 
     virtual void exit();
+
+    Map getMap();
+
+    void setMap(Map map);
 
     SDL_Window *getWindow();
 

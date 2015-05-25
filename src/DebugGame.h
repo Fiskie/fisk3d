@@ -13,15 +13,11 @@
 #include "Game.h"
 #include "Structs.h"
 #include "Player.h"
-#include "Wall.h"
+#include "Brush.h"
 
 class DebugGame : public Game {
 private:
     Player *player;
-    Wall *wall1;
-    Wall *wall2;
-    Wall *wall3;
-    Wall *wall4;
 
 public:
     virtual void render() override;
@@ -30,13 +26,13 @@ public:
 
     virtual void setup() override;
 
-    void drawWall(Wall *wall);
+    void drawBrush(Brush *brush);
 
     void drawPlayer(Player *player);
 
     void drawDebugInfo();
 
-    Player* getPlayer();
+    Player *getPlayer();
 };
 
 #endif // __fisk3d__debuggame__
