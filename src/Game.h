@@ -13,26 +13,33 @@
 #include "Event.h"
 #include "Timer.h"
 #include "Map.h"
+#include "Player.h"
+#include "Cameras/Camera.h"
+#include <list>
 
 class Event;
 class Map;
+class Camera;
 
 class Game {
-protected:
+private:
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     Event *event = NULL;
     Timer *fpsTimer = new Timer();
     bool running;
     Map *map;
+    Player *player;
+    // list<Camera> *cameras; todo
+    Camera *camera;
 public:
     Game();
 
-    virtual void update(double delta) = 0;
+    void update(double delta);
 
-    virtual void render() = 0;
+    void render();
 
-    virtual void setup() = 0;
+    void setup();
 
     void initialize();
 
@@ -47,6 +54,16 @@ public:
     SDL_Window *getWindow();
 
     SDL_Renderer *getRenderer();
+
+    void drawBrush(Brush *brush);
+
+    void drawPlayer(Player *player);
+
+    void drawDebugInfo();
+
+    Player *getPlayer();
+
+    void drawLabel(char *text, double x, double z);
 };
 
 #endif //__fisk3d__game__

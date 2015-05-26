@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include "Event.h"
-#include "DebugGame.h"
+#include "Game.h"
 
 void onMouseMotion(SDL_MouseMotionEvent event);
 
@@ -19,7 +19,7 @@ Event::Event(Game *game) {
 void Event::onKeyPress(SDL_Keycode key) {
     printf("Key ID: %d\n", key);
 
-    Player *player = ((DebugGame *) game)->getPlayer();
+    Player *player = ((Game *) game)->getPlayer();
 
     switch (key) {
         case SDLK_w:
@@ -44,7 +44,7 @@ void Event::onKeyPress(SDL_Keycode key) {
 }
 
 void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
-    Player *player = ((DebugGame *) game)->getPlayer();
+    Player *player = ((Game *) game)->getPlayer();
 
     player->rot.x += motion.xrel;
     player->rot.y += motion.yrel;

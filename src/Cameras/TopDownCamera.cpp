@@ -1,0 +1,80 @@
+//
+// Created by Fiskie on 26/05/15.
+//
+
+#include "TopDownCamera.h"
+
+void TopDownCamera::drawPlayer(Player *player) {
+    SDL_Renderer *renderer = game->getRenderer();
+    Map *map = game->getMap();
+
+    double relX = map->getOriginX() - player->vol.x / 2;
+    double relY = 0 - player->vol.y / 2;
+    double relZ = map->getOriginZ() - player->vol.z / 2;
+
+    SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
+
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) (relX + player->vol.x),
+                       (int) relZ);
+    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) relX,
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) (relX + player->vol.x), (int) relZ,
+                       (int) (relX + player->vol.x),
+                       (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, (int) relX, (int) (relZ + player->vol.z),
+                       (int) (relX + player->vol.x), (int) (relZ + player->vol.z));
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
+
+    SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(), (int) map->getOriginZ() - 10);
+}
+
+void TopDownCamera::drawBrush(Brush *brush) {
+    SDL_Renderer *renderer = game->getRenderer();
+    Player *player = game->getPlayer();
+
+    double lX = brush->loc.x + player->loc.x;
+    double lY = brush->loc.y + player->loc.y;
+    double lZ = brush->loc.z + player->loc.z;
+    double vX = brush->vol.x;
+    double vY = brush->vol.y;
+    double vZ = brush->vol.z;
+
+    double pX = player->loc.x;
+    double pY = player->loc.y;
+    double pZ = player->loc.z;
+
+    SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
+    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) (lX + vX), (int) lZ);
+    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) lX, (int) (lZ + vZ));
+    SDL_RenderDrawLine(renderer, (int) (lX + vX), (int) lZ, (int) (lX + vX), (int) (lZ + vZ));
+    SDL_RenderDrawLine(renderer, (int) lX, (int) (lZ + vZ), (int) (lX + vX), (int) (lZ + vZ));
+}
+
+
+void TopDownCamera::render() {
+    SDL_Renderer *renderer = game->getRenderer();
+    Map *map = game->getMap();
+
+    SDL_RenderClear(renderer);
+
+    std::list<Brush> *objs = map->getBrushes();
+
+    std::list<Brush>::iterator i;
+
+    for (i = objs->begin(); i != objs->end(); ++i) {
+        drawBrush(&(*i));
+    }
+
+    drawPlayer(game->getPlayer());
+
+    // drawDebugInfo();
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+
+    // SDL_UpdateWindowSurface(window);
+    SDL_RenderPresent(renderer);
+}
+
+TopDownCamera::TopDownCamera(Game *game) {
+    this->game = game;
+}

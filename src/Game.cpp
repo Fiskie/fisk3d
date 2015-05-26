@@ -9,11 +9,13 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include "Game.h"
 #include "FatalGameException.h"
+#include "Cameras/TopDownCamera.h"
 
 Game::Game() {
     running = true;
     event = new Event(this);
     fpsTimer->start();
+    camera = new TopDownCamera(this);
 }
 
 void Game::initialize() {
@@ -115,4 +117,27 @@ void Game::setMap(Map *map) {
 
 Map *Game::getMap() {
     return map;
+}
+
+void Game::render() {
+    camera->render();
+}
+
+void Game::update(double delta) {
+    // printf("Updating... %f\n", delta);
+}
+
+void Game::setup() {
+    player = new Player();
+
+    player->vol.x = 10;
+    player->vol.y = 80;
+    player->vol.z = 10;
+
+    player->loc.x = 300;
+    player->loc.z = 300;
+}
+
+Player *Game::getPlayer() {
+    return player;
 }

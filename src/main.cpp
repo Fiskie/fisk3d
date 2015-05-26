@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#include "DebugGame.h"
+#include "Game.h"
 
 int main(int argc, const char *argv[]) {
-    DebugGame *game = new DebugGame();
+    Game *game = new Game();
 
     Map *map = new Map();
 
