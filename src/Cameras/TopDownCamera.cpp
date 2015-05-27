@@ -2,7 +2,9 @@
 // Created by Fiskie on 26/05/15.
 //
 
+#include <SDL2_ttf/SDL_ttf.h>
 #include "TopDownCamera.h"
+#include "../FatalGameException.h"
 
 void TopDownCamera::drawPlayer(Player *player) {
     SDL_Renderer *renderer = game->getRenderer();
@@ -26,7 +28,21 @@ void TopDownCamera::drawPlayer(Player *player) {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
 
-    SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(), (int) map->getOriginZ() - 10);
+    SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(),
+                       (int) map->getOriginZ() - 10);
+
+    SDL_Color color;
+
+    color.b = 127;
+    color.g = 255;
+    color.r = 255;
+    color.a = 0;
+
+    SDL_Surface *text = TTF_RenderText_Solid(font, "Sample Text", color);
+
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
+
+    SDL_FreeSurface(text);
 }
 
 void TopDownCamera::drawBrush(Brush *brush) {
@@ -77,4 +93,10 @@ void TopDownCamera::render() {
 
 TopDownCamera::TopDownCamera(Game *game) {
     this->game = game;
+    font = TTF_OpenFont("OpenSans-Regular.ttf", 10);
+
+    if (font == NULL) {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+        throw new FatalGameException("Could not load required font.");
+    }
 }

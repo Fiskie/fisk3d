@@ -18,7 +18,9 @@
 #include <list>
 
 class Event;
+
 class Map;
+
 class Camera;
 
 class Game {
@@ -55,15 +57,7 @@ public:
 
     SDL_Renderer *getRenderer();
 
-    void drawBrush(Brush *brush);
-
-    void drawPlayer(Player *player);
-
-    void drawDebugInfo();
-
     Player *getPlayer();
-
-    void drawLabel(char *text, double x, double z);
 };
 
 #endif //__fisk3d__game__

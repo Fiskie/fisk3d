@@ -12,11 +12,13 @@ class Game;
 class Camera {
 protected:
     Game *game;
+
     Camera();
+
 public:
     Camera(Game *game);
+
     virtual void render() = 0;
 };
-
 
 #endif //FISK3D_CAMERA_H

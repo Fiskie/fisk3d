@@ -48,5 +48,6 @@ int main(int argc, const char *argv[]) {
 
     game->run();
     game->exit();
+
     return 0;
 }

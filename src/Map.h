@@ -18,7 +18,9 @@ private:
 
 public:
     Map();
+
     void addBrush(Brush brush);
+
     std::list<Brush> *getBrushes() {
         return brushes;
     }

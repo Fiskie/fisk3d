@@ -13,9 +13,6 @@
 
 Game::Game() {
     running = true;
-    event = new Event(this);
-    fpsTimer->start();
-    camera = new TopDownCamera(this);
 }
 
 void Game::initialize() {
@@ -87,8 +84,8 @@ void Game::run() {
                 SDL_Delay(TICK_TIME - delta);
             }
         }
-    } catch (FatalGameException ex) {
-        printf("%s\n", ex.what());
+    } catch (FatalGameException *ex) {
+        printf("%s\n", ex->what());
     }
 }
 
@@ -101,6 +98,7 @@ void Game::exit() {
 
     // Quit SDL subsystems
     SDL_Quit();
+    TTF_Quit();
 }
 
 SDL_Window *Game::getWindow() {
@@ -128,6 +126,10 @@ void Game::update(double delta) {
 }
 
 void Game::setup() {
+    fpsTimer->start();
+    event = new Event(this);
+    camera = new TopDownCamera(this);
+
     player = new Player();
 
     player->vol.x = 10;

@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include "Event.h"
-#include "Game.h"
 
 void onMouseMotion(SDL_MouseMotionEvent event);
 

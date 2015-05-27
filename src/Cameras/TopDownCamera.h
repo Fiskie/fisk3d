@@ -9,10 +9,16 @@
 #include "Camera.h"
 
 class TopDownCamera : public Camera {
+private:
+    TTF_Font *font;
+
 public:
     TopDownCamera(Game *game);
+
     void render();
+
     void drawPlayer(Player *player);
+
     void drawBrush(Brush *brush);
 };
 
