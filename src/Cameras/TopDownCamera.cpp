@@ -68,19 +68,24 @@ void TopDownCamera::drawBrush(Brush *brush) {
     Player *player = game->getPlayer();
     Map *map = game->getMap();
 
-    double originX = map->getOriginX();
-    double originZ = map->getOriginZ();
-    double playerCos = cos(player->rot.x);
-    double playerSin = sin(player->rot.x);
+    double oX = map->getOriginX();
+    double oZ = map->getOriginZ();
+    double pCos = cos(player->rot.x);
+    double pSin = sin(player->rot.x);
 
-    double x1 = originX + (brush->loc.x * playerCos - brush->loc.z * playerSin) - player->loc.x;
-    double z1 = originZ + (brush->loc.x * playerSin + brush->loc.z * playerCos) - player->loc.z;
-    double x2 = originX + ((brush->loc.x + brush->vol.x) * playerCos - brush->loc.z * playerSin) - player->loc.x;
-    double z2 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + brush->loc.z * playerCos) - player->loc.z;
-    double x3 = originX + ((brush->loc.x + brush->vol.x) * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
-    double z3 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
-    double x4 = originX + (brush->loc.x * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
-    double z4 = originZ + (brush->loc.x * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
+    double pX = player->loc.x;
+    double bX = brush->loc.x;
+    double pZ = player->loc.z;
+    double bZ = brush->loc.z;
+
+    int x1 = (int) (oX + ((bX - pX) * pCos - (bZ - pZ) * pSin));
+    int z1 = (int) (oZ + ((bX - pX) * pSin + (bZ - pZ) * pCos));
+    int x2 = (int) (oX + (((bX + brush->vol.x) - pX) * pCos - (bZ - pZ) * pSin));
+    int z2 = (int) (oZ + (((bX + brush->vol.x) - pX) * pSin + (bZ - pZ) * pCos));
+    int x3 = (int) (oX + (((bX + brush->vol.x) - pX) * pCos - ((bZ + brush->vol.z) - pZ) * pSin));
+    int z3 = (int) (oZ + (((bX + brush->vol.x) - pX) * pSin + ((bZ + brush->vol.z) - pZ) * pCos));
+    int x4 = (int) (oX + ((bX - pX) * pCos - ((bZ + brush->vol.z) - pZ) * pSin));
+    int z4 = (int) (oZ + ((bX - pX) * pSin + ((bZ + brush->vol.z) - pZ) * pCos));
 
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
     SDL_RenderDrawLine(renderer, x1, z1, x2, z2);
