@@ -63,7 +63,6 @@ void Game::run() {
         int frames = 0;
 
         while (running) {
-
             long now = SDL_GetTicks();
             long updateLength = now - prev;
 
@@ -73,6 +72,10 @@ void Game::run() {
 
             if (delta >= TICK_TIME) {
                 event->handle();
+
+                if (!running)
+                    break;
+
                 update(delta);
                 render();
                 delta = 0;
@@ -87,14 +90,21 @@ void Game::run() {
     } catch (FatalGameException *ex) {
         printf("%s\n", ex->what());
     }
+
+    onExit();
 }
 
-void Game::exit() {
+void Game::stop() {
     running = false;
+}
 
+void Game::onExit() {
     // Destroy window
     SDL_DestroyWindow(window);
     window = NULL;
+    renderer = NULL;
+    player = NULL;
+    fpsTimer = NULL;
 
     // Quit SDL subsystems
     SDL_Quit();
@@ -122,7 +132,6 @@ void Game::render() {
 }
 
 void Game::update(double delta) {
-    // printf("Updating... %f\n", delta);
     player->move();
 }
 
@@ -143,4 +152,8 @@ void Game::setup() {
 
 Player *Game::getPlayer() {
     return player;
+}
+
+Game::~Game() {
+    this->onExit();
 }

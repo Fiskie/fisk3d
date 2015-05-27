@@ -47,7 +47,5 @@ int main(int argc, const char *argv[]) {
     game->setMap(map);
 
     game->run();
-    game->exit();
-
     return 0;
 }

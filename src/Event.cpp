@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "Event.h"
+#include "FatalGameException.h"
 
 using namespace std;
 
@@ -16,8 +17,6 @@ Event::Event(Game *game) {
 }
 
 void Event::onKeyDown(SDL_Keycode key) {
-    printf("Key ID: %d\n", key);
-
     Player *player = game->getPlayer();
 
     switch (key) {
@@ -38,13 +37,9 @@ void Event::onKeyDown(SDL_Keycode key) {
             player->addMovement(MOVEMENT_RIGHT);
             break;
     }
-
-    cout << player->posAsString() << "\n";
 }
 
 void Event::onKeyUp(SDL_Keycode key) {
-    printf("Key ID: %d\n", key);
-
     Player *player = game->getPlayer();
 
     switch (key) {
@@ -65,17 +60,13 @@ void Event::onKeyUp(SDL_Keycode key) {
             player->removeMovement(MOVEMENT_RIGHT);
             break;
     }
-
-    cout << player->posAsString() << "\n";
 }
 
 void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
-    Player *player = ((Game *) game)->getPlayer();
+    Player *player = game->getPlayer();
 
     player->rot.x += motion.xrel;
     player->rot.y += motion.yrel;
-
-    cout << player->posAsString() << "\n";
 }
 
 void Event::onMousePress(SDL_MouseButtonEvent event) {
@@ -89,8 +80,7 @@ void Event::handle() {
     while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
             case SDL_QUIT:
-                puts("Game exit called.\n");
-                game->exit();
+                game->stop();
                 break;
             case SDL_KEYDOWN:
                 onKeyDown(e.key.keysym.sym);

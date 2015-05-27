@@ -35,6 +35,8 @@ private:
     // list<Camera> *cameras; todo
     Camera *camera;
 public:
+    ~Game();
+
     Game();
 
     void update(double delta);
@@ -47,7 +49,7 @@ public:
 
     virtual void run();
 
-    virtual void exit();
+    virtual void onExit();
 
     Map *getMap();
 
@@ -58,6 +60,8 @@ public:
     SDL_Renderer *getRenderer();
 
     Player *getPlayer();
+
+    void stop();
 };
 
 //missing string printf
