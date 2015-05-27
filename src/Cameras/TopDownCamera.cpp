@@ -31,6 +31,7 @@ void TopDownCamera::drawPlayer(Player *player) {
     SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(),
                        (int) map->getOriginZ() - 10);
 
+    // Text...
     SDL_Color color;
 
     color.b = 127;
@@ -38,11 +39,28 @@ void TopDownCamera::drawPlayer(Player *player) {
     color.r = 255;
     color.a = 0;
 
-    SDL_Surface *text = TTF_RenderText_Solid(font, "Sample Text", color);
+    std::string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
+
+    SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
 
     SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
 
     SDL_FreeSurface(text);
+
+    SDL_Rect SrcR;
+    SDL_Rect DestR;
+
+    SrcR.x = 0;
+    SrcR.y = 0;
+    SrcR.w = 70;
+    SrcR.h = 15;
+
+    DestR.x = relX;
+    DestR.y = relZ + 10;
+    DestR.w = 70;
+    DestR.h = 15;
+
+    SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
 }
 
 void TopDownCamera::drawBrush(Brush *brush) {
@@ -65,6 +83,37 @@ void TopDownCamera::drawBrush(Brush *brush) {
     SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) lX, (int) (lZ + vZ));
     SDL_RenderDrawLine(renderer, (int) (lX + vX), (int) lZ, (int) (lX + vX), (int) (lZ + vZ));
     SDL_RenderDrawLine(renderer, (int) lX, (int) (lZ + vZ), (int) (lX + vX), (int) (lZ + vZ));
+
+    // Text...
+    SDL_Color color;
+
+    color.b = 127;
+    color.g = 255;
+    color.r = 255;
+    color.a = 0;
+
+    std::string label = format("(%.2f,%.2f)", brush->loc.x, brush->loc.z);
+
+    SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
+
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
+
+    SDL_FreeSurface(text);
+
+    SDL_Rect SrcR;
+    SDL_Rect DestR;
+
+    SrcR.x = 0;
+    SrcR.y = 0;
+    SrcR.w = 70;
+    SrcR.h = 15;
+
+    DestR.x = lX + 5;
+    DestR.y = lZ + 5;
+    DestR.w = 70;
+    DestR.h = 15;
+
+    SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
 }
 
 
@@ -93,7 +142,7 @@ void TopDownCamera::render() {
 
 TopDownCamera::TopDownCamera(Game *game) {
     this->game = game;
-    font = TTF_OpenFont("OpenSans-Regular.ttf", 10);
+    font = TTF_OpenFont("OpenSans-Regular.ttf", 11);
 
     if (font == NULL) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
