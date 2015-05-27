@@ -9,37 +9,64 @@
 #include <iostream>
 #include "Event.h"
 
-void onMouseMotion(SDL_MouseMotionEvent event);
+using namespace std;
 
 Event::Event(Game *game) {
     this->game = game;
 }
 
-void Event::onKeyPress(SDL_Keycode key) {
+void Event::onKeyDown(SDL_Keycode key) {
     printf("Key ID: %d\n", key);
 
-    Player *player = ((Game *) game)->getPlayer();
+    Player *player = game->getPlayer();
 
     switch (key) {
         case SDLK_w:
         case SDLK_UP:
-            player->loc.z -= 10;
+            player->addMovement(MOVEMENT_FORWARD);
             break;
         case SDLK_DOWN:
         case SDLK_s:
-            player->loc.z += 10;
+            player->addMovement(MOVEMENT_BACKWARD);
             break;
         case SDLK_LEFT:
         case SDLK_a:
-            player->loc.x -= 10;
+            player->addMovement(MOVEMENT_LEFT);
             break;
         case SDLK_RIGHT:
         case SDLK_d:
-            player->loc.x += 10;
+            player->addMovement(MOVEMENT_RIGHT);
             break;
     }
 
-    std::cout << player->posAsString() << "\n";
+    cout << player->posAsString() << "\n";
+}
+
+void Event::onKeyUp(SDL_Keycode key) {
+    printf("Key ID: %d\n", key);
+
+    Player *player = game->getPlayer();
+
+    switch (key) {
+        case SDLK_w:
+        case SDLK_UP:
+            player->removeMovement(MOVEMENT_FORWARD);
+            break;
+        case SDLK_DOWN:
+        case SDLK_s:
+            player->removeMovement(MOVEMENT_BACKWARD);
+            break;
+        case SDLK_LEFT:
+        case SDLK_a:
+            player->removeMovement(MOVEMENT_LEFT);
+            break;
+        case SDLK_RIGHT:
+        case SDLK_d:
+            player->removeMovement(MOVEMENT_RIGHT);
+            break;
+    }
+
+    cout << player->posAsString() << "\n";
 }
 
 void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
@@ -48,7 +75,7 @@ void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
     player->rot.x += motion.xrel;
     player->rot.y += motion.yrel;
 
-    std::cout << player->posAsString() << "\n";
+    cout << player->posAsString() << "\n";
 }
 
 void Event::onMousePress(SDL_MouseButtonEvent event) {
@@ -66,8 +93,10 @@ void Event::handle() {
                 game->exit();
                 break;
             case SDL_KEYDOWN:
-                // Key press code here
-                onKeyPress(e.key.keysym.sym);
+                onKeyDown(e.key.keysym.sym);
+                break;
+            case SDL_KEYUP:
+                onKeyUp(e.key.keysym.sym);
                 break;
             case SDL_MOUSEMOTION:
                 onMouseMotion(e.motion);

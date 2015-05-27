@@ -23,11 +23,13 @@ public:
 
     void handle();
 
-    void onKeyPress(SDL_Keycode key);
+    void onKeyDown(SDL_Keycode key);
 
     void onMouseMotion(SDL_MouseMotionEvent motion);
 
     void onMousePress(SDL_MouseButtonEvent event);
+
+    void onKeyUp(SDL_Keycode key);
 };
 
 #endif //__fisk3d__events__

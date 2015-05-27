@@ -39,7 +39,7 @@ void TopDownCamera::drawPlayer(Player *player) {
     color.r = 255;
     color.a = 0;
 
-    std::string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
+    string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
 
     SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
 
@@ -93,7 +93,7 @@ void TopDownCamera::drawBrush(Brush *brush) {
     color.r = 255;
     color.a = 0;
 
-    std::string label = format("(%.2f,%.2f)", brush->loc.x, brush->loc.z);
+    string label = format("(%.2f,%.2f)", brush->loc.x, brush->loc.z);
 
     SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
 
@@ -124,9 +124,9 @@ void TopDownCamera::render() {
 
     SDL_RenderClear(renderer);
 
-    std::list<Brush> *objs = map->getBrushes();
+    list<Brush> *objs = map->getBrushes();
 
-    std::list<Brush>::iterator i;
+    list<Brush>::iterator i;
 
     for (i = objs->begin(); i != objs->end(); ++i) {
         drawBrush(&(*i));

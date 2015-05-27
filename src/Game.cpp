@@ -123,6 +123,7 @@ void Game::render() {
 
 void Game::update(double delta) {
     // printf("Updating... %f\n", delta);
+    player->move();
 }
 
 void Game::setup() {
