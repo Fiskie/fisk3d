@@ -101,6 +101,8 @@ void Game::stop() {
 void Game::onExit() {
     // Destroy window
     SDL_DestroyWindow(window);
+
+    // Deallocate
     window = NULL;
     renderer = NULL;
     player = NULL;

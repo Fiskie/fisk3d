@@ -5,13 +5,13 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include "TopDownCamera.h"
 #include "../FatalGameException.h"
+#include <math.h>
 
 void TopDownCamera::drawPlayer(Player *player) {
     SDL_Renderer *renderer = game->getRenderer();
     Map *map = game->getMap();
 
     double relX = map->getOriginX() - player->vol.x / 2;
-    double relY = 0 - player->vol.y / 2;
     double relZ = map->getOriginZ() - player->vol.z / 2;
 
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
@@ -68,22 +68,25 @@ void TopDownCamera::drawBrush(Brush *brush) {
     Player *player = game->getPlayer();
     Map *map = game->getMap();
 
-    double lX = map->getOriginX() + brush->loc.x - player->loc.x;
-    double lY = brush->loc.y + player->loc.y;
-    double lZ = map->getOriginZ() + brush->loc.z - player->loc.z;
-    double vX = brush->vol.x;
-    double vY = brush->vol.y;
-    double vZ = brush->vol.z;
+    double originX = map->getOriginX();
+    double originZ = map->getOriginZ();
+    double playerCos = cos(player->rot.x);
+    double playerSin = sin(player->rot.x);
 
-    double pX = player->loc.x;
-    double pY = player->loc.y;
-    double pZ = player->loc.z;
+    double x1 = originX + (brush->loc.x * playerCos - brush->loc.z * playerSin) - player->loc.x;
+    double z1 = originZ + (brush->loc.x * playerSin + brush->loc.z * playerCos) - player->loc.z;
+    double x2 = originX + ((brush->loc.x + brush->vol.x) * playerCos - brush->loc.z * playerSin) - player->loc.x;
+    double z2 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + brush->loc.z * playerCos) - player->loc.z;
+    double x3 = originX + (brush->loc.x * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
+    double z3 = originZ + (brush->loc.x * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
+    double x4 = originX + ((brush->loc.x + brush->vol.x) * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
+    double z4 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
 
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
-    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) (lX + vX), (int) lZ);
-    SDL_RenderDrawLine(renderer, (int) lX, (int) lZ, (int) lX, (int) (lZ + vZ));
-    SDL_RenderDrawLine(renderer, (int) (lX + vX), (int) lZ, (int) (lX + vX), (int) (lZ + vZ));
-    SDL_RenderDrawLine(renderer, (int) lX, (int) (lZ + vZ), (int) (lX + vX), (int) (lZ + vZ));
+    SDL_RenderDrawLine(renderer, x1, z1, x2, z2);
+    SDL_RenderDrawLine(renderer, x2, z2, x3, z3);
+    SDL_RenderDrawLine(renderer, x3, z3, x4, z4);
+    SDL_RenderDrawLine(renderer, x4, z4, x1, z1);
 
     // Text...
     SDL_Color color;
@@ -109,8 +112,8 @@ void TopDownCamera::drawBrush(Brush *brush) {
     SrcR.w = 70;
     SrcR.h = 15;
 
-    DestR.x = lX + 5;
-    DestR.y = lZ + 5;
+    DestR.x = x1 + 5;
+    DestR.y = z1 + 5;
     DestR.w = 70;
     DestR.h = 15;
 

@@ -5,8 +5,9 @@
 #ifndef FISK3D_TOPDOWNCAMERA_H
 #define FISK3D_TOPDOWNCAMERA_H
 
-
 #include "Camera.h"
+
+#define PI 3.14159265
 
 class TopDownCamera : public Camera {
 private:
