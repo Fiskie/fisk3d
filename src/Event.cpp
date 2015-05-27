@@ -23,19 +23,19 @@ void Event::onKeyPress(SDL_Keycode key) {
     switch (key) {
         case SDLK_w:
         case SDLK_UP:
-            player->loc.z += 10;
+            player->loc.z -= 10;
             break;
         case SDLK_DOWN:
         case SDLK_s:
-            player->loc.z -= 10;
+            player->loc.z += 10;
             break;
         case SDLK_LEFT:
         case SDLK_a:
-            player->loc.x += 10;
+            player->loc.x -= 10;
             break;
         case SDLK_RIGHT:
         case SDLK_d:
-            player->loc.x -= 10;
+            player->loc.x += 10;
             break;
     }
 

@@ -66,10 +66,11 @@ void TopDownCamera::drawPlayer(Player *player) {
 void TopDownCamera::drawBrush(Brush *brush) {
     SDL_Renderer *renderer = game->getRenderer();
     Player *player = game->getPlayer();
+    Map *map = game->getMap();
 
-    double lX = brush->loc.x + player->loc.x;
+    double lX = map->getOriginX() + brush->loc.x - player->loc.x;
     double lY = brush->loc.y + player->loc.y;
-    double lZ = brush->loc.z + player->loc.z;
+    double lZ = map->getOriginZ() + brush->loc.z - player->loc.z;
     double vX = brush->vol.x;
     double vY = brush->vol.y;
     double vZ = brush->vol.z;
