@@ -77,10 +77,10 @@ void TopDownCamera::drawBrush(Brush *brush) {
     double z1 = originZ + (brush->loc.x * playerSin + brush->loc.z * playerCos) - player->loc.z;
     double x2 = originX + ((brush->loc.x + brush->vol.x) * playerCos - brush->loc.z * playerSin) - player->loc.x;
     double z2 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + brush->loc.z * playerCos) - player->loc.z;
-    double x3 = originX + (brush->loc.x * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
-    double z3 = originZ + (brush->loc.x * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
-    double x4 = originX + ((brush->loc.x + brush->vol.x) * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
-    double z4 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
+    double x3 = originX + ((brush->loc.x + brush->vol.x) * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
+    double z3 = originZ + ((brush->loc.x + brush->vol.x) * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
+    double x4 = originX + (brush->loc.x * playerCos - (brush->loc.z + brush->vol.z) * playerSin) - player->loc.x;
+    double z4 = originZ + (brush->loc.x * playerSin + (brush->loc.z + brush->vol.z) * playerCos) - player->loc.z;
 
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
     SDL_RenderDrawLine(renderer, x1, z1, x2, z2);
