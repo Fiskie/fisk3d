@@ -32,14 +32,20 @@ void TopDownCamera::drawPlayer(Player *player) {
                        (int) map->getOriginZ() - 10);
 
     // Text...
+    string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
+
+    drawLabel(label, (int) relX + 5, (int) relZ + 5);
+}
+
+void TopDownCamera::drawLabel(string label, int x, int z) {
+    SDL_Renderer *renderer = game->getRenderer();
+
     SDL_Color color;
 
     color.b = 127;
     color.g = 255;
     color.r = 255;
     color.a = 0;
-
-    string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
 
     SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
 
@@ -55,8 +61,8 @@ void TopDownCamera::drawPlayer(Player *player) {
     SrcR.w = 70;
     SrcR.h = 15;
 
-    DestR.x = relX;
-    DestR.y = relZ + 10;
+    DestR.x = x;
+    DestR.y = z;
     DestR.w = 70;
     DestR.h = 15;
 
@@ -68,25 +74,27 @@ void TopDownCamera::drawBrush(Brush *brush) {
     Player *player = game->getPlayer();
     Map *map = game->getMap();
 
+    // Fetch some values we're going to be using a lot.
     double oX = map->getOriginX();
     double oZ = map->getOriginZ();
     double pCos = cos(player->rot.x);
     double pSin = sin(player->rot.x);
 
-    double pX = player->loc.x;
-    double bX = brush->loc.x;
-    double pZ = player->loc.z;
-    double bZ = brush->loc.z;
+    // Get the relative coordinates so the brush gets drawn in the right place.
+    double rX = brush->loc.x - player->loc.x;
+    double rZ = brush->loc.z - player->loc.z;
 
-    int x1 = (int) (oX + ((bX - pX) * pCos - (bZ - pZ) * pSin));
-    int z1 = (int) (oZ + ((bX - pX) * pSin + (bZ - pZ) * pCos));
-    int x2 = (int) (oX + (((bX + brush->vol.x) - pX) * pCos - (bZ - pZ) * pSin));
-    int z2 = (int) (oZ + (((bX + brush->vol.x) - pX) * pSin + (bZ - pZ) * pCos));
-    int x3 = (int) (oX + (((bX + brush->vol.x) - pX) * pCos - ((bZ + brush->vol.z) - pZ) * pSin));
-    int z3 = (int) (oZ + (((bX + brush->vol.x) - pX) * pSin + ((bZ + brush->vol.z) - pZ) * pCos));
-    int x4 = (int) (oX + ((bX - pX) * pCos - ((bZ + brush->vol.z) - pZ) * pSin));
-    int z4 = (int) (oZ + ((bX - pX) * pSin + ((bZ + brush->vol.z) - pZ) * pCos));
+    // Our pairs of brush coordinates.
+    int x1 = (int) (oX + (rX * pCos - rZ * pSin));
+    int z1 = (int) (oZ + (rX * pSin + rZ * pCos));
+    int x2 = (int) (oX + ((rX + brush->vol.x) * pCos - rZ * pSin));
+    int z2 = (int) (oZ + ((rX + brush->vol.x) * pSin + rZ * pCos));
+    int x3 = (int) (oX + ((rX + brush->vol.x) * pCos - (rZ + brush->vol.z) * pSin));
+    int z3 = (int) (oZ + ((rX + brush->vol.x) * pSin + (rZ + brush->vol.z) * pCos));
+    int x4 = (int) (oX + (rX * pCos - (rZ + brush->vol.z) * pSin));
+    int z4 = (int) (oZ + (rX * pSin + (rZ + brush->vol.z) * pCos));
 
+    // Draw lines.
     SDL_SetRenderDrawColor(renderer, 66, 255, 255, 1);
     SDL_RenderDrawLine(renderer, x1, z1, x2, z2);
     SDL_RenderDrawLine(renderer, x2, z2, x3, z3);
@@ -94,35 +102,8 @@ void TopDownCamera::drawBrush(Brush *brush) {
     SDL_RenderDrawLine(renderer, x4, z4, x1, z1);
 
     // Text...
-    SDL_Color color;
+    drawLabel(format("(%.2f,%.2f)", brush->loc.x, brush->loc.z), x1 + 5, z1 + 5);
 
-    color.b = 127;
-    color.g = 255;
-    color.r = 255;
-    color.a = 0;
-
-    string label = format("(%.2f,%.2f)", brush->loc.x, brush->loc.z);
-
-    SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
-
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
-
-    SDL_FreeSurface(text);
-
-    SDL_Rect SrcR;
-    SDL_Rect DestR;
-
-    SrcR.x = 0;
-    SrcR.y = 0;
-    SrcR.w = 70;
-    SrcR.h = 15;
-
-    DestR.x = x1 + 5;
-    DestR.y = z1 + 5;
-    DestR.w = 70;
-    DestR.h = 15;
-
-    SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
 }
 
 

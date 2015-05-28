@@ -13,6 +13,8 @@ class TopDownCamera : public Camera {
 private:
     TTF_Font *font;
 
+    void drawLabel(string label, int x, int z);
+
 public:
     TopDownCamera(Game *game);
 
