@@ -20,8 +20,11 @@ private:
     map<int, bool> movements;
 public:
     Player();
+
     void addMovement(int id);
+
     void removeMovement(int id);
+
     void move();
 };
 

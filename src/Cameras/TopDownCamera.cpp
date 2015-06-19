@@ -5,7 +5,6 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include "TopDownCamera.h"
 #include "../FatalGameException.h"
-#include <math.h>
 
 void TopDownCamera::drawPlayer(Player *player) {
     SDL_Renderer *renderer = game->getRenderer();

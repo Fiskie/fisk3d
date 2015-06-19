@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Player.h"
 
 //
@@ -20,15 +21,26 @@ void Player::removeMovement(int id) {
 }
 
 void Player::move() {
-    if (movements[MOVEMENT_RIGHT])
-        loc.x += 1;
+    double sine = sin(rot.x);
+    double cosine = cos(rot.x);
 
-    if (movements[MOVEMENT_LEFT])
-        loc.x -= 1;
+    if (movements[MOVEMENT_RIGHT]) {
+        loc.x += cosine;
+        loc.z -= sine;
+    }
 
-    if (movements[MOVEMENT_FORWARD])
-        loc.z -= 1;
+    if (movements[MOVEMENT_LEFT]) {
+        loc.x -= cosine;
+        loc.z += sine;
+    }
 
-    if (movements[MOVEMENT_BACKWARD])
-        loc.z += 1;
+    if (movements[MOVEMENT_FORWARD]) {
+        loc.x -= sine;
+        loc.z -= cosine;
+    }
+
+    if (movements[MOVEMENT_BACKWARD]) {
+        loc.x += sine;
+        loc.z += cosine;
+    }
 }
