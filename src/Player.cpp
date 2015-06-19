@@ -24,6 +24,11 @@ void Player::move() {
     double sine = sin(rot.x);
     double cosine = cos(rot.x);
 
+    if ((movements[MOVEMENT_RIGHT] || movements[MOVEMENT_LEFT]) && (movements[MOVEMENT_FORWARD] || movements[MOVEMENT_BACKWARD])) {
+        cosine /= 2;
+        sine /= 2;
+    }
+
     if (movements[MOVEMENT_RIGHT]) {
         loc.x += cosine;
         loc.z -= sine;
