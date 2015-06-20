@@ -11,7 +11,7 @@ Player::Player(Game* game) {
     movements[MOVEMENT_LEFT] = false;
     movements[MOVEMENT_FORWARD] = false;
     movements[MOVEMENT_BACKWARD] = false;
-    speed = 1000;
+    speed = 5;
 };
 
 void Player::addMovement(int id) {
