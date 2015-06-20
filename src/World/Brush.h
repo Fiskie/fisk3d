@@ -8,6 +8,8 @@
 #include "Entity.h"
 
 class Brush : public Entity {
+public:
+    void placeAt(double x, double y, double z);
 };
 
 #endif //FISK3D_WALL_H

@@ -21,7 +21,14 @@ void Player::removeMovement(int id) {
     movements[id] = false;
 }
 
+bool Player::isMoving() {
+    return movements[MOVEMENT_RIGHT] || movements[MOVEMENT_LEFT] || movements[MOVEMENT_FORWARD] || movements[MOVEMENT_BACKWARD];
+}
+
 void Player::move() {
+    if (!isMoving())
+        return;
+
     double sine = sin(rot.x);
     double cosine = cos(rot.x);
     Pos newPos;

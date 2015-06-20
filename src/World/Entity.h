@@ -13,6 +13,7 @@ public:
     Pos loc;
     Pos rot;
     Pos vol;
+    const char* name;
 
     std::string posAsString();
 

@@ -147,8 +147,8 @@ void Game::setup() {
     player->vol.y = 80;
     player->vol.z = 10;
 
-    player->loc.x = 300;
-    player->loc.z = 300;
+    player->loc.x = -50;
+    player->loc.z = -50;
 }
 
 Player *Game::getPlayer() {

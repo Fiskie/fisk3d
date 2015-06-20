@@ -57,12 +57,12 @@ void TopDownCamera::drawLabel(string label, int x, int z) {
 
     SrcR.x = 0;
     SrcR.y = 0;
-    SrcR.w = 70;
+    SrcR.w = 100;
     SrcR.h = 15;
 
     DestR.x = x;
     DestR.y = z;
-    DestR.w = 70;
+    DestR.w = 100;
     DestR.h = 15;
 
     SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
@@ -101,7 +101,11 @@ void TopDownCamera::drawBrush(Brush *brush) {
     SDL_RenderDrawLine(renderer, x4, z4, x1, z1);
 
     // Text...
-    drawLabel(format("(%.2f,%.2f)", brush->loc.x, brush->loc.z), x1 + 5, z1 + 5);
+    if (brush->name) {
+        drawLabel(format("%s, (%.2f,%.2f)", brush->name, brush->loc.x, brush->loc.z), x1 + 5, z1 + 5);
+    } else {
+        drawLabel(format("(%.2f,%.2f)", brush->loc.x, brush->loc.z), x1 + 5, z1 + 5);
+    }
 
 }
 

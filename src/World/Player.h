@@ -30,6 +30,8 @@ public:
     void removeMovement(int id);
 
     void move();
+
+    bool isMoving();
 };
 
 #endif //FISK3D_PLAYER_H
