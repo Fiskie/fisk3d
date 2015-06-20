@@ -13,6 +13,8 @@ class Entity;
 class Brush : public WorldObject {
 public:
     bool collidesWith(Entity *entity);
+
+    bool collidesWith(Pos pos, Pos pos1);
 };
 
 #endif //FISK3D_WALL_H

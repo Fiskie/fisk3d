@@ -80,8 +80,8 @@ void TopDownCamera::drawBrush(Brush *brush) {
     double pSin = sin(player->rot.x);
 
     // Get the relative coordinates so the brush gets drawn in the right place.
-    double rX = brush->loc.x - player->loc.x;
-    double rZ = brush->loc.z - player->loc.z;
+    double rX = brush->loc.x - player->loc.x - brush->vol.x / 2;
+    double rZ = brush->loc.z - player->loc.z - brush->vol.z / 2;
 
     // Our pairs of brush coordinates.
     int x1 = (int) (oX + (rX * pCos - rZ * pSin));

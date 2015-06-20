@@ -54,12 +54,22 @@ void Player::move() {
         newPos.z += cosine;
     }
 
+    list<Brush> *brushes = game->getMap()->getBrushes();
+
+    list<Brush>::iterator i;
+
+    bool collision = false;
+
+    for (i = brushes->begin(); i != brushes->end(); ++i) {
+        if (i->collidesWith(newPos, this->vol)) {
+            collision = true;
+        }
+    }
+
     // Update location
-    if (game->getMap()->isFree(newPos)) {
+    if (!collision) {
         loc.x = newPos.x;
         loc.y = newPos.y;
         loc.z = newPos.z;
     }
-
-
 }
