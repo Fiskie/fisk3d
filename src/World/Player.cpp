@@ -66,6 +66,43 @@ void Player::move() {
         }
     }
 
+    // Slide along walls if we walk into them
+
+    Pos tmpPos = newPos;
+
+    // x axis
+    if (collision) {
+        collision = false;
+
+        tmpPos.x = loc.x;
+
+        for (i = brushes->begin(); i != brushes->end(); ++i) {
+            if (i->collidesWith(tmpPos, this->vol)) {
+                collision = true;
+            }
+        }
+
+        if (!collision)
+            newPos = tmpPos;
+    }
+
+    // z axis
+    if (collision) {
+        collision = false;
+
+        tmpPos.x = newPos.x;
+        tmpPos.z = loc.z;
+
+        for (i = brushes->begin(); i != brushes->end(); ++i) {
+            if (i->collidesWith(tmpPos, this->vol)) {
+                collision = true;
+            }
+        }
+
+        if (!collision)
+            newPos = tmpPos;
+    }
+
     // Update location
     if (!collision) {
         loc.x = newPos.x;
