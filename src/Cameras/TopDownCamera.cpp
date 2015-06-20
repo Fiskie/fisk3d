@@ -109,7 +109,6 @@ void TopDownCamera::drawBrush(Brush *brush) {
 
 }
 
-
 void TopDownCamera::render() {
     SDL_Renderer *renderer = game->getRenderer();
     Map *map = game->getMap();

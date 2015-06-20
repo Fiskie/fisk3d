@@ -22,7 +22,12 @@ class Player : public Entity {
 private:
     map<int, bool> movements;
     Game *game;
+    int speed;
 public:
+    int getSpeed() const;
+
+    void setSpeed(int speed);
+
     Player(Game* game);
 
     void addMovement(int id);
