@@ -67,7 +67,6 @@ void Player::move() {
     }
 
     // Slide along walls if we walk into them
-
     Pos tmpPos = newPos;
 
     // x axis

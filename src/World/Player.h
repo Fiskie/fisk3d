@@ -10,7 +10,6 @@
 #define MOVEMENT_RIGHT 2
 #define MOVEMENT_BACKWARD 3
 
-#include "WorldObject.h"
 #include "Entity.h"
 #include <map>
 #include "../Game.h"
