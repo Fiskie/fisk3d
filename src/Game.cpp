@@ -57,8 +57,8 @@ void Game::run() {
         double delta = 0;
         long prev = SDL_GetTicks();
 
-        const int FRAME_RATE = 60;
-        const int TICK_TIME = 1 / FRAME_RATE;
+        const double FRAME_RATE = 60;
+        const double TICK_TIME = 1 / FRAME_RATE;
 
         int frames = 0;
 
