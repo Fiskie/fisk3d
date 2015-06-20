@@ -11,14 +11,15 @@
 #define MOVEMENT_BACKWARD 3
 
 #include "WorldObject.h"
-#include "Game.h"
+#include "Entity.h"
 #include <map>
+#include "../Game.h"
 
 using namespace std;
 
 class Game;
 
-class Player : public WorldObject {
+class Player : public Entity {
 private:
     map<int, bool> movements;
     Game *game;

@@ -7,7 +7,7 @@
 //
 
 #include "WorldObject.h"
-#include "Game.h"
+#include "../Game.h"
 
 using namespace std;
 

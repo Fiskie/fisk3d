@@ -5,7 +5,7 @@
 #ifndef FISK3D_MAP_H
 #define FISK3D_MAP_H
 
-#include "Brush.h"
+#include "World/Brush.h"
 #include "Game.h"
 #include <list>
 

@@ -9,7 +9,7 @@
 #ifndef __fisk3d__worldobject__
 #define __fisk3d__worldobject__
 
-#include "Structs.h"
+#include "../Structs.h"
 #include <string>
 
 class WorldObject {

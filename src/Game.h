@@ -13,7 +13,7 @@
 #include "Event.h"
 #include "Timer.h"
 #include "Map.h"
-#include "Player.h"
+#include "World/Player.h"
 #include "Cameras/Camera.h"
 #include <list>
 
