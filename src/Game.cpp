@@ -141,8 +141,7 @@ void Game::setup() {
     fpsTimer->start();
     event = new Event(this);
     camera = new TopDownCamera(this);
-
-    player = new Player();
+    player = new Player(this);
 
     player->vol.x = 10;
     player->vol.y = 80;

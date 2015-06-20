@@ -23,6 +23,8 @@ class Map;
 
 class Camera;
 
+class Player;
+
 class Game {
 private:
     SDL_Window *window = NULL;

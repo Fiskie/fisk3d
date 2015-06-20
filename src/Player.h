@@ -11,15 +11,19 @@
 #define MOVEMENT_BACKWARD 3
 
 #include "WorldObject.h"
+#include "Game.h"
 #include <map>
 
 using namespace std;
 
+class Game;
+
 class Player : public WorldObject {
 private:
     map<int, bool> movements;
+    Game *game;
 public:
-    Player();
+    Player(Game* game);
 
     void addMovement(int id);
 

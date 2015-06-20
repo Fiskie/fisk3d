@@ -64,8 +64,8 @@ void Event::onKeyUp(SDL_Keycode key) {
 void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
     Player *player = game->getPlayer();
 
-    player->rot.x += (float) motion.xrel / 100;
-    player->rot.y += (float) motion.yrel / 100;
+    player->rot.x -= (float) motion.xrel / 100;
+    player->rot.y -= (float) motion.yrel / 100;
 }
 
 void Event::onMousePress(SDL_MouseButtonEvent event) {

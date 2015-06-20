@@ -4,7 +4,8 @@
 //
 // Created by Fiskie on 24/05/15.
 //
-Player::Player() {
+Player::Player(Game* game) {
+    this->game = game;
     movements = *new map<int, bool>();
     movements[MOVEMENT_RIGHT] = false;
     movements[MOVEMENT_LEFT] = false;
@@ -23,6 +24,10 @@ void Player::removeMovement(int id) {
 void Player::move() {
     double sine = sin(rot.x);
     double cosine = cos(rot.x);
+    Pos newPos;
+    newPos.x = loc.x;
+    newPos.y = loc.y;
+    newPos.z = loc.z;
 
     if ((movements[MOVEMENT_RIGHT] || movements[MOVEMENT_LEFT]) && (movements[MOVEMENT_FORWARD] || movements[MOVEMENT_BACKWARD])) {
         cosine /= 2;
@@ -30,22 +35,31 @@ void Player::move() {
     }
 
     if (movements[MOVEMENT_RIGHT]) {
-        loc.x += cosine;
-        loc.z -= sine;
+        newPos.x += cosine;
+        newPos.z -= sine;
     }
 
     if (movements[MOVEMENT_LEFT]) {
-        loc.x -= cosine;
-        loc.z += sine;
+        newPos.x -= cosine;
+        newPos.z += sine;
     }
 
     if (movements[MOVEMENT_FORWARD]) {
-        loc.x -= sine;
-        loc.z -= cosine;
+        newPos.x -= sine;
+        newPos.z -= cosine;
     }
 
     if (movements[MOVEMENT_BACKWARD]) {
-        loc.x += sine;
-        loc.z += cosine;
+        newPos.x += sine;
+        newPos.z += cosine;
     }
+
+    // Update location
+    if (game->getMap()->isFree(newPos)) {
+        loc.x = newPos.x;
+        loc.y = newPos.y;
+        loc.z = newPos.z;
+    }
+
+
 }

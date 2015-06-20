@@ -36,6 +36,8 @@ public:
     double getOriginZ() {
         return SCREEN_HEIGHT / 2;
     }
+
+    bool isFree(Pos pos);
 };
 
 #endif //FISK3D_MAP_H
