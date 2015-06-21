@@ -7,11 +7,12 @@
 Player::Player(Game* game) {
     this->game = game;
     movements = *new map<int, bool>();
-    movements[MOVEMENT_RIGHT] = false;
-    movements[MOVEMENT_LEFT] = false;
-    movements[MOVEMENT_FORWARD] = false;
-    movements[MOVEMENT_BACKWARD] = false;
+    movements[ACTION_MOVE_RIGHT] = false;
+    movements[ACTION_MOVE_LEFT] = false;
+    movements[ACTION_MOVE_FORWARD] = false;
+    movements[ACTION_MOVE_BACKWARD] = false;
     speed = 5;
+    sprintSpeed = 10;
 };
 
 void Player::addMovement(int id) {
@@ -23,7 +24,7 @@ void Player::removeMovement(int id) {
 }
 
 bool Player::isMoving() {
-    return movements[MOVEMENT_RIGHT] || movements[MOVEMENT_LEFT] || movements[MOVEMENT_FORWARD] || movements[MOVEMENT_BACKWARD];
+    return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD];
 }
 
 void Player::move() {
@@ -31,6 +32,12 @@ void Player::move() {
         return;
 
     double iteration = 0;
+
+    int speed = this->speed;
+
+    if (movements[ACTION_SPRINT]) {
+        speed = sprintSpeed;
+    }
 
     while (iteration < speed) {
         double sine = sin(rot.x);
@@ -47,27 +54,27 @@ void Player::move() {
         newPos.y = loc.y;
         newPos.z = loc.z;
 
-        if ((movements[MOVEMENT_RIGHT] || movements[MOVEMENT_LEFT]) && (movements[MOVEMENT_FORWARD] || movements[MOVEMENT_BACKWARD])) {
+        if ((movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT]) && (movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD])) {
             cosine /= 2;
             sine /= 2;
         }
 
-        if (movements[MOVEMENT_RIGHT]) {
+        if (movements[ACTION_MOVE_RIGHT]) {
             newPos.x += cosine;
             newPos.z -= sine;
         }
 
-        if (movements[MOVEMENT_LEFT]) {
+        if (movements[ACTION_MOVE_LEFT]) {
             newPos.x -= cosine;
             newPos.z += sine;
         }
 
-        if (movements[MOVEMENT_FORWARD]) {
+        if (movements[ACTION_MOVE_FORWARD]) {
             newPos.x -= sine;
             newPos.z -= cosine;
         }
 
-        if (movements[MOVEMENT_BACKWARD]) {
+        if (movements[ACTION_MOVE_BACKWARD]) {
             newPos.x += sine;
             newPos.z += cosine;
         }
@@ -137,4 +144,12 @@ void Player::setSpeed(int speed) {
 
 int Player::getSpeed() const {
     return speed;
+}
+
+void Player::setSprintSpeed(int speed) {
+    Player::sprintSpeed = speed;
+}
+
+int Player::getSprintSpeed() const {
+    return sprintSpeed;
 }

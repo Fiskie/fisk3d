@@ -5,10 +5,11 @@
 #ifndef FISK3D_PLAYER_H
 #define FISK3D_PLAYER_H
 
-#define MOVEMENT_FORWARD 0
-#define MOVEMENT_LEFT 1
-#define MOVEMENT_RIGHT 2
-#define MOVEMENT_BACKWARD 3
+#define ACTION_MOVE_FORWARD 0
+#define ACTION_MOVE_LEFT 1
+#define ACTION_MOVE_RIGHT 2
+#define ACTION_MOVE_BACKWARD 3
+#define ACTION_SPRINT 4
 
 #include "Entity.h"
 #include <map>
@@ -23,10 +24,15 @@ private:
     map<int, bool> movements;
     Game *game;
     int speed;
+    int sprintSpeed;
 public:
     int getSpeed() const;
 
     void setSpeed(int speed);
+
+    int getSprintSpeed() const;
+
+    void setSprintSpeed(int speed);
 
     Player(Game* game);
 

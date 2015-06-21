@@ -21,19 +21,22 @@ void Event::onKeyDown(SDL_Keycode key) {
     switch (key) {
         case SDLK_w:
         case SDLK_UP:
-            player->addMovement(MOVEMENT_FORWARD);
+            player->addMovement(ACTION_MOVE_FORWARD);
+            break;
+        case SDLK_LSHIFT:
+            player->addMovement(ACTION_SPRINT);
             break;
         case SDLK_DOWN:
         case SDLK_s:
-            player->addMovement(MOVEMENT_BACKWARD);
+            player->addMovement(ACTION_MOVE_BACKWARD);
             break;
         case SDLK_LEFT:
         case SDLK_a:
-            player->addMovement(MOVEMENT_LEFT);
+            player->addMovement(ACTION_MOVE_LEFT);
             break;
         case SDLK_RIGHT:
         case SDLK_d:
-            player->addMovement(MOVEMENT_RIGHT);
+            player->addMovement(ACTION_MOVE_RIGHT);
             break;
     }
 }
@@ -44,19 +47,22 @@ void Event::onKeyUp(SDL_Keycode key) {
     switch (key) {
         case SDLK_w:
         case SDLK_UP:
-            player->removeMovement(MOVEMENT_FORWARD);
+            player->removeMovement(ACTION_MOVE_FORWARD);
+            break;
+        case SDLK_LSHIFT:
+            player->removeMovement(ACTION_SPRINT);
             break;
         case SDLK_DOWN:
         case SDLK_s:
-            player->removeMovement(MOVEMENT_BACKWARD);
+            player->removeMovement(ACTION_MOVE_BACKWARD);
             break;
         case SDLK_LEFT:
         case SDLK_a:
-            player->removeMovement(MOVEMENT_LEFT);
+            player->removeMovement(ACTION_MOVE_LEFT);
             break;
         case SDLK_RIGHT:
         case SDLK_d:
-            player->removeMovement(MOVEMENT_RIGHT);
+            player->removeMovement(ACTION_MOVE_RIGHT);
             break;
     }
 }
