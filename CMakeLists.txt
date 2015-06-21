@@ -13,5 +13,5 @@ include_directories(${SDL2_TTF_INCLUDE_DIR})
 
 set(SOURCE_FILES src/main.cpp)
 
-add_executable(SDL2_App ${SOURCE_FILES} src/Timer.cpp src/Structs.cpp src/Event.cpp src/Game.cpp src/FatalGameException.cpp src/FatalGameException.h src/World/Player.cpp src/World/Player.h src/World/Brush.cpp src/World/Brush.h src/Map.cpp src/Map.h src/Cameras/Camera.cpp src/Cameras/Camera.h src/Cameras/TopDownCamera.cpp src/Cameras/TopDownCamera.h src/World/Entity.cpp)
+add_executable(SDL2_App ${SOURCE_FILES} src/Timer.cpp src/Structs.cpp src/Event.cpp src/Game.cpp src/FatalGameException.cpp src/FatalGameException.h src/World/Player.cpp src/World/Player.h src/World/Brush.cpp src/World/Brush.h src/Map.cpp src/Map.h src/Cameras/Camera.cpp src/Cameras/Camera.h src/Cameras/TopDownCamera.cpp src/Cameras/TopDownCamera.h src/World/Entity.cpp src/World/Wall.cpp)
 target_link_libraries(SDL2_App ${SDL2_LIBRARY} ${SDL2_TTF_LIBRARY})

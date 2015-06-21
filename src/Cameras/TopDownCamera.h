@@ -20,6 +20,8 @@ public:
     void drawBrush(Brush *brush);
 
     void drawDebugInfo();
+
+    void drawWall(Wall *wall);
 };
 
 

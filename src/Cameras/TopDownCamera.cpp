@@ -72,6 +72,39 @@ void TopDownCamera::drawBrush(Brush *brush) {
     }
 }
 
+void TopDownCamera::drawWall(Wall *wall) {
+    SDL_Renderer *renderer = game->getRenderer();
+    Player *player = game->getPlayer();
+
+    // Fetch some values we're going to be using a lot.
+    double oX = game->originX;
+    double oZ = game->originZ;
+    double pCos = cos(player->rot.x);
+    double pSin = sin(player->rot.x);
+
+    int points[4][2];
+
+    for (int i = 0; i < 4; i++) {
+        Pos vertice = wall->getPoint(i);
+
+        // Get the relative coordinates so the brush gets drawn in the right place.
+        double rX = vertice.x - player->loc.x;
+        double rZ = vertice.z - player->loc.z;
+
+        points[i][0] = (int) (oX + (rX * pCos - rZ * pSin));
+        points[i][1] = (int) (oZ + (rX * pSin + rZ * pCos));
+
+        drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), (int) points[i][0], (int) points[i][1]);
+    }
+
+    // Draw lines.
+    SDL_SetRenderDrawColor(renderer, 66, 255, 66, 1);
+    SDL_RenderDrawLine(renderer, points[0][0], points[0][1], points[1][0], points[1][1]);
+    SDL_RenderDrawLine(renderer, points[1][0], points[1][1], points[2][0], points[2][1]);
+    SDL_RenderDrawLine(renderer, points[2][0], points[2][1], points[3][0], points[3][1]);
+    SDL_RenderDrawLine(renderer, points[3][0], points[3][1], points[0][0], points[0][1]);
+}
+
 void TopDownCamera::render() {
     SDL_Renderer *renderer = game->getRenderer();
     Map *map = game->getMap();
@@ -86,9 +119,17 @@ void TopDownCamera::render() {
         drawBrush(&(*i));
     }
 
+    list<Wall> *walls = map->getWalls();
+
+    list<Wall>::iterator j;
+
+    for (j = walls->begin(); j != walls->end(); ++j) {
+        drawWall(&(*j));
+    }
+
     drawPlayer(game->getPlayer());
 
-    TopDownCamera::drawDebugInfo();
+    drawDebugInfo();
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
 

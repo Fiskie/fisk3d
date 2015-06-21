@@ -6,20 +6,27 @@
 #define FISK3D_MAP_H
 
 #include "World/Brush.h"
+#include "World/Wall.h"
 #include "Game.h"
 #include <list>
 
 class Map {
 private:
     std::list<Brush> *brushes;
+    std::list<Wall> *walls;
 
 public:
     Map();
 
     void addBrush(Brush brush);
+    void addWall(Wall wall);
 
     std::list<Brush> *getBrushes() {
         return brushes;
+    }
+
+    std::list<Wall> *getWalls() {
+        return walls;
     }
 
     bool isFree(Pos pos);

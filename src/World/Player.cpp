@@ -54,8 +54,8 @@ void Player::move() {
         newPos.z = loc.z;
 
         if ((movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT]) && (movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD])) {
-            cosine /= 2;
-            sine /= 2;
+            cosine *= 0.75;
+            sine *= 0.75;
         }
 
         if (movements[ACTION_MOVE_RIGHT]) {

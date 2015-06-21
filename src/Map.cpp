@@ -8,8 +8,13 @@ void Map::addBrush(Brush brush) {
     brushes->push_back(brush);
 }
 
+void Map::addWall(Wall wall) {
+    walls->push_back(wall);
+}
+
 Map::Map() {
     brushes = new std::list<Brush>();
+    walls = new std::list<Wall>();
 }
 
 bool Map::isFree(Pos pos) {
