@@ -109,8 +109,11 @@ void Game::onExit() {
     // Deallocate
     window = NULL;
     renderer = NULL;
-    player = NULL;
     fpsTimer = NULL;
+
+    delete player;
+    delete event;
+    delete camera;
 
     // Quit SDL subsystems
     SDL_Quit();

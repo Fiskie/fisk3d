@@ -2,9 +2,7 @@
 // Created by Fiskie on 26/05/15.
 //
 
-#include <SDL2_ttf/SDL_ttf.h>
 #include "TopDownCamera.h"
-#include "../FatalGameException.h"
 
 void TopDownCamera::drawPlayer(Player *player) {
     SDL_Renderer *renderer = game->getRenderer();
@@ -33,43 +31,6 @@ void TopDownCamera::drawPlayer(Player *player) {
     string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
 
     drawLabel(label, (int) relX + 5, (int) relZ + 5);
-}
-
-void TopDownCamera::drawLabel(string label, int x, int z) {
-    SDL_Renderer *renderer = game->getRenderer();
-    SDL_Color color;
-    const char* str = label.c_str();
-    int w;
-    int h;
-
-    color.b = 127;
-    color.g = 255;
-    color.r = 255;
-    color.a = 0;
-
-    SDL_Surface *text = TTF_RenderText_Solid(font, str, color);
-
-    // Size our label decently
-    TTF_SizeText(font, str, &w, &h);
-
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
-
-    SDL_FreeSurface(text);
-
-    SDL_Rect SrcR;
-    SDL_Rect DestR;
-
-    SrcR.x = 0;
-    SrcR.y = 0;
-    SrcR.w = w;
-    SrcR.h = h;
-
-    DestR.x = x;
-    DestR.y = z;
-    DestR.w = w;
-    DestR.h = h;
-
-    SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
 }
 
 void TopDownCamera::drawBrush(Brush *brush) {
@@ -109,7 +70,6 @@ void TopDownCamera::drawBrush(Brush *brush) {
     } else {
         drawLabel(format("(%.2f,%.2f)", brush->loc.x, brush->loc.z), x1 + 5, z1 + 5);
     }
-
 }
 
 void TopDownCamera::render() {
@@ -128,7 +88,8 @@ void TopDownCamera::render() {
 
     drawPlayer(game->getPlayer());
 
-    // drawDebugInfo();
+    TopDownCamera::drawDebugInfo();
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
 
     // SDL_UpdateWindowSurface(window);
@@ -137,10 +98,9 @@ void TopDownCamera::render() {
 
 TopDownCamera::TopDownCamera(Game *game) {
     this->game = game;
-    font = TTF_OpenFont("OpenSans-Regular.ttf", 11);
+}
 
-    if (font == NULL) {
-        printf("TTF_OpenFont: %s\n", TTF_GetError());
-        throw new FatalGameException("Could not load required font.");
-    }
+void TopDownCamera::drawDebugInfo() {
+    drawLabel("fisk3d", 5, 5);
+    drawLabel("you're a kid you're a squid", 5, 20);
 }

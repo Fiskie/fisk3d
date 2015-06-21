@@ -10,11 +10,6 @@
 #define PI 3.14159265
 
 class TopDownCamera : public Camera {
-private:
-    TTF_Font *font;
-
-    void drawLabel(string label, int x, int z);
-
 public:
     TopDownCamera(Game *game);
 
@@ -23,6 +18,8 @@ public:
     void drawPlayer(Player *player);
 
     void drawBrush(Brush *brush);
+
+    void drawDebugInfo();
 };
 
 

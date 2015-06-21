@@ -6,6 +6,9 @@
 #define FISK3D_CAMERA_H
 
 #include "../Game.h"
+#include <SDL2_ttf/SDL_ttf.h>
+
+using namespace std;
 
 class Game;
 
@@ -15,10 +18,13 @@ protected:
 
     Camera();
 
+    TTF_Font *font;
 public:
     Camera(Game *game);
 
     virtual void render() = 0;
+
+    void drawLabel(string label, int x, int y);
 };
 
 #endif //FISK3D_CAMERA_H
