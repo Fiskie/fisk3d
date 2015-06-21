@@ -37,15 +37,20 @@ void TopDownCamera::drawPlayer(Player *player) {
 
 void TopDownCamera::drawLabel(string label, int x, int z) {
     SDL_Renderer *renderer = game->getRenderer();
-
     SDL_Color color;
+    const char* str = label.c_str();
+    int w;
+    int h;
 
     color.b = 127;
     color.g = 255;
     color.r = 255;
     color.a = 0;
 
-    SDL_Surface *text = TTF_RenderText_Solid(font, label.c_str(), color);
+    SDL_Surface *text = TTF_RenderText_Solid(font, str, color);
+
+    // Size our label decently
+    TTF_SizeText(font, str, &w, &h);
 
     SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, text);
 
@@ -56,13 +61,13 @@ void TopDownCamera::drawLabel(string label, int x, int z) {
 
     SrcR.x = 0;
     SrcR.y = 0;
-    SrcR.w = 100;
-    SrcR.h = 15;
+    SrcR.w = w;
+    SrcR.h = h;
 
     DestR.x = x;
     DestR.y = z;
-    DestR.w = 100;
-    DestR.h = 15;
+    DestR.w = w;
+    DestR.h = h;
 
     SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
 }
