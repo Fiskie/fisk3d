@@ -64,6 +64,13 @@ public:
     Player *getPlayer();
 
     void stop();
+
+    void setResolution(int x, int y);
+
+    int originX;
+    int originZ;
+    int resX;
+    int resY;
 };
 
 //missing string printf

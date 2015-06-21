@@ -8,10 +8,9 @@
 
 void TopDownCamera::drawPlayer(Player *player) {
     SDL_Renderer *renderer = game->getRenderer();
-    Map *map = game->getMap();
 
-    double relX = map->getOriginX() - player->vol.x / 2;
-    double relZ = map->getOriginZ() - player->vol.z / 2;
+    double relX = game->originX - player->vol.x / 2;
+    double relZ = game->originZ - player->vol.z / 2;
 
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
 
@@ -27,8 +26,8 @@ void TopDownCamera::drawPlayer(Player *player) {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
 
-    SDL_RenderDrawLine(renderer, (int) map->getOriginX(), (int) map->getOriginZ(), (int) map->getOriginX(),
-                       (int) map->getOriginZ() - 10);
+    SDL_RenderDrawLine(renderer, game->originX, game->originZ, game->originX,
+                       game->originZ - 10);
 
     // Text...
     string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
@@ -71,11 +70,10 @@ void TopDownCamera::drawLabel(string label, int x, int z) {
 void TopDownCamera::drawBrush(Brush *brush) {
     SDL_Renderer *renderer = game->getRenderer();
     Player *player = game->getPlayer();
-    Map *map = game->getMap();
 
     // Fetch some values we're going to be using a lot.
-    double oX = map->getOriginX();
-    double oZ = map->getOriginZ();
+    double oX = game->originX;
+    double oZ = game->originZ;
     double pCos = cos(player->rot.x);
     double pSin = sin(player->rot.x);
 

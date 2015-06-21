@@ -30,8 +30,11 @@ void Game::initialize() {
     }
 
     // Create window
-    window = SDL_CreateWindow("fisk3d", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
+    window = SDL_CreateWindow("fisk3d", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resX, resY,
                               SDL_WINDOW_SHOWN);
+
+    // Disable the cursor...
+    // SDL_ShowCursor(0);
 
     if (window == NULL) {
         char err[] = "Window could not be created! Error: ";
@@ -158,4 +161,11 @@ Player *Game::getPlayer() {
 
 Game::~Game() {
     this->onExit();
+}
+
+void Game::setResolution(int x, int y) {
+    this->resX = x;
+    this->resY = y;
+    this->originX = x / 2;
+    this->originZ = y / 2;
 }

@@ -9,9 +9,6 @@
 #include "Game.h"
 #include <list>
 
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 768;
-
 class Map {
 private:
     std::list<Brush> *brushes;
@@ -23,18 +20,6 @@ public:
 
     std::list<Brush> *getBrushes() {
         return brushes;
-    }
-
-    double getOriginX() {
-        return SCREEN_WIDTH / 2;
-    }
-
-    double getOriginY() {
-        return 0;
-    }
-
-    double getOriginZ() {
-        return SCREEN_HEIGHT / 2;
     }
 
     bool isFree(Pos pos);

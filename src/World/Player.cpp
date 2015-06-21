@@ -35,9 +35,8 @@ void Player::move() {
 
     int speed = this->speed;
 
-    if (movements[ACTION_SPRINT]) {
+    if (movements[ACTION_SPRINT])
         speed = sprintSpeed;
-    }
 
     while (iteration < speed) {
         double sine = sin(rot.x);
