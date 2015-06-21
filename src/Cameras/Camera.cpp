@@ -53,4 +53,6 @@ void Camera::drawLabel(string label, int x, int y) {
     DestR.h = h;
 
     SDL_RenderCopy(renderer, tex, &SrcR, &DestR);
+
+    SDL_DestroyTexture(tex);
 }
