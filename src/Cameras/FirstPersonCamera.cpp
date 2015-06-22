@@ -41,14 +41,22 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         if (rY > 0)
             unseenPoints++;
 
-        double xScale = 60 / rY, zScale = 60 / rX;
+        double xScale = 90 / rY, zScale = 60 / rX;
+
+        if (zScale < 0)
+            zScale = 0 - zScale;
+
+        if (xScale < 0)
+            xScale = 0 - xScale;
 
         points[i][0] = (int) (oX + tX * xScale);
-        points[i][1] = (int) (oZ + tY * zScale);
+        points[i][1] = (int) (oZ - tY * zScale);
 
         drawLabel(format("Screen: (%d, %d)", points[i][0], points[i][1]), points[i][0], points[i][1]);
         drawLabel(format("World: (%.2f,%.2f,%.2f)", vertice.x, vertice.y, vertice.z), points[i][0], points[i][1] + 15);
-        drawLabel(format("Rot (%.2f,%.2f)", rX, rY), points[i][0], points[i][1] + 30);
+        drawLabel(format("Rotated: (%.2f,%.2f)", rX, rY), points[i][0], points[i][1] + 30);
+        drawLabel(format("Relative: (%.2f,%.2f,%.2f)", tX, tY, tZ), points[i][0], points[i][1] + 45);
+        drawLabel(format("Scale: (%.2f,%.2f)", xScale, zScale), points[i][0], points[i][1] + 60);
     }
 
     if (unseenPoints == 4)

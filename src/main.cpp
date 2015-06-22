@@ -95,7 +95,7 @@ int main(int argc, const char *argv[]) {
     //map->addWall(*wall3);
     //map->addWall(*wall4);
 
-    game->setResolution(1024, 768);
+    game->setResolution(600, 400);
     game->setMap(map);
 
     game->run();
