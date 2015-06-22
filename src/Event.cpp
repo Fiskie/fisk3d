@@ -38,6 +38,14 @@ void Event::onKeyDown(SDL_Keycode key) {
         case SDLK_d:
             player->addMovement(ACTION_MOVE_RIGHT);
             break;
+        case SDLK_r:
+            player->addMovement(ACTION_MOVE_UP);
+            break;
+        case SDLK_f:
+            player->addMovement(ACTION_MOVE_DOWN);
+            break;
+        case SDLK_c:
+            game->changeCamera();
     }
 }
 
@@ -63,6 +71,12 @@ void Event::onKeyUp(SDL_Keycode key) {
         case SDLK_RIGHT:
         case SDLK_d:
             player->removeMovement(ACTION_MOVE_RIGHT);
+            break;
+        case SDLK_r:
+            player->removeMovement(ACTION_MOVE_UP);
+            break;
+        case SDLK_f:
+            player->removeMovement(ACTION_MOVE_DOWN);
             break;
     }
 }

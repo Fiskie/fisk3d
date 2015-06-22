@@ -58,3 +58,21 @@ void Wall::flatten(int axis) {
         }
     }
 }
+
+Wall::Wall() {
+
+}
+
+Wall::Wall(Wall *wall) {
+    for (int i = 0; i < 4; i++) {
+        points[i] = wall->points[i];
+    }
+}
+
+void Wall::translate(double x, double y, double z) {
+    for (int i = 0; i < 4; i++) {
+        points[i].x += x;
+        points[i].y += y;
+        points[i].z += z;
+    }
+}

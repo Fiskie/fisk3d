@@ -71,6 +71,8 @@ public:
     int originZ;
     int resX;
     int resY;
+
+    void changeCamera();
 };
 
 //missing string printf

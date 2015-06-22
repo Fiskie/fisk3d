@@ -24,6 +24,12 @@ public:
         axisY,
         axisZ
     };
+
+    Wall();
+
+    Wall(Wall *wall);
+
+    void translate(double x, double y, double z);
 };
 
 

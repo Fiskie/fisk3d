@@ -10,6 +10,8 @@
 #define ACTION_MOVE_RIGHT 2
 #define ACTION_MOVE_BACKWARD 3
 #define ACTION_SPRINT 4
+#define ACTION_MOVE_UP 5
+#define ACTION_MOVE_DOWN 6
 
 #include "Entity.h"
 #include <map>

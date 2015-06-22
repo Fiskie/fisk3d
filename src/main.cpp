@@ -72,21 +72,28 @@ int main(int argc, const char *argv[]) {
     map->addBrush(*brush7);*/
 
     Wall *wall1 = new Wall();
-    Wall *wall2 = new Wall();
 
     wall1->setPoint(0, {-100, 0, -100});
     wall1->setPoint(1, {-100, 100, -100});
     wall1->setPoint(2, {0, 100, -100});
     wall1->setPoint(3, {0, 0, -100});
 
+    Wall *wall2 = new Wall(wall1);
+
+    wall2->translate(100, 0, 0);
+
+    Wall *wall3 = new Wall(wall1);
+
+    wall3->translate(0, 0, 200);
+
+    Wall *wall4 = new Wall(wall2);
+
+    wall4->translate(0, 0, 200);
+
     map->addWall(*wall1);
-
-    wall2->setPoint(0, {200, 0, 200});
-    wall2->setPoint(1, {200, 100, 200});
-    wall2->setPoint(2, {100, 100, 300});
-    wall2->setPoint(3, {100, 0, 300});
-
     map->addWall(*wall2);
+    //map->addWall(*wall3);
+    //map->addWall(*wall4);
 
     game->setResolution(1024, 768);
     game->setMap(map);

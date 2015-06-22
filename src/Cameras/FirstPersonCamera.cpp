@@ -34,8 +34,6 @@ void FirstPersonCamera::drawPlayer(Player *player) {
 }
 
 void FirstPersonCamera::drawWall(Wall *wall) {
-    int fov = 90;
-
     SDL_Renderer *renderer = game->getRenderer();
     Player *player = game->getPlayer();
 
@@ -53,21 +51,21 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         Pos vertice = wall->getPoint(i);
 
         // Get the coordinates relative the player.
-        double tX = vertice.x - player->loc.x;
-        double tZ = vertice.z - player->loc.z;
+        double tX = vertice.x - player->loc.x, tY = vertice.y - player->loc.y, tZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
-        double rX = (tX * pCos - tZ * pSin);
-        double rZ = (tX * pSin + tZ * pCos);
+        double rX = (tX * pCos - tZ * pSin), rZ = (tX * pSin + tZ * pCos);
 
-        if (rZ > 0) {
+        // TODO improve plane clipping
+        if (rZ > 0)
             unseenPoints++;
-        }
 
-        points[i][0] = (int) (oX + rX);
-        points[i][1] = (int) (oZ + rZ);
+        double xScale = 90 / rX, yScale = 90 / rZ;
 
-        drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), (int) points[i][0], (int) points[i][1]);
+        points[i][0] = (int) (oX + tX * xScale);
+        points[i][1] = (int) (oZ + tY * yScale);
+
+        drawLabel(format("Screen: (%d, %d) World: (%.2f,%.2f,%.2f)", points[i][0], points[i][1], vertice.x, vertice.y, vertice.z), points[i][0], points[i][1]);
     }
 
     if (unseenPoints == 4)

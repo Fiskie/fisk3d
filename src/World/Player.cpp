@@ -11,6 +11,8 @@ Player::Player(Game* game) {
     movements[ACTION_MOVE_LEFT] = false;
     movements[ACTION_MOVE_FORWARD] = false;
     movements[ACTION_MOVE_BACKWARD] = false;
+    movements[ACTION_MOVE_UP] = false;
+    movements[ACTION_MOVE_DOWN] = false;
     speed = 5;
     sprintSpeed = 10;
 };
@@ -24,7 +26,7 @@ void Player::removeMovement(int id) {
 }
 
 bool Player::isMoving() {
-    return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD];
+    return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD] || movements[ACTION_MOVE_UP] || movements[ACTION_MOVE_DOWN];
 }
 
 void Player::move() {
@@ -76,6 +78,14 @@ void Player::move() {
         if (movements[ACTION_MOVE_BACKWARD]) {
             newPos.x += sine;
             newPos.z += cosine;
+        }
+
+        if (movements[ACTION_MOVE_UP]) {
+            newPos.y += 1;
+        }
+
+        if (movements[ACTION_MOVE_DOWN]) {
+            newPos.y += -1;
         }
 
         list<Brush> *brushes = game->getMap()->getBrushes();

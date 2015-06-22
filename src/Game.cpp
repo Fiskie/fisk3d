@@ -173,3 +173,11 @@ void Game::setResolution(int x, int y) {
     this->originX = x / 2;
     this->originZ = y / 2;
 }
+
+void Game::changeCamera() {
+    if (FirstPersonCamera *p = dynamic_cast<FirstPersonCamera *>(camera)) {
+        camera = new TopDownCamera(this);
+    } else {
+        camera = new FirstPersonCamera(this);
+    }
+}
