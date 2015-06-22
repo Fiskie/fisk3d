@@ -4,33 +4,14 @@
 
 #include "FirstPersonCamera.h"
 
-void FirstPersonCamera::drawPlayer(Player *player) {
+void FirstPersonCamera::drawUI() {
     SDL_Renderer *renderer = game->getRenderer();
-
-    double relX = game->originX - player->vol.x / 2;
-    double relZ = game->originZ - player->vol.z / 2;
 
     SDL_SetRenderDrawColor(renderer, 255, 66, 255, 1);
 
-    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) (relX + player->vol.x),
-                       (int) relZ);
-    SDL_RenderDrawLine(renderer, (int) relX, (int) relZ, (int) relX,
-                       (int) (relZ + player->vol.z));
-    SDL_RenderDrawLine(renderer, (int) (relX + player->vol.x), (int) relZ,
-                       (int) (relX + player->vol.x),
-                       (int) (relZ + player->vol.z));
-    SDL_RenderDrawLine(renderer, (int) relX, (int) (relZ + player->vol.z),
-                       (int) (relX + player->vol.x), (int) (relZ + player->vol.z));
+    SDL_RenderDrawLine(renderer, game->originX - 5, game->originZ, game->originX + 5, game->originZ);
+    SDL_RenderDrawLine(renderer, game->originX, game->originZ - 5, game->originX, game->originZ + 5);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 66, 1);
-
-    SDL_RenderDrawLine(renderer, game->originX, game->originZ, game->originX,
-                       game->originZ - 10);
-
-    // Text...
-    string label = format("(%.2f,%.2f)", player->loc.x, player->loc.z);
-
-    drawLabel(label, (int) relX + 5, (int) relZ + 5);
 }
 
 void FirstPersonCamera::drawWall(Wall *wall) {
@@ -54,18 +35,20 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double tX = vertice.x - player->loc.x, tY = vertice.y - player->loc.y, tZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
-        double rX = (tX * pCos - tZ * pSin), rZ = (tX * pSin + tZ * pCos);
+        double rX = (tX * pCos + tZ * pSin), rY = (tX * pSin + tZ * pCos);
 
         // TODO improve plane clipping
-        if (rZ > 0)
+        if (rY > 0)
             unseenPoints++;
 
-        double xScale = 90 / rX, yScale = 90 / rZ;
+        double xScale = 60 / rY, zScale = 60 / rX;
 
         points[i][0] = (int) (oX + tX * xScale);
-        points[i][1] = (int) (oZ + tY * yScale);
+        points[i][1] = (int) (oZ + tY * zScale);
 
-        drawLabel(format("Screen: (%d, %d) World: (%.2f,%.2f,%.2f)", points[i][0], points[i][1], vertice.x, vertice.y, vertice.z), points[i][0], points[i][1]);
+        drawLabel(format("Screen: (%d, %d)", points[i][0], points[i][1]), points[i][0], points[i][1]);
+        drawLabel(format("World: (%.2f,%.2f,%.2f)", vertice.x, vertice.y, vertice.z), points[i][0], points[i][1] + 15);
+        drawLabel(format("Rot (%.2f,%.2f)", rX, rY), points[i][0], points[i][1] + 30);
     }
 
     if (unseenPoints == 4)
@@ -93,8 +76,7 @@ void FirstPersonCamera::render() {
         drawWall(&(*j));
     }
 
-    drawPlayer(game->getPlayer());
-
+    drawUI();
     drawDebugInfo();
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
@@ -108,6 +90,9 @@ FirstPersonCamera::FirstPersonCamera(Game *game) {
 }
 
 void FirstPersonCamera::drawDebugInfo() {
+    Player *player = game->getPlayer();
+
     drawLabel("fisk3d", 5, 5);
-    drawLabel("you're a kid you're a squid", 5, 20);
+    drawLabel("First Person Camera", 5, 20);
+    drawLabel(format("(%.2f,%.2f,%.2f)", player->loc.x, player->loc.y, player->loc.z), 5, 35);
 }

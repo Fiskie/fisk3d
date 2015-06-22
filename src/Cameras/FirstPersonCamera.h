@@ -13,11 +13,11 @@ public:
 
     void render();
 
-    void drawPlayer(Player *player);
-
     void drawDebugInfo();
 
     void drawWall(Wall *wall);
+
+    void drawUI();
 };
 
 #endif //FISK3D_FIRSTPERSONCAMERA_H

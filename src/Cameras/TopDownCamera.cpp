@@ -143,5 +143,5 @@ TopDownCamera::TopDownCamera(Game *game) {
 
 void TopDownCamera::drawDebugInfo() {
     drawLabel("fisk3d", 5, 5);
-    drawLabel("you're a kid you're a squid", 5, 20);
+    drawLabel("Top-Down Camera", 5, 20);
 }

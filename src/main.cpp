@@ -91,7 +91,7 @@ int main(int argc, const char *argv[]) {
     wall4->translate(0, 0, 200);
 
     map->addWall(*wall1);
-    map->addWall(*wall2);
+    //map->addWall(*wall2);
     //map->addWall(*wall3);
     //map->addWall(*wall4);
 

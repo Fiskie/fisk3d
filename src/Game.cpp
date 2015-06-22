@@ -156,6 +156,7 @@ void Game::setup() {
     player->vol.z = 10;
 
     player->loc.x = -50;
+    player->loc.y = 50;
     player->loc.z = -50;
 }
 
@@ -175,6 +176,8 @@ void Game::setResolution(int x, int y) {
 }
 
 void Game::changeCamera() {
+    delete camera;
+
     if (FirstPersonCamera *p = dynamic_cast<FirstPersonCamera *>(camera)) {
         camera = new TopDownCamera(this);
     } else {
