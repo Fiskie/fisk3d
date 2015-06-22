@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "FatalGameException.h"
 #include "Cameras/TopDownCamera.h"
+#include "Cameras/FirstPersonCamera.h"
 
 Game::Game() {
     running = true;
@@ -147,7 +148,7 @@ void Game::update(double delta) {
 void Game::setup() {
     fpsTimer->start();
     event = new Event(this);
-    camera = new TopDownCamera(this);
+    camera = new FirstPersonCamera(this);
     player = new Player(this);
 
     player->vol.x = 10;

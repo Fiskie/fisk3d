@@ -11,7 +11,7 @@
 int main(int argc, const char *argv[]) {
     Game *game = new Game();
 
-    Map *map = new Map();
+    Map *map = new Map();/*
 
     Brush *brush1 = new Brush();
     Brush *brush2 = new Brush();
@@ -69,22 +69,22 @@ int main(int argc, const char *argv[]) {
     map->addBrush(*brush4);
     map->addBrush(*brush5);
     map->addBrush(*brush6);
-    map->addBrush(*brush7);
+    map->addBrush(*brush7);*/
 
     Wall *wall1 = new Wall();
     Wall *wall2 = new Wall();
 
-    wall1->setPoint(0, {0, 0, 0});
-    wall1->setPoint(1, {0, 100, 0});
-    wall1->setPoint(2, {100, 0, 0});
-    wall1->setPoint(3, {100, 100, 0});
+    wall1->setPoint(0, {-100, 0, -100});
+    wall1->setPoint(1, {-100, 100, -100});
+    wall1->setPoint(2, {0, 100, -100});
+    wall1->setPoint(3, {0, 0, -100});
 
     map->addWall(*wall1);
 
     wall2->setPoint(0, {200, 0, 200});
-    wall2->setPoint(1, {300, 100, 300});
-    wall2->setPoint(2, {200, 0, 300});
-    wall2->setPoint(3, {100, 100, 300});
+    wall2->setPoint(1, {200, 100, 200});
+    wall2->setPoint(2, {100, 100, 300});
+    wall2->setPoint(3, {100, 0, 300});
 
     map->addWall(*wall2);
 
