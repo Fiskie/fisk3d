@@ -16,6 +16,14 @@ public:
     void setPoint(int i, Pos pos);
 
     void setPoint(int i, double x, double y, double z);
+
+    void flatten(int axis);
+
+    enum {
+        axisX,
+        axisY,
+        axisZ
+    };
 };
 
 
