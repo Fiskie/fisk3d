@@ -42,8 +42,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     // Fetch some values we're going to be using a lot.
     double oX = game->originX;
     double oZ = game->originZ;
-    double pCos = cos(player->rot.x + 1.57);
-    double pSin = sin(player->rot.x + 1.57);
+    double pCos = cos(player->rot.x);
+    double pSin = sin(player->rot.x);
     double fovH = 0.16f * game->resY;
     double fovW = 0.16f * game->resY;
 
@@ -57,8 +57,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double vX = vertice.x - player->loc.x, vY = vertice.y - player->loc.y, vZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
-        double tX = vX * pCos - vZ * pSin;
-        double tZ = vX * pSin + vZ * pCos;
+        double tX = vX * pSin - vZ * pCos;
+        double tZ = vX * pCos + vZ * pSin;
 
         if (tX <= 0) {
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
@@ -66,7 +66,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
             Pos i1 = intersect(tX, tZ, -tX, -tZ, -nearside, nearz, -farside, farz);
             Pos i2 = intersect(tX, tZ, -tX, -tZ, nearside, nearz, farside, farz);
 
-            if (tX < nearz) {
+            if (tZ < nearz) {
                 if (i1.z > 0) {
                     drawLabel(format("Updating coords from (%.2f, %.2f) to (%.2f, %.2f)", tX, tZ, i1.x, i1.z), 5, i1.z);
                     tX = i1.x;
@@ -76,6 +76,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
                     tX = i2.x;
                     tZ = i2.z;
                 }
+            } else {
+                drawLabel(format("Tz: (%.2f) NearZ: (%.2f)", tZ, nearz), 5, 300);
             }
 
             unseenPoints++;
