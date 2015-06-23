@@ -88,13 +88,17 @@ void TopDownCamera::drawWall(Wall *wall) {
         Pos vertice = wall->getPoint(i);
 
         // Get the relative coordinates so the brush gets drawn in the right place.
-        double rX = vertice.x - player->loc.x;
-        double rZ = vertice.z - player->loc.z;
+        double vX = vertice.x - player->loc.x;
+        double vZ = vertice.z - player->loc.z;
 
-        points[i][0] = (int) (oX + (rX * pCos - rZ * pSin));
-        points[i][1] = (int) (oZ + (rX * pSin + rZ * pCos));
+        // Rotate the coordinates around the player's view.
+        double tX = vX * pCos - vZ * pSin;
+        double tZ = vX * pSin + vZ * pCos;
 
-        drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), (int) points[i][0], (int) points[i][1]);
+        points[i][0] = (int) (oX + tX);
+        points[i][1] = (int) (oZ + tZ);
+
+        drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), points[i][0], points[i][1]);
     }
 
     // Draw lines.

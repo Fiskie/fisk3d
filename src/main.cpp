@@ -82,20 +82,20 @@ int main(int argc, const char *argv[]) {
 
     wall2->translate(100, 0, 0);
 
-    Wall *wall3 = new Wall(wall1);
+    Wall *wall3 = new Wall(wall2);
 
-    wall3->translate(0, 0, 200);
+    wall3->translate(100, 0, 0);
 
-    Wall *wall4 = new Wall(wall2);
+    Wall *wall4 = new Wall(wall3);
 
-    wall4->translate(0, 0, 200);
+    wall4->translate(100, 0, 0);
 
     map->addWall(*wall1);
-    //map->addWall(*wall2);
-    //map->addWall(*wall3);
-    //map->addWall(*wall4);
+    map->addWall(*wall2);
+    map->addWall(*wall3);
+    map->addWall(*wall4);
 
-    game->setResolution(600, 400);
+    game->setResolution(720, 480);
     game->setMap(map);
 
     game->run();
