@@ -30,6 +30,8 @@ public:
     Wall(Wall *wall);
 
     void translate(double x, double y, double z);
+
+    void translatePoint(int i, double x, double y, double z);
 };
 
 

@@ -70,9 +70,12 @@ Wall::Wall(Wall *wall) {
 }
 
 void Wall::translate(double x, double y, double z) {
-    for (int i = 0; i < 4; i++) {
-        points[i].x += x;
-        points[i].y += y;
-        points[i].z += z;
-    }
+    for (int i = 0; i < 4; i++)
+        Wall::translatePoint(i, x, y, z);
+}
+
+void Wall::translatePoint(int i, double x, double y, double z) {
+    points[i].x += x;
+    points[i].y += y;
+    points[i].z += z;
 }

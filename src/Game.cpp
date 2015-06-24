@@ -158,6 +158,8 @@ void Game::setup() {
     player->loc.x = -50;
     player->loc.y = 50;
     player->loc.z = -50;
+
+    SDL_ShowCursor(0);
 }
 
 Player *Game::getPlayer() {

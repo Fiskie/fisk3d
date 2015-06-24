@@ -30,6 +30,8 @@ public:
     void onMousePress(SDL_MouseButtonEvent event);
 
     void onKeyUp(SDL_Keycode key);
+
+    bool ignoreMovement = false;
 };
 
 #endif //__fisk3d__events__

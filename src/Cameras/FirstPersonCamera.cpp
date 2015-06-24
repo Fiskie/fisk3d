@@ -7,21 +7,14 @@
 #define min(a, b)           a < b ? a : b
 #define max(a, b)           a < b ? a : b
 #define clamp(a, mi, ma)    min(max(a, mi), ma)
-#define vxs(x1, y1, x2, y2) (x1*y2 - y1*x2)
+#define vxs(x1, y1, x2, y2) ((x1)*(y2) - (x2)*(y1))
 #define overlap(a0, a1, b0, b1) (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0, a1))
 
-Pos intersect(double x1, double z1, double x2, double z2, double x3, double z3, double x4, double z4) {
+Pos intersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
     Pos pos;
 
-    double x = vxs(x1, z1, x2, z2);
-    double z = vxs(x3, z3, x4, z4);
-    double det = vxs(x1-x2, z1-z2, x3-x4, z3-z4);
-
-    x = vxs(x, x1 - x2, z, x3-x4) / det;
-    z = vxs(x, z1 - z2, z, z3-z4) / det;
-
-    pos.x = x;
-    pos.z = z;
+    pos.x = vxs(vxs(x1,y1,x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
+    pos.z = vxs(vxs(x1,y1,x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
 
     return pos;
 }
@@ -44,8 +37,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     double oZ = game->originZ;
     double pCos = cos(player->rot.x);
     double pSin = sin(player->rot.x);
-    double fovH = 0.16f * game->resY;
-    double fovW = 0.16f * game->resY;
+    double fovH = 0.73f * game->resY;
+    double fovW = .2f * game->resY;
 
     int points[4][2];
     int unseenPoints = 0;
@@ -60,33 +53,35 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double tX = vX * pSin - vZ * pCos;
         double tZ = vX * pCos + vZ * pSin;
 
-        if (tX <= 0) {
+        /*if (tX <= 0) {
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(tX, tZ, -tX, -tZ, -nearside, nearz, -farside, farz);
+            Pos i1 = intersect(-tX, -tZ, tX, tZ, -nearside, nearz, -farside, farz);
             Pos i2 = intersect(tX, tZ, -tX, -tZ, nearside, nearz, farside, farz);
 
+            if (i1.z > 0) {
+                drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tZ, i1.x, i1.z), 5, i1.z);
+                tX = i1.x;
+                tZ = i1.z;
+            } else {
+                drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tZ, i2.x, i2.z), 5, i2.z);
+                tX = i2.x;
+                tZ = i2.z;
+            }
+
             if (tZ < nearz) {
-                if (i1.z > 0) {
-                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.2f, %.2f)", tX, tZ, i1.x, i1.z), 5, i1.z);
-                    tX = i1.x;
-                    tZ = i1.z;
-                } else {
-                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.2f, %.2f)", tX, tZ, i2.x, i2.z), 5, i2.z);
-                    tX = i2.x;
-                    tZ = i2.z;
-                }
+
             } else {
                 drawLabel(format("Tz: (%.2f) NearZ: (%.2f)", tZ, nearz), 5, 300);
             }
 
             unseenPoints++;
-        }
+        }*/
 
         double xScale = fovH / tX, zScale = fovW / tX;
 
-        int screenX = (int) (oX + vX * xScale);
-        int screenY = (int) (oZ - vY * zScale);
+        int screenX = (int) (oX - vX * xScale);
+        int screenY = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
 
         points[i][0] = screenX;
         points[i][1] = screenY;
@@ -128,7 +123,6 @@ void FirstPersonCamera::render() {
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
 
-    // SDL_UpdateWindowSurface(window);
     SDL_RenderPresent(renderer);
 }
 

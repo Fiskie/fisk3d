@@ -88,11 +88,12 @@ void Player::move() {
             newPos.y += -1;
         }
 
+        bool collision = false;
+
+        /*
         list<Brush> *brushes = game->getMap()->getBrushes();
 
         list<Brush>::iterator i;
-
-        bool collision = false;
 
         for (i = brushes->begin(); i != brushes->end(); ++i) {
             if (i->collidesWith(newPos, this->vol)) {
@@ -134,7 +135,7 @@ void Player::move() {
 
             if (!collision)
                 newPos = tmpPos;
-        }
+        }*/
 
         // Update location
         if (!collision) {

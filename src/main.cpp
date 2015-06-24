@@ -73,29 +73,30 @@ int main(int argc, const char *argv[]) {
 
     Wall *wall1 = new Wall();
 
-    wall1->setPoint(0, {-100, 0, -100});
-    wall1->setPoint(1, {-100, 100, -100});
-    wall1->setPoint(2, {0, 100, -100});
-    wall1->setPoint(3, {0, 0, -100});
+    wall1->setPoint(0, {0, 0, -100});
+    wall1->setPoint(1, {0, 100, -100});
+    wall1->setPoint(2, {400, 100, -100});
+    wall1->setPoint(3, {400, 0, -100});
 
-    Wall *wall2 = new Wall(wall1);
+    wall1->translate(-200, 0, 200);
 
-    wall2->translate(100, 0, 0);
+    Wall *wall5 = new Wall(wall1);
 
-    Wall *wall3 = new Wall(wall2);
+    wall5->translate(0, 100, 0);
+    wall5->translatePoint(1, 0, 0, 50);
+    wall5->translatePoint(2, 0, 0, 50);
 
-    wall3->translate(100, 0, 0);
-
-    Wall *wall4 = new Wall(wall3);
-
-    wall4->translate(100, 0, 0);
+    Wall *wall9 = new Wall(wall1);
+    wall9->translatePoint(1, 0, 100, 150);
+    wall9->translatePoint(2, 0, 100, 150);
+    wall9->translatePoint(0, 0, 200, 50);
+    wall9->translatePoint(3, 0, 200, 50);
 
     map->addWall(*wall1);
-    map->addWall(*wall2);
-    map->addWall(*wall3);
-    map->addWall(*wall4);
+    map->addWall(*wall5);
+    map->addWall(*wall9);
 
-    game->setResolution(720, 480);
+    game->setResolution(900, 600);
     game->setMap(map);
 
     game->run();

@@ -82,10 +82,20 @@ void Event::onKeyUp(SDL_Keycode key) {
 }
 
 void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
+    // Warping the mouse back to the middle of the window causes another event to fire; this stops that.
+    if (ignoreMovement) {
+        ignoreMovement = false;
+        return;
+    }
+
     Player *player = game->getPlayer();
 
     player->rot.x -= (float) motion.xrel / 100;
     player->rot.y -= (float) motion.yrel / 100;
+
+    SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
+
+    ignoreMovement = true;
 }
 
 void Event::onMousePress(SDL_MouseButtonEvent event) {
