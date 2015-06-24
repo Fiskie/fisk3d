@@ -148,7 +148,7 @@ void Game::update(double delta) {
 void Game::setup() {
     fpsTimer->start();
     event = new Event(this);
-    camera = new FirstPersonCamera(this);
+    camera = new TopDownCamera(this);
     player = new Player(this);
 
     player->vol.x = 10;

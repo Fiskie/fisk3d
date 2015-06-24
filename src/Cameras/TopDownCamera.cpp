@@ -95,8 +95,8 @@ void TopDownCamera::drawWall(Wall *wall) {
         double tX = vX * pSin - vZ * pCos;
         double tY = vX * pCos + vZ * pSin;
 
-        points[i][0] = (int) (oX + tX);
-        points[i][1] = (int) (oZ + tY);
+        points[i][0] = (int) (oX - tX);
+        points[i][1] = (int) (oZ - tY);
 
         drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), points[i][0], points[i][1]);
     }

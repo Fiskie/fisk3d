@@ -53,8 +53,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         /*if (tY <= 0) {
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(tX, tY, tX, tY, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tY, tX, tY, nearside, nearz, farside, farz);
+            Pos i1 = intersect(tX, tY, -tX, -tY, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, -tX, -tY, nearside, nearz, farside, farz);
 
             if (tY < nearz) {
                 if (i1.y > 0) {
@@ -75,7 +75,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double xScale = fovH / tX, zScale = fovW / tX;
 
         int x = (int) (oX - vX * xScale);
-        int z = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
+        //int z = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
+        int z = (int) (oZ - vY * xScale);
 
         points[i][0] = x;
         points[i][1] = z;
