@@ -76,8 +76,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double xScale = fovH / tY, zScale = fovV / tY;
 
         int x = (int) (oX - vX * xScale);
-        //int z = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
-        int z = (int) (oZ - vY * zScale);
+        int z = (int) (oZ - (vY + tY * player->rot.y) * zScale);
+        //int z = (int) (oZ - vY * zScale);
 
         points[i][0] = x;
         points[i][1] = z;

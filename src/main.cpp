@@ -93,8 +93,8 @@ int main(int argc, const char *argv[]) {
     wall9->translatePoint(3, 0, 200, 50);
 
     map->addWall(*wall1);
-    //map->addWall(*wall5);
-    //map->addWall(*wall9);
+//    map->addWall(*wall5);
+//    map->addWall(*wall9);
 
     game->setResolution(900, 600);
     game->setMap(map);
