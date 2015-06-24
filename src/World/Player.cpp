@@ -61,23 +61,23 @@ void Player::move() {
         }
 
         if (movements[ACTION_MOVE_RIGHT]) {
-            newPos.x += cosine;
-            newPos.z -= sine;
+            newPos.x -= sine;
+            newPos.z += cosine;
         }
 
         if (movements[ACTION_MOVE_LEFT]) {
-            newPos.x -= cosine;
-            newPos.z += sine;
-        }
-
-        if (movements[ACTION_MOVE_FORWARD]) {
-            newPos.x -= sine;
+            newPos.x += sine;
             newPos.z -= cosine;
         }
 
+        if (movements[ACTION_MOVE_FORWARD]) {
+            newPos.x += cosine;
+            newPos.z += sine;
+        }
+
         if (movements[ACTION_MOVE_BACKWARD]) {
-            newPos.x += sine;
-            newPos.z += cosine;
+            newPos.x -= cosine;
+            newPos.z -= sine;
         }
 
         if (movements[ACTION_MOVE_UP]) {

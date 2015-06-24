@@ -14,7 +14,7 @@ Pos intersect(double x1, double y1, double x2, double y2, double x3, double y3, 
     Pos pos;
 
     pos.x = vxs(vxs(x1,y1,x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
-    pos.z = vxs(vxs(x1,y1,x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
+    pos.y = vxs(vxs(x1,y1,x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
 
     return pos;
 }
@@ -33,12 +33,9 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     Player *player = game->getPlayer();
 
     // Fetch some values we're going to be using a lot.
-    double oX = game->originX;
-    double oZ = game->originZ;
-    double pCos = cos(player->rot.x);
-    double pSin = sin(player->rot.x);
-    double fovH = 0.73f * game->resY;
-    double fovW = .2f * game->resY;
+    double oX = game->originX, oZ = game->originZ;
+    double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
+    double fovH = 0.73f * game->resY, fovW = .2f * game->resY;
 
     int points[4][2];
     int unseenPoints = 0;
@@ -51,44 +48,41 @@ void FirstPersonCamera::drawWall(Wall *wall) {
 
         // Rotate the coordinates around the player's view.
         double tX = vX * pSin - vZ * pCos;
-        double tZ = vX * pCos + vZ * pSin;
+        double tY = vX * pCos + vZ * pSin;
 
-        /*if (tX <= 0) {
+        /*if (tY <= 0) {
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(-tX, -tZ, tX, tZ, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tZ, -tX, -tZ, nearside, nearz, farside, farz);
+            Pos i1 = intersect(tX, tY, tX, tY, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, tX, tY, nearside, nearz, farside, farz);
 
-            if (i1.z > 0) {
-                drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tZ, i1.x, i1.z), 5, i1.z);
-                tX = i1.x;
-                tZ = i1.z;
-            } else {
-                drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tZ, i2.x, i2.z), 5, i2.z);
-                tX = i2.x;
-                tZ = i2.z;
+            if (tY < nearz) {
+                if (i1.y > 0) {
+                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i1.x, i1.y), 5, 100);
+                    tX = i1.x;
+                    tY = i1.y;
+                } else {
+                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i2.x, i2.y), 5, 115);
+                    tX = i2.x;
+                    tY = i2.y;
+                }
+
+                unseenPoints++;
             }
-
-            if (tZ < nearz) {
-
-            } else {
-                drawLabel(format("Tz: (%.2f) NearZ: (%.2f)", tZ, nearz), 5, 300);
-            }
-
-            unseenPoints++;
         }*/
 
+        // Perform perspective transformation
         double xScale = fovH / tX, zScale = fovW / tX;
 
-        int screenX = (int) (oX - vX * xScale);
-        int screenY = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
+        int x = (int) (oX - vX * xScale);
+        int z = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
 
-        points[i][0] = screenX;
-        points[i][1] = screenY;
+        points[i][0] = x;
+        points[i][1] = z;
 
         drawLabel(format("Screen: (%d, %d)", points[i][0], points[i][1]), points[i][0], points[i][1]);
         drawLabel(format("World: (%.2f,%.2f,%.2f)", vertice.x, vertice.y, vertice.z), points[i][0], points[i][1] + 15);
-        drawLabel(format("Rotated: (%.2f,%.2f)", tX, tZ), points[i][0], points[i][1] + 30);
+        drawLabel(format("Rotated: (%.2f,%.2f)", tX, tY), points[i][0], points[i][1] + 30);
         drawLabel(format("Relative: (%.2f,%.2f,%.2f)", vX, vY, vZ), points[i][0], points[i][1] + 45);
         drawLabel(format("Scale: (%.2f,%.2f)", xScale, zScale), points[i][0], points[i][1] + 60);
     }

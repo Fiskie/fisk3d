@@ -92,11 +92,11 @@ void TopDownCamera::drawWall(Wall *wall) {
         double vZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
-        double tX = vX * pCos - vZ * pSin;
-        double tZ = vX * pSin + vZ * pCos;
+        double tX = vX * pSin - vZ * pCos;
+        double tY = vX * pCos + vZ * pSin;
 
         points[i][0] = (int) (oX + tX);
-        points[i][1] = (int) (oZ + tZ);
+        points[i][1] = (int) (oZ + tY);
 
         drawLabel(format("(%.2f,%.2f)", vertice.x, vertice.z), points[i][0], points[i][1]);
     }

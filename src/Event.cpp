@@ -46,6 +46,10 @@ void Event::onKeyDown(SDL_Keycode key) {
             break;
         case SDLK_c:
             game->changeCamera();
+            break;
+        case SDLK_q:
+            game->stop();
+            break;
     }
 }
 
