@@ -35,7 +35,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     // Fetch some values we're going to be using a lot.
     double oX = game->originX, oZ = game->originZ;
     double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
-    double fovH = 0.73f * game->resY, fovW = .2f * game->resY;
+    double fovH = 0.73f * game->resY, fovV = .2f * game->resY;
 
     int points[4][2];
     int unseenPoints = 0;
@@ -47,14 +47,15 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double vX = vertice.x - player->loc.x, vY = vertice.y - player->loc.y, vZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
-        double tX = vX * pSin - vZ * pCos;
-        double tY = vX * pCos + vZ * pSin;
+        double tX = vX * pSin - vZ * pCos, tY = vX * pCos + vZ * pSin;
 
-        /*if (tY <= 0) {
+        if (tY <= 0) {
+            drawLabel(format("WARNING: bad vector (%.2f, %.2f)", tX, tY), 5, 100);
+            /*
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(tX, tY, -tX, -tY, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tY, -tX, -tY, nearside, nearz, farside, farz);
+            Pos i1 = intersect(tX, tY, tX, -tY, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, tX, -tY, nearside, nearz, farside, farz);
 
             if (tY < nearz) {
                 if (i1.y > 0) {
@@ -68,15 +69,15 @@ void FirstPersonCamera::drawWall(Wall *wall) {
                 }
 
                 unseenPoints++;
-            }
-        }*/
+            }*/
+        }
 
         // Perform perspective transformation
-        double xScale = fovH / tX, zScale = fovW / tX;
+        double xScale = fovH / tY, zScale = fovV / tY;
 
         int x = (int) (oX - vX * xScale);
         //int z = (int) (oZ - (vY + vZ * player->rot.y) * zScale);
-        int z = (int) (oZ - vY * xScale);
+        int z = (int) (oZ - vY * zScale);
 
         points[i][0] = x;
         points[i][1] = z;

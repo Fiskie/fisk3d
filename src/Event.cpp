@@ -94,8 +94,8 @@ void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
 
     Player *player = game->getPlayer();
 
-    player->rot.x -= (float) motion.xrel / 100;
-    player->rot.y -= (float) motion.yrel / 100;
+    player->rot.x -= (float) motion.xrel * -0.01;
+    player->rot.y -= (float) motion.yrel * -0.01;
 
     SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
 
