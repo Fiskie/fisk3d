@@ -73,28 +73,34 @@ int main(int argc, const char *argv[]) {
 
     Wall *wall1 = new Wall();
 
-    wall1->setPoint(0, {0, 0, -100});
-    wall1->setPoint(1, {0, 100, -100});
-    wall1->setPoint(2, {400, 100, -100});
-    wall1->setPoint(3, {400, 0, -100});
+    wall1->setPoint(0, {0, 0, 0});
+    wall1->setPoint(1, {0, 100, 0});
+    wall1->setPoint(2, {400, 100, 0});
+    wall1->setPoint(3, {400, 0, 0});
 
-    wall1->translate(-200, 0, 200);
+    Wall *wall2 = new Wall(wall1);
 
-    Wall *wall5 = new Wall(wall1);
+    wall2->translate(0, 100, 0);
+    wall2->translatePoint(1, 0, -50, 50);
+    wall2->translatePoint(2, 0, -50, 50);
 
-    wall5->translate(0, 100, 0);
-    wall5->translatePoint(1, 0, 0, 50);
-    wall5->translatePoint(2, 0, 0, 50);
+    Wall *wall3 = new Wall(wall1);
+    wall3->translatePoint(1, 0, 50, 150);
+    wall3->translatePoint(2, 0, 50, 150);
+    wall3->translatePoint(0, 0, 150, 50);
+    wall3->translatePoint(3, 0, 150, 50);
 
-    Wall *wall9 = new Wall(wall1);
-    wall9->translatePoint(1, 0, 100, 150);
-    wall9->translatePoint(2, 0, 100, 150);
-    wall9->translatePoint(0, 0, 200, 50);
-    wall9->translatePoint(3, 0, 200, 50);
+    Wall *floor = new Wall();
+
+    floor->setPoint(0, {0, 0, 0});
+    floor->setPoint(1, {0, 0, 200});
+    floor->setPoint(2, {400, 0, 200});
+    floor->setPoint(3, {400, 0, 0});
 
     map->addWall(*wall1);
-//    map->addWall(*wall5);
-//    map->addWall(*wall9);
+    map->addWall(*wall2);
+    map->addWall(*wall3);
+    map->addWall(*floor);
 
     game->setResolution(900, 600);
     game->setMap(map);

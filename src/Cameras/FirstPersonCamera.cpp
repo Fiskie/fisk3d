@@ -35,7 +35,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     // Fetch some values we're going to be using a lot.
     double oX = game->originX, oZ = game->originZ;
     double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
-    double fovH = 0.73f * game->resY, fovV = .2f * game->resY;
+    double fovH = .4f * game->resY, fovV = .4f * game->resY;
 
     int points[4][2];
     int unseenPoints = 0;
@@ -50,43 +50,41 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double tX = vX * pSin - vZ * pCos, tY = vX * pCos + vZ * pSin;
 
         if (tY <= 0) {
-            drawLabel(format("WARNING: bad vector (%.2f, %.2f)", tX, tY), 5, 100);
-            /*
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(tX, tY, tX, -tY, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tY, tX, -tY, nearside, nearz, farside, farz);
+            Pos i1 = intersect(tX, tY, tX, tY + 0.00000001, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, tX, tY - 0.00000001, nearside, nearz, farside, farz);
 
             if (tY < nearz) {
                 if (i1.y > 0) {
-                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i1.x, i1.y), 5, 100);
+                    //drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i1.x, i1.y), 5, 100);
                     tX = i1.x;
                     tY = i1.y;
                 } else {
-                    drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i2.x, i2.y), 5, 115);
+                    //drawLabel(format("Updating coords from (%.2f, %.2f) to (%.9f, %.9f)", tX, tY, i2.x, i2.y), 5, 115);
                     tX = i2.x;
                     tY = i2.y;
                 }
 
                 unseenPoints++;
-            }*/
+            }
         }
 
         // Perform perspective transformation
         double xScale = fovH / tY, zScale = fovV / tY;
 
-        int x = (int) (oX - vX * xScale);
+        int x = (int) (oX - tX * xScale);
         int z = (int) (oZ - (vY + tY * player->rot.y) * zScale);
         //int z = (int) (oZ - vY * zScale);
 
         points[i][0] = x;
         points[i][1] = z;
 
-        drawLabel(format("Screen: (%d, %d)", points[i][0], points[i][1]), points[i][0], points[i][1]);
-        drawLabel(format("World: (%.2f,%.2f,%.2f)", vertice.x, vertice.y, vertice.z), points[i][0], points[i][1] + 15);
-        drawLabel(format("Rotated: (%.2f,%.2f)", tX, tY), points[i][0], points[i][1] + 30);
-        drawLabel(format("Relative: (%.2f,%.2f,%.2f)", vX, vY, vZ), points[i][0], points[i][1] + 45);
-        drawLabel(format("Scale: (%.2f,%.2f)", xScale, zScale), points[i][0], points[i][1] + 60);
+//        drawLabel(format("Screen: (%d, %d)", points[i][0], points[i][1]), points[i][0], points[i][1]);
+//        drawLabel(format("World: (%.2f,%.2f,%.2f)", vertice.x, vertice.y, vertice.z), points[i][0], points[i][1] + 15);
+//        drawLabel(format("Rotated: (%.2f,%.2f)", tX, tY), points[i][0], points[i][1] + 30);
+//        drawLabel(format("Relative: (%.2f,%.2f,%.2f)", vX, vY, vZ), points[i][0], points[i][1] + 45);
+//        drawLabel(format("Scale: (%.2f,%.2f)", xScale, zScale), points[i][0], points[i][1] + 60);
     }
 
     if (unseenPoints == 4)
@@ -133,5 +131,4 @@ void FirstPersonCamera::drawDebugInfo() {
     drawLabel("First Person Camera", 5, 20);
     drawLabel(format("Pos: (%.2f,%.2f,%.2f)", player->loc.x, player->loc.y, player->loc.z), 5, 35);
     drawLabel(format("Rot: (%.2f,%.2f,%.2f)", player->rot.x, player->rot.y, player->rot.z), 5, 50);
-    drawLabel(format("xSin, xCos: (%.2f,%.2f)", sin(player->rot.x), cos(player->rot.x)), 5, 65);
 }
