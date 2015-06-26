@@ -108,6 +108,8 @@ void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
     else if (player->rot.y < -10)
         player->rot.y = -10;
 
+    player->xRotCos = cos(player->rot.x);
+    player->xRotSin = sin(player->rot.x);
 
     SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
 

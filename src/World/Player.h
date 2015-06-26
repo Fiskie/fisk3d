@@ -29,6 +29,9 @@ private:
     int speed;
     int sprintSpeed;
 public:
+    double xRotCos;
+    double xRotSin;
+
     int getSpeed() const;
 
     void setSpeed(int speed);

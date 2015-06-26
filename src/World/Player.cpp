@@ -52,9 +52,10 @@ void Player::move() {
     if (movements[ACTION_CROUCH])
         speed /= 2;
 
+    double sine = xRotSin;
+    double cosine = xRotCos;
+
     while (iteration < speed) {
-        double sine = sin(rot.x);
-        double cosine = cos(rot.x);
 
         if (speed - iteration < 1) {
             sine /= iteration;
@@ -68,8 +69,8 @@ void Player::move() {
         newPos.z = loc.z;
 
         if ((movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT]) && (movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD])) {
-            cosine *= 0.75;
-            sine *= 0.75;
+            cosine *= 0.9;
+            sine *= 0.9;
         }
 
         if (movements[ACTION_MOVE_RIGHT]) {

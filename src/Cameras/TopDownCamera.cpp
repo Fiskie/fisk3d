@@ -40,8 +40,7 @@ void TopDownCamera::drawBrush(Brush *brush) {
     // Fetch some values we're going to be using a lot.
     double oX = game->originX;
     double oZ = game->originZ;
-    double pCos = cos(player->rot.x);
-    double pSin = sin(player->rot.x);
+    double pCos = player->xRotCos, pSin = player->xRotSin;
 
     // Get the relative coordinates so the brush gets drawn in the right place.
     double rX = brush->loc.x - player->loc.x - brush->vol.x / 2;
@@ -78,7 +77,7 @@ void TopDownCamera::drawWall(Wall *wall) {
 
     // Fetch some values we're going to be using a lot.
     double oX = game->originX, oZ = game->originZ;
-    double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
+    double pCos = player->xRotCos, pSin = player->xRotSin;
 
     int points[4][2];
 

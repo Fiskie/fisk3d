@@ -34,7 +34,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
 
     // Fetch some values we're going to be using a lot.
     double oX = game->originX, oZ = game->originZ;
-    double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
+    double pCos = player->xRotCos, pSin = player->xRotSin;
     double fovH = .3f * game->resY, fovV = .3f * game->resY;
 
     int points[4][2];
