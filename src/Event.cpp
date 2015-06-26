@@ -97,6 +97,12 @@ void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
     player->rot.x -= (float) motion.xrel * -0.01;
     player->rot.y -= (float) motion.yrel * -0.01;
 
+    if (player->rot.y > 10)
+        player->rot.y = 10;
+    else if (player->rot.y < -10)
+        player->rot.y = -10;
+
+
     SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
 
     ignoreMovement = true;

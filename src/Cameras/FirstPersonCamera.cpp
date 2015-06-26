@@ -35,7 +35,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
     // Fetch some values we're going to be using a lot.
     double oX = game->originX, oZ = game->originZ;
     double pCos = cos(player->rot.x), pSin = sin(player->rot.x);
-    double fovH = .4f * game->resY, fovV = .4f * game->resY;
+    double fovH = .3f * game->resY, fovV = .3f * game->resY;
 
     int points[4][2];
     int unseenPoints = 0;
@@ -52,8 +52,8 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         if (tY <= 0) {
             float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
-            Pos i1 = intersect(tX, tY, tX, tY + 0.00000001, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tY, tX, tY - 0.00000001, nearside, nearz, farside, farz);
+            Pos i1 = intersect(tX, tY, tX, tY - 0.00000001, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, tX, tY + 0.00000001, nearside, nearz, farside, farz);
 
             if (tY < nearz) {
                 if (i1.y > 0) {
