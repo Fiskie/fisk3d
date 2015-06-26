@@ -56,3 +56,7 @@ void Camera::drawLabel(string label, int x, int y) {
 
     SDL_DestroyTexture(tex);
 }
+
+Camera::~Camera() {
+
+}

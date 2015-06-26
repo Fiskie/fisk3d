@@ -37,6 +37,8 @@ private:
     // list<Camera> *cameras; todo
     Camera *camera;
 public:
+    int frames;
+
     ~Game();
 
     Game();

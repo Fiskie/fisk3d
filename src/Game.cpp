@@ -34,9 +34,6 @@ void Game::initialize() {
     window = SDL_CreateWindow("fisk3d", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resX, resY,
                               SDL_WINDOW_SHOWN);
 
-    // Disable the cursor...
-    // SDL_ShowCursor(0);
-
     if (window == NULL) {
         char err[] = "Window could not be created! Error: ";
         strcat(err, SDL_GetError());
@@ -62,10 +59,9 @@ void Game::run() {
         long prev = SDL_GetTicks();
 
         const double UPDATE_RATE = 60;
-        const double RENDER_RATE = 60;
         const double TICK_TIME = 1 / UPDATE_RATE;
 
-        int frames = 0;
+        frames = 0;
 
         while (running) {
             long now = SDL_GetTicks();
@@ -89,7 +85,7 @@ void Game::run() {
                 // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
                 // printf("FPS: %f\n", (now / (double) frames));
             } else {
-                SDL_Delay(TICK_TIME - delta);
+                SDL_Delay((Uint32) (TICK_TIME - delta));
             }
         }
     } catch (FatalGameException *ex) {

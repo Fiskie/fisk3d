@@ -4,21 +4,6 @@
 
 #include "FirstPersonCamera.h"
 
-#define min(a, b)           a < b ? a : b
-#define max(a, b)           a < b ? a : b
-#define clamp(a, mi, ma)    min(max(a, mi), ma)
-#define vxs(x1, y1, x2, y2) ((x1)*(y2) - (x2)*(y1))
-#define overlap(a0, a1, b0, b1) (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0, a1))
-
-Pos intersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
-    Pos pos;
-
-    pos.x = vxs(vxs(x1,y1,x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
-    pos.y = vxs(vxs(x1,y1,x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4));
-
-    return pos;
-}
-
 void FirstPersonCamera::drawUI() {
     SDL_Renderer *renderer = game->getRenderer();
 
@@ -108,7 +93,9 @@ void FirstPersonCamera::render() {
 
     list<Wall>::iterator j;
 
-    for (j = walls->begin(); j != walls->end(); ++j) {
+    auto begin = walls->begin(), end = walls->end();
+
+    for (j = begin; j != end; ++j) {
         drawWall(&(*j));
     }
 
@@ -129,6 +116,6 @@ void FirstPersonCamera::drawDebugInfo() {
 
     drawLabel("fisk3d", 5, 5);
     drawLabel("First Person Camera", 5, 20);
-    drawLabel(format("Pos: (%.2f,%.2f,%.2f)", player->loc.x, player->loc.y, player->loc.z), 5, 35);
-    drawLabel(format("Rot: (%.2f,%.2f,%.2f)", player->rot.x, player->rot.y, player->rot.z), 5, 50);
+    drawLabel(format("Pos: (%.2f,%.2f,%.2f), Rot: (%.2f,%.2f,%.2f)", player->loc.x, player->loc.y, player->loc.z, player->rot.x, player->rot.y, player->rot.z), 5, 35);
+    drawLabel(format("Frame: %d", game->frames), 5, 50);
 }

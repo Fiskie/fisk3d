@@ -25,6 +25,8 @@ public:
     virtual void render() = 0;
 
     void drawLabel(string label, int x, int y);
+
+    virtual ~Camera();
 };
 
 #endif //FISK3D_CAMERA_H

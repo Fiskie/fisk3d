@@ -34,10 +34,6 @@ bool Player::isMoving() {
     return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD] || movements[ACTION_MOVE_UP] || movements[ACTION_MOVE_DOWN];
 }
 
-bool intersection(Player player, Wall wall, Pos axis1, Pos axis2) {
-
-}
-
 void Player::move() {
     if (!isMoving())
         return;
@@ -102,6 +98,12 @@ void Player::move() {
         }
 
         bool collision = false;
+
+        list<Wall> *walls = game->getMap()->walls;
+
+        list<Wall>::iterator i;
+
+        //auto begin = walls->begin(), end = walls->end();
 
         /*
         list<Brush> *brushes = game->getMap()->getBrushes();

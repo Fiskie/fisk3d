@@ -11,11 +11,10 @@
 #include <list>
 
 class Map {
-private:
+public:
     std::list<Brush> *brushes;
     std::list<Wall> *walls;
 
-public:
     Map();
 
     void addBrush(Brush brush);
