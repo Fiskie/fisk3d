@@ -12,6 +12,7 @@
 #define ACTION_SPRINT 4
 #define ACTION_MOVE_UP 5
 #define ACTION_MOVE_DOWN 6
+#define ACTION_CROUCH 7
 
 #include "Entity.h"
 #include <map>
@@ -45,6 +46,8 @@ public:
     void move();
 
     bool isMoving();
+
+    double getCameraHeight();
 };
 
 #endif //FISK3D_PLAYER_H

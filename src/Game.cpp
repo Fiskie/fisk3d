@@ -156,7 +156,7 @@ void Game::setup() {
     player->vol.z = 10;
 
     player->loc.x = -50;
-    player->loc.y = 50;
+    player->loc.y = 0;
     player->loc.z = -50;
 
     SDL_ShowCursor(0);

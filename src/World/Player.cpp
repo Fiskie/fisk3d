@@ -13,9 +13,14 @@ Player::Player(Game* game) {
     movements[ACTION_MOVE_BACKWARD] = false;
     movements[ACTION_MOVE_UP] = false;
     movements[ACTION_MOVE_DOWN] = false;
+    movements[ACTION_CROUCH] = false;
     speed = 5;
     sprintSpeed = 10;
 };
+
+double Player::getCameraHeight() {
+    return loc.y + (movements[ACTION_CROUCH] ? 50 : 80);
+}
 
 void Player::addMovement(int id) {
     movements[id] = true;
@@ -29,6 +34,10 @@ bool Player::isMoving() {
     return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD] || movements[ACTION_MOVE_UP] || movements[ACTION_MOVE_DOWN];
 }
 
+bool intersection(Player player, Wall wall, Pos axis1, Pos axis2) {
+
+}
+
 void Player::move() {
     if (!isMoving())
         return;
@@ -39,6 +48,9 @@ void Player::move() {
 
     if (movements[ACTION_SPRINT])
         speed = sprintSpeed;
+
+    if (movements[ACTION_CROUCH])
+        speed /= 2;
 
     while (iteration < speed) {
         double sine = sin(rot.x);

@@ -44,7 +44,7 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         Pos vertice = wall->getPoint(i);
 
         // Get the coordinates relative to the player.
-        double vX = vertice.x - player->loc.x, vY = vertice.y - player->loc.y, vZ = vertice.z - player->loc.z;
+        double vX = vertice.x - player->loc.x, vY = vertice.y - player->loc.y - player->getCameraHeight(), vZ = vertice.z - player->loc.z;
 
         // Rotate the coordinates around the player's view.
         double tX = vX * pSin - vZ * pCos, tY = vX * pCos + vZ * pSin;
