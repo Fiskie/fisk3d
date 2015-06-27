@@ -35,10 +35,12 @@ void FirstPersonCamera::drawWall(Wall *wall) {
         double tX = vX * pSin - vZ * pCos, tY = vX * pCos + vZ * pSin;
 
         if (tY <= 0) {
-            float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
+            drawLabel(format("tX: %.2f tY: %.2f", tX, tY), 5, 100);
 
-            Pos i1 = intersect(tX, tY, tX, tY - 0.00000001, -nearside, nearz, -farside, farz);
-            Pos i2 = intersect(tX, tY, tX, tY + 0.00000001, nearside, nearz, farside, farz);
+            float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20;
+
+            Pos i1 = intersect(tX, tY, tX, tY + 1e-1f, -nearside, nearz, -farside, farz);
+            Pos i2 = intersect(tX, tY, tX, tY - 1e-1f, nearside, nearz, farside, farz);
 
             if (tY < nearz) {
                 if (i1.y > 0) {

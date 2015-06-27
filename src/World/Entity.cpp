@@ -5,10 +5,11 @@
 #include "../Game.h"
 
 std::string Entity::posAsString() {
-    return format("Loc (%.2f, %.2f, %.2f) Rot (%.2f, %.2f, %.2f) Vol (%.2f, %.2f, %.2f)",
+    return format("Loc (%.2f, %.2f, %.2f) Rot (%.2f, %.2f, %.2f) Vol (%.2f, %.2f, %.2f) Vel (%.2f, %.2f, %.2f)",
                   loc.x, loc.y, loc.z,
                   rot.x, rot.y, rot.z,
-                  vol.x, vol.y, vol.z
+                  vol.x, vol.y, vol.z,
+                  vel.x, vel.y, vel.z
     );
 }
 

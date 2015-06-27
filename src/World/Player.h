@@ -28,6 +28,9 @@ private:
     Game *game;
     int speed;
     int sprintSpeed;
+    int crouchSpeed;
+
+    void accelerate();
 public:
     double xRotCos;
     double xRotSin;
@@ -51,6 +54,8 @@ public:
     bool isMoving();
 
     double getCameraHeight();
+
+    void decelerate();
 };
 
 #endif //FISK3D_PLAYER_H

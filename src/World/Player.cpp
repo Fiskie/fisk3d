@@ -16,6 +16,7 @@ Player::Player(Game* game) {
     movements[ACTION_CROUCH] = false;
     speed = 5;
     sprintSpeed = 10;
+    crouchSpeed = 2;
 };
 
 double Player::getCameraHeight() {
@@ -34,7 +35,79 @@ bool Player::isMoving() {
     return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD] || movements[ACTION_MOVE_UP] || movements[ACTION_MOVE_DOWN];
 }
 
+void Player::accelerate() {
+    double sine = xRotSin, cosine = xRotCos;
+
+    double maxVelocity = speed;
+
+    if (movements[ACTION_SPRINT])
+        maxVelocity = sprintSpeed;
+
+    if (movements[ACTION_CROUCH])
+        maxVelocity = crouchSpeed;
+
+    if (movements[ACTION_MOVE_RIGHT]) {
+        vel.x -= sine;
+        vel.z += cosine;
+    }
+
+    if (movements[ACTION_MOVE_LEFT]) {
+        vel.x += sine;
+        vel.z -= cosine;
+    }
+
+    if (movements[ACTION_MOVE_FORWARD]) {
+        vel.x += cosine;
+        vel.z += sine;
+    }
+
+    if (movements[ACTION_MOVE_BACKWARD]) {
+        vel.x -= cosine;
+        vel.z -= sine;
+    }
+
+    if (movements[ACTION_MOVE_UP]) {
+        vel.y += 1;
+    }
+
+    if (movements[ACTION_MOVE_DOWN]) {
+        vel.y += -1;
+    }
+
+    // Clamp values
+    if (vel.x > maxVelocity)
+        vel.x = maxVelocity;
+    else if (vel.x < -maxVelocity)
+        vel.x = -maxVelocity;
+
+    if (vel.z > maxVelocity)
+        vel.z = maxVelocity;
+    else if (vel.z < -maxVelocity)
+        vel.z = -maxVelocity;
+}
+
+void Player::decelerate() {
+    if (vel.x > 0.1 || vel.x < -0.1)
+        vel.x *= 0.80;
+    else
+        vel.x = 0;
+
+    if (vel.z > 0.1 || vel.z < -0.1)
+        vel.z *= 0.80;
+    else
+        vel.z = 0;
+}
+
 void Player::move() {
+    accelerate();
+
+    loc.x += vel.x;
+    loc.y += vel.y;
+    loc.z += vel.z;
+
+    decelerate();
+
+    /*
     if (!isMoving())
         return;
 
@@ -152,6 +225,7 @@ void Player::move() {
                 newPos = tmpPos;
         }*/
 
+    /*
         // Update location
         if (!collision) {
             loc.x = newPos.x;
@@ -160,7 +234,7 @@ void Player::move() {
         }
 
         iteration++;
-    }
+    }*/
 }
 
 void Player::setSpeed(int speed) {

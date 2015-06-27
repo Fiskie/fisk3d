@@ -10,9 +10,7 @@
 
 class Entity {
 public:
-    Pos loc;
-    Pos rot;
-    Pos vol;
+    Pos loc, rot, vol, vel;
     const char* name;
 
     std::string posAsString();
