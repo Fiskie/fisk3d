@@ -75,6 +75,8 @@ public:
     int resY;
 
     void changeCamera();
+
+    float avgFPS;
 };
 
 //missing string printf

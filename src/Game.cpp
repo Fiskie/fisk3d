@@ -52,6 +52,9 @@ void Game::initialize() {
 }
 
 void Game::run() {
+    fpsTimer = new Timer();
+    Timer *capTimer = new Timer();
+
     try {
         initialize();
 
@@ -59,11 +62,20 @@ void Game::run() {
         long prev = SDL_GetTicks();
 
         const double UPDATE_RATE = 60;
-        const double TICK_TIME = 1 / UPDATE_RATE;
+        const double TICK_TIME = 1000 / UPDATE_RATE;
 
         frames = 0;
 
+        fpsTimer->start();
+
         while (running) {
+            capTimer->start();
+
+            avgFPS = frames / ( fpsTimer->getTicks() / 1000.f );
+
+            if (avgFPS > 2000000)
+                avgFPS = 0;
+
             long now = SDL_GetTicks();
             long updateLength = now - prev;
 
@@ -71,21 +83,23 @@ void Game::run() {
 
             prev = now;
 
-            if (delta >= TICK_TIME) {
-                event->handle();
+            event->handle();
 
-                if (!running)
-                    break;
+            if (!running)
+                break;
 
-                update(delta);
-                render();
-                delta = 0;
-                frames++;
+            update(delta);
+            render();
+            delta = 0;
+            frames++;
 
-                // printf("Frames: %d, Now: %d, Update length: %d\n", frames, now, updateLength);
-                // printf("FPS: %f\n", (now / (double) frames));
-            } else {
-                SDL_Delay((Uint32) (TICK_TIME - delta));
+            // If frame finished early
+            int frameTicks = capTimer->getTicks();
+
+            if (frameTicks < TICK_TIME)
+            {
+                //Wait remaining time
+                SDL_Delay((Uint32) TICK_TIME - frameTicks);
             }
         }
     } catch (FatalGameException *ex) {
