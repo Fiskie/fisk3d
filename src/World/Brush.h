@@ -2,8 +2,7 @@
 // Created by Fiskie on 24/05/15.
 //
 
-#ifndef FISK3D_BRUSH_H
-#define FISK3D_BRUSH_H
+#pragma once 
 
 #include "Entity.h"
 
@@ -12,4 +11,10 @@ public:
     void placeAt(double x, double y, double z);
 };
 
-#endif //FISK3D_BRUSH_H
+#include "Brush.h"
+
+void Brush::placeAt(double x, double y, double z) {
+    this->loc.x = x - this->vol.x / 2;
+    this->loc.y = y - this->vol.y / 2;
+    this->loc.z = z - this->vol.z / 2;
+}

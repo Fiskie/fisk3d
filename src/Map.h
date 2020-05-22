@@ -2,8 +2,7 @@
 // Created by Fiskie on 25/05/15.
 //
 
-#ifndef FISK3D_MAP_H
-#define FISK3D_MAP_H
+#pragma once 
 
 #include "World/Brush.h"
 #include "World/Wall.h"
@@ -28,7 +27,34 @@ public:
         return walls;
     }
 
-    bool isFree(Pos pos);
+    bool isFree(Vector3 pos);
 };
 
-#endif //FISK3D_MAP_H
+//
+// Created by Fiskie on 25/05/15.
+//
+
+void Map::addBrush(Brush brush) {
+    brushes->push_back(brush);
+}
+
+void Map::addWall(Wall wall) {
+    walls->push_back(wall);
+}
+
+Map::Map() {
+    brushes = new std::list<Brush>();
+    walls = new std::list<Wall>();
+}
+
+bool Map::isFree(Vector3 pos) {
+    std::list<Brush>::iterator i;
+
+    for (i = brushes->begin(); i != brushes->end(); ++i) {
+        if (pos.x > i->loc.x && pos.x < i->loc.x + i->vol.x &&
+                pos.z > i->loc.z && pos.z < i->loc.z + i->vol.z)
+            return false;
+    }
+
+    return true;
+}

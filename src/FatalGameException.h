@@ -2,8 +2,7 @@
 // Created by Fiskie on 24/05/15.
 //
 
-#ifndef FISK3D_FATALGAMEEXCEPTION_H
-#define FISK3D_FATALGAMEEXCEPTION_H
+#pragma once 
 
 #include <exception>
 #include <stdio.h>
@@ -30,6 +29,3 @@ public:
         return strcat(str, message);
     }
 };
-
-
-#endif //FISK3D_FATALGAMEEXCEPTION_H
