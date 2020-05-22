@@ -52,15 +52,14 @@ void generateTunnel(Map *map, Vector3 o, int length, int width, int height) {
 }
 
 int main(int argc, const char *argv[]) {
+    // will segfault if not using new atm probably because it's still using a destructor for teardown or something
     Game *game = new Game();
 
-    Map *map = new Map();
+    Map map;
 
-    generateTunnel(map, {100, 0, 100}, 400, 100, 200);
-
-    generateTunnel(map, {100, 0, 250}, 600, 200, 300);
-
-    generateTunnel(map, {100, 0, 500}, 200, 400, 100);
+    generateTunnel(&map, {100, 0, 100}, 400, 100, 200);
+    generateTunnel(&map, {100, 0, 250}, 600, 200, 300);
+    generateTunnel(&map, {100, 0, 500}, 200, 400, 100);
 
     Wall floor;
     floor.setPoint(0, {100, 0, -400});
@@ -68,10 +67,10 @@ int main(int argc, const char *argv[]) {
     floor.setPoint(2, {-400, 0, 900});
     floor.setPoint(3, {100, 0, 900});
 
-    map->addWall(floor);
+    map.addWall(floor);
 
     game->setResolution(900, 600);
-    game->setMap(map);
+    game->map = &map;
 
     game->run();
     return 0;

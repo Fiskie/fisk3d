@@ -13,6 +13,7 @@
 
 #include "Timer.h"
 #include "Map.h"
+#include "World/state.cpp"
 #include "World/Player.h"
 #include <list>
 #include "FatalGameException.h"
@@ -21,31 +22,42 @@ class Event;
 
 class Map;
 
-class Camera;
-
 class Player;
 
 class Wall;
 
-class Game {
+class Game
+{
 private:
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     Event *event = NULL;
     Timer fpsTimer;
     bool running;
+    
+    TTF_Font *font;
+
+public:
+    State *state;
     Map *map;
     Player *player;
-    // list<Camera> *cameras; todo
-    Camera *camera;
-public:
+
     int frames;
 
-    ~Game();
+    ~Game()
+    {
+        this->onExit();
+    }
 
-    Game();
+    Game()
+    {
+        running = true;
+    }
 
-    void update(double delta);
+    void update(double delta)
+    {
+        player->move();
+    }
 
     void render();
 
@@ -57,78 +69,107 @@ public:
 
     virtual void onExit();
 
-    Map *getMap();
+    SDL_Window *getWindow()
+    {
+        return window;
+    }
 
-    void setMap(Map *map);
+    SDL_Renderer *getRenderer()
+    {
+        return renderer;
+    }
 
-    SDL_Window *getWindow();
+    void stop()
+    {
+        running = false;
+    }
 
-    SDL_Renderer *getRenderer();
+    SDL_Rect defaultViewport()
+    {
+        int w, h;
+        SDL_GetRendererOutputSize(renderer, &w, &h);
+        return SDL_Rect{0, 0, w, h};
+    }
 
-    Player *getPlayer();
-
-    void stop();
-
-    void setResolution(int x, int y);
+    void setResolution(int x, int y)
+    {
+        this->resX = x;
+        this->resY = y;
+        this->originX = x / 2;
+        this->originZ = y / 2;
+    }
 
     int originX;
     int originZ;
     int resX;
     int resY;
 
-    void changeCamera();
+    void changeCamera()
+    {
+        // whatever
+    }
 
     float avgFPS;
 };
 
 #include "Event.h"
-#include "Cameras/Camera.h"
 #include "Cameras/TopDownCamera.h"
-#include "Cameras/FirstPersonCamera.h"
+#include "Cameras/PerspectiveCamera.h"
 
-Game::Game() {
-    running = true;
-}
-
-void Game::initialize() {
-    if (TTF_Init() < 0) {
+void Game::initialize()
+{
+    if (TTF_Init() < 0)
+    {
         char err[] = "SDL_TTF could not initialize! Error: ";
         strcat(err, TTF_GetError());
-        throw new FatalGameException(err);
+        throw FatalGameException(err);
     }
 
     // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
         char err[] = "SDL could not initialize! Error: ";
         strcat(err, SDL_GetError());
-        throw new FatalGameException(err);
+        throw FatalGameException(err);
     }
 
     // Create window
     window = SDL_CreateWindow("fisk3d", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resX, resY,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_GRABBED);
 
-    if (window == NULL) {
+    if (window == NULL)
+    {
         char err[] = "Window could not be created! Error: ";
         strcat(err, SDL_GetError());
-        throw new FatalGameException(err);
+        throw FatalGameException(err);
     }
 
     renderer = SDL_CreateRenderer(window, 0, 0);
 
-    if (renderer == NULL) {
+    if (renderer == NULL)
+    {
         char err[] = "Renderer could not be created! Error: ";
         strcat(err, SDL_GetError());
-        throw new FatalGameException(err);
+        throw FatalGameException(err);
+    }
+
+    font = TTF_OpenFont("OpenSans-Regular.ttf", 11);
+
+    if (font == NULL)
+    {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+        throw FatalGameException("Could not load required font.");
     }
 
     setup();
 }
 
-void Game::run() {
-    Timer *capTimer = new Timer();
+void Game::run()
+{
+    Timer capTimer;
 
-    try {
+    try
+    {
         initialize();
 
         double delta = 0;
@@ -141,10 +182,11 @@ void Game::run() {
 
         fpsTimer.start();
 
-        while (running) {
-            capTimer->start();
+        while (running)
+        {
+            capTimer.start();
 
-            avgFPS = frames / ( fpsTimer.getTicks() / 1000.f );
+            avgFPS = frames / (fpsTimer.getTicks() / 1000.f);
 
             if (avgFPS > 2000000)
                 avgFPS = 0;
@@ -152,7 +194,7 @@ void Game::run() {
             long now = SDL_GetTicks();
             long updateLength = now - prev;
 
-            delta += ((double) updateLength / 1000);
+            delta += ((double)updateLength / 1000);
 
             prev = now;
 
@@ -167,26 +209,25 @@ void Game::run() {
             frames++;
 
             // If frame finished early
-            int frameTicks = capTimer->getTicks();
+            int frameTicks = capTimer.getTicks();
 
             if (frameTicks < TICK_TIME)
             {
                 //Wait remaining time
-                SDL_Delay((Uint32) TICK_TIME - frameTicks);
+                SDL_Delay((Uint32)TICK_TIME - frameTicks);
             }
         }
-    } catch (FatalGameException *ex) {
+    }
+    catch (FatalGameException *ex)
+    {
         printf("%s\n", ex->what());
     }
 
     onExit();
 }
 
-void Game::stop() {
-    running = false;
-}
-
-void Game::onExit() {
+void Game::onExit()
+{
     // Destroy window
     SDL_DestroyWindow(window);
 
@@ -196,91 +237,57 @@ void Game::onExit() {
 
     delete player;
     delete event;
-    delete camera;
 
     // Quit SDL subsystems
     SDL_Quit();
     TTF_Quit();
 }
 
-SDL_Window *Game::getWindow() {
-    return window;
-}
-
-SDL_Renderer *Game::getRenderer() {
-    return renderer;
-}
-
-void Game::setMap(Map *map) {
-    this->map = map;
-}
-
-Map *Game::getMap() {
-    return map;
-}
-
-void Game::render() {
+void Game::render()
+{
     SDL_RenderClear(renderer);
 
-    camera->render();
+    PerspectiveCamera fps;
+    fps.game = this;
+    fps.viewport = defaultViewport();
+    fps.font = font;
+    fps.pos = player->pos;
+    fps.rot = player->rot;
+    fps.render();
 
-    // need to rewrite this to use the stack
-    SDL_Rect minimapRect = SDL_Rect{25,25,200,200};
-    TopDownCamera *top = new TopDownCamera(this, minimapRect);
-    top->zoom = 0.3;
+    auto def = defaultViewport();
+    SDL_Rect minimapRect = SDL_Rect{def.w - 225, 25, 200, 200};
+    
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
     SDL_RenderFillRect(renderer, &minimapRect);
-    top->render();
+
+    TopDownCamera top;
+    top.game = this;
+    top.viewport = minimapRect;
+    top.font = font;
+    top.zoom = 0.3;
+    top.render();
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
     SDL_RenderDrawRect(renderer, &minimapRect);
-    delete top;
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
     SDL_RenderPresent(renderer);
 }
 
-void Game::update(double delta) {
-    player->move();
-}
-
-void Game::setup() {
+void Game::setup()
+{
     fpsTimer.start();
     event = new Event(this);
-    camera = new FirstPersonCamera(this);
     player = new Player(this);
 
     player->vol.x = 10;
     player->vol.y = 80;
     player->vol.z = 10;
 
-    player->loc.x = -50;
-    player->loc.y = 0;
-    player->loc.z = -50;
+    player->pos.x = -50;
+    player->pos.y = 0;
+    player->pos.z = -50;
 
     SDL_ShowCursor(0);
-}
-
-Player *Game::getPlayer() {
-    return player;
-}
-
-Game::~Game() {
-    this->onExit();
-}
-
-void Game::setResolution(int x, int y) {
-    this->resX = x;
-    this->resY = y;
-    this->originX = x / 2;
-    this->originZ = y / 2;
-}
-
-void Game::changeCamera() {
-    if (FirstPersonCamera *p = dynamic_cast<FirstPersonCamera *>(camera)) {
-        delete camera;
-        camera = new TopDownCamera(this);
-    } else {
-        delete camera;
-        camera = new FirstPersonCamera(this);
-    }
 }

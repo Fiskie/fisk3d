@@ -6,50 +6,98 @@
 //  Copyright (c) 2015 Fiskie. All rights reserved.
 //
 
-#pragma once 
-
-using namespace std;
+#pragma once
 
 #include <iostream>
 #include "World/Actions.h"
 #include <stdio.h>
 #include "Game.h"
 #include "World/Player.h"
+#include <map>
 
 // todo: decouple Game
 
 class Game;
 
-class Event {
+class Event
+{
 private:
     Game *game;
 
 public:
-    Event(Game *game);
+    Event(Game *game)
+    {
+        this->game = game;
+    }
 
-    void handle();
+    void handle()
+    {
+        SDL_Event e;
 
-    void onKeyDown(SDL_Keycode key);
+        // Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            switch (e.type)
+            {
+            case SDL_QUIT:
+                game->stop();
+                break;
+            case SDL_KEYDOWN:
+                onKeyDown(e.key.keysym.sym);
+                break;
+            case SDL_KEYUP:
+                onKeyUp(e.key.keysym.sym);
+                break;
+            case SDL_MOUSEMOTION:
+                onMouseMotion(e.motion);
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                onMousePress(e.button);
+                break;
+            default:
+                break;
+            }
+        }
+    }
 
-    void onMouseMotion(SDL_MouseMotionEvent motion);
+    void onMouseMotion(SDL_MouseMotionEvent motion)
+    {
+        // Warping the mouse back to the middle of the window causes another event to fire; this stops that.
+        if (ignoreMovement)
+        {
+            ignoreMovement = false;
+            return;
+        }
 
-    void onMousePress(SDL_MouseButtonEvent event);
+        Player *player = game->player;
 
-    void onKeyUp(SDL_Keycode key);
+        player->rot.x -= (float)motion.xrel * -0.01;
+        player->rot.y -= (float)motion.yrel * -0.01;
 
-    bool ignoreMovement = false;
-};
+        if (player->rot.y > 10)
+            player->rot.y = 10;
+        else if (player->rot.y < -10)
+            player->rot.y = -10;
 
-Event::Event(Game *game) {
-    this->game = game;
-}
+        player->xRotCos = cos(player->rot.x);
+        player->xRotSin = sin(player->rot.x);
 
-// todo: change switch into a map and dedupe all of this
+        //SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
 
-void Event::onKeyDown(SDL_Keycode key) {
-    Player *player = game->getPlayer();
+        //ignoreMovement = true;
+    }
 
-    switch (key) {
+    void onMousePress(SDL_MouseButtonEvent event)
+    {
+        //
+    }
+
+    void onKeyDown(SDL_Keycode key)
+    {
+        Player *player = game->player;
+
+        switch (key)
+        {
         case SDLK_w:
         case SDLK_UP:
             player->addMovement(ACTION_MOVE_FORWARD);
@@ -64,6 +112,9 @@ void Event::onKeyDown(SDL_Keycode key) {
         case SDLK_LEFT:
         case SDLK_a:
             player->addMovement(ACTION_MOVE_LEFT);
+            break;
+        case SDLK_SPACE:
+            player->addMovement(ACTION_JUMP);
             break;
         case SDLK_RIGHT:
         case SDLK_d:
@@ -84,13 +135,15 @@ void Event::onKeyDown(SDL_Keycode key) {
         case SDLK_q:
             game->stop();
             break;
+        }
     }
-}
 
-void Event::onKeyUp(SDL_Keycode key) {
-    Player *player = game->getPlayer();
+    void onKeyUp(SDL_Keycode key)
+    {
+        Player *player = game->player;
 
-    switch (key) {
+        switch (key)
+        {
         case SDLK_w:
         case SDLK_UP:
             player->removeMovement(ACTION_MOVE_FORWARD);
@@ -106,6 +159,9 @@ void Event::onKeyUp(SDL_Keycode key) {
         case SDLK_a:
             player->removeMovement(ACTION_MOVE_LEFT);
             break;
+        case SDLK_SPACE:
+            player->removeMovement(ACTION_JUMP);
+            break;
         case SDLK_RIGHT:
         case SDLK_d:
             player->removeMovement(ACTION_MOVE_RIGHT);
@@ -119,61 +175,8 @@ void Event::onKeyUp(SDL_Keycode key) {
         case SDLK_LCTRL:
             player->removeMovement(ACTION_CROUCH);
             break;
-    }
-}
-
-void Event::onMouseMotion(SDL_MouseMotionEvent motion) {
-    // Warping the mouse back to the middle of the window causes another event to fire; this stops that.
-    if (ignoreMovement) {
-        ignoreMovement = false;
-        return;
-    }
-
-    Player *player = game->getPlayer();
-
-    player->rot.x -= (float) motion.xrel * -0.01;
-    player->rot.y -= (float) motion.yrel * -0.01;
-
-    if (player->rot.y > 10)
-        player->rot.y = 10;
-    else if (player->rot.y < -10)
-        player->rot.y = -10;
-
-    player->xRotCos = cos(player->rot.x);
-    player->xRotSin = sin(player->rot.x);
-
-    //SDL_WarpMouseInWindow(game->getWindow(), game->originX, game->originZ);
-
-    //ignoreMovement = true;
-}
-
-void Event::onMousePress(SDL_MouseButtonEvent event) {
-    //
-}
-
-void Event::handle() {
-    SDL_Event e;
-
-    // Handle events on queue
-    while (SDL_PollEvent(&e) != 0) {
-        switch (e.type) {
-            case SDL_QUIT:
-                game->stop();
-                break;
-            case SDL_KEYDOWN:
-                onKeyDown(e.key.keysym.sym);
-                break;
-            case SDL_KEYUP:
-                onKeyUp(e.key.keysym.sym);
-                break;
-            case SDL_MOUSEMOTION:
-                onMouseMotion(e.motion);
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                onMousePress(e.button);
-                break;
-            default:
-                break;
         }
     }
-}
+
+    bool ignoreMovement = false;
+};

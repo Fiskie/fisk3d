@@ -34,9 +34,21 @@ struct Vector3 {
     Vector3 withLen(double l) {
         return nor().scl(l);
     }
+
+    friend Vector3 operator+(Vector3 lhs, Vector3 rhs) {
+        return lhs.add(rhs);
+    }
+
+    friend Vector3 operator-(Vector3 lhs, Vector3 rhs) {
+        return lhs.sub(rhs);
+    }
+
+    friend Vector3 operator*(Vector3 lhs, double val) {
+        return lhs.scl(val);
+    }
 };
 
-typedef std::pair<Vector3, Vector3> Edge;
+typedef std::pair<Vector3, Vector3> Edge3;
 
 struct Vector2 {
     double x;
@@ -66,7 +78,21 @@ struct Vector2 {
     Vector2 withLen(double l) {
         return nor().scl(l);
     }
+
+    friend Vector2 operator+(Vector2 lhs, Vector2 rhs) {
+        return lhs.add(rhs);
+    }
+
+    friend Vector2 operator-(Vector2 lhs, Vector2 rhs) {
+        return lhs.sub(rhs);
+    }
+
+    friend Vector2 operator*(Vector2 lhs, double val) {
+        return lhs.scl(val);
+    }
 };
+
+typedef std::pair<Vector2, Vector2> Edge2;
 
 // i have no idea what this does
 Vector3 intersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {

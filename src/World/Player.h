@@ -2,7 +2,7 @@
 // Created by Fiskie on 24/05/15.
 //
 
-#pragma once 
+#pragma once
 
 #include "Actions.h"
 #include "Entity.h"
@@ -10,154 +10,118 @@
 #include "../Game.h"
 #include <math.h>
 
-using namespace std;
-
 class Game;
 
-class Player : public Entity {
+class Player : public Entity
+{
 private:
-    map<int, bool> movements;
+    std::map<int, bool> movements;
     Game *game;
     int speed;
     int sprintSpeed;
     int crouchSpeed;
     int jumpForce;
 
-    void accelerate();
+    void accelerate()
+    {
+        // todo: use acc vector instead of directly modifying vel
+        double sine = xRotSin, cosine = xRotCos;
+
+        double maxVelocity = speed;
+
+        if (movements[ACTION_SPRINT])
+            maxVelocity = sprintSpeed;
+
+        if (movements[ACTION_CROUCH])
+            maxVelocity = crouchSpeed;
+
+        if (movements[ACTION_MOVE_RIGHT])
+        {
+            vel.x -= sine;
+            vel.z += cosine;
+        }
+
+        if (movements[ACTION_MOVE_LEFT])
+        {
+            vel.x += sine;
+            vel.z -= cosine;
+        }
+
+        if (movements[ACTION_MOVE_FORWARD])
+        {
+            vel.x += cosine;
+            vel.z += sine;
+        }
+
+        if (movements[ACTION_MOVE_BACKWARD])
+        {
+            vel.x -= cosine;
+            vel.z -= sine;
+        }
+
+        if (movements[ACTION_MOVE_UP])
+        {
+            vel.y += 1;
+        }
+
+        if (movements[ACTION_MOVE_DOWN])
+        {
+            vel.y += -1;
+        }
+
+        // Clamp values
+        if (vel.x > maxVelocity)
+            vel.x = maxVelocity;
+        else if (vel.x < -maxVelocity)
+            vel.x = -maxVelocity;
+
+        if (vel.z > maxVelocity)
+            vel.z = maxVelocity;
+        else if (vel.z < -maxVelocity)
+            vel.z = -maxVelocity;
+    }
+
 public:
     double xRotCos;
     double xRotSin;
 
-    int getSpeed() const;
+    Player(Game *game)
+    {
+        this->game = game;
+        speed = 5;
+        sprintSpeed = 10;
+        crouchSpeed = 2;
+    };
 
-    void setSpeed(int speed);
-
-    int getSprintSpeed() const;
-
-    void setSprintSpeed(int speed);
-
-    Player(Game* game);
-
-    void addMovement(int id);
-
-    void removeMovement(int id);
-
-    void move();
-
-    bool isMoving();
-
-    double getCameraHeight();
-
-    void decelerate();
-};
-
-//
-// Created by Fiskie on 24/05/15.
-//
-Player::Player(Game* game) {
-    this->game = game;
-    movements[ACTION_MOVE_RIGHT] = false;
-    movements[ACTION_MOVE_LEFT] = false;
-    movements[ACTION_MOVE_FORWARD] = false;
-    movements[ACTION_MOVE_BACKWARD] = false;
-    movements[ACTION_MOVE_UP] = false;
-    movements[ACTION_MOVE_DOWN] = false;
-    movements[ACTION_CROUCH] = false;
-    speed = 5;
-    sprintSpeed = 10;
-    crouchSpeed = 2;
-};
-
-double Player::getCameraHeight() {
-    return loc.y + (movements[ACTION_CROUCH] ? 50 : 80);
-}
-
-void Player::addMovement(int id) {
-    movements[id] = true;
-}
-
-void Player::removeMovement(int id) {
-    movements[id] = false;
-}
-
-bool Player::isMoving() {
-    return movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT] || movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD] || movements[ACTION_MOVE_UP] || movements[ACTION_MOVE_DOWN];
-}
-
-void Player::accelerate() {
-    // todo: use acc vector instead of directly modifying vel
-    double sine = xRotSin, cosine = xRotCos;
-
-    double maxVelocity = speed;
-
-    if (movements[ACTION_SPRINT])
-        maxVelocity = sprintSpeed;
-
-    if (movements[ACTION_CROUCH])
-        maxVelocity = crouchSpeed;
-
-    if (movements[ACTION_MOVE_RIGHT]) {
-        vel.x -= sine;
-        vel.z += cosine;
+    void addMovement(int id)
+    {
+        movements[id] = true;
     }
 
-    if (movements[ACTION_MOVE_LEFT]) {
-        vel.x += sine;
-        vel.z -= cosine;
+    void removeMovement(int id)
+    {
+        movements.erase(id);
     }
 
-    if (movements[ACTION_MOVE_FORWARD]) {
-        vel.x += cosine;
-        vel.z += sine;
-    }
+    void move()
+    {
+        accelerate();
 
-    if (movements[ACTION_MOVE_BACKWARD]) {
-        vel.x -= cosine;
-        vel.z -= sine;
-    }
+        pos = pos.add(vel);
 
-    if (movements[ACTION_MOVE_UP]) {
-        vel.y += 1;
-    }
+        decelerate();
 
-    if (movements[ACTION_MOVE_DOWN]) {
-        vel.y += -1;
-    }
+        // "gravity"
+        if (pos.y > 0)
+        {
+            pos.y = pos.y - 5 > 0 ? pos.y - 5 : 0;
+        }
+        else if (movements[ACTION_JUMP])
+        {
+            vel.y += 20;
+        }
 
-    // Clamp values
-    if (vel.x > maxVelocity)
-        vel.x = maxVelocity;
-    else if (vel.x < -maxVelocity)
-        vel.x = -maxVelocity;
-
-    if (vel.z > maxVelocity)
-        vel.z = maxVelocity;
-    else if (vel.z < -maxVelocity)
-        vel.z = -maxVelocity;
-}
-
-void Player::decelerate() {
-    if (vel.x > 0.1 || vel.x < -0.1)
-        vel.x *= 0.80;
-    else
-        vel.x = 0;
-
-    if (vel.z > 0.1 || vel.z < -0.1)
-        vel.z *= 0.80;
-    else
-        vel.z = 0;
-}
-
-void Player::move() {
-    accelerate();
-
-    loc.x += vel.x;
-    loc.y += vel.y;
-    loc.z += vel.z;
-
-    decelerate();
-
-    /*
+        /*
     if (!isMoving())
         return;
 
@@ -183,9 +147,9 @@ void Player::move() {
 
         Vector3 newPos;
 
-        newPos.x = loc.x;
-        newPos.y = loc.y;
-        newPos.z = loc.z;
+        newPos.x = pos.x;
+        newPos.y = pos.y;
+        newPos.z = pos.z;
 
         if ((movements[ACTION_MOVE_RIGHT] || movements[ACTION_MOVE_LEFT]) && (movements[ACTION_MOVE_FORWARD] || movements[ACTION_MOVE_BACKWARD])) {
             cosine *= 0.9;
@@ -246,7 +210,7 @@ void Player::move() {
         if (collision) {
             collision = false;
 
-            tmpPos.x = loc.x;
+            tmpPos.x = pos.x;
 
             for (i = brushes->begin(); i != brushes->end(); ++i) {
                 if (i->collidesWith(tmpPos, this->vol)) {
@@ -263,7 +227,7 @@ void Player::move() {
             collision = false;
 
             tmpPos.x = newPos.x;
-            tmpPos.z = loc.z;
+            tmpPos.z = pos.z;
 
             for (i = brushes->begin(); i != brushes->end(); ++i) {
                 if (i->collidesWith(tmpPos, this->vol)) {
@@ -275,30 +239,38 @@ void Player::move() {
                 newPos = tmpPos;
         }*/
 
-    /*
+        /*
         // Update location
         if (!collision) {
-            loc.x = newPos.x;
-            loc.y = newPos.y;
-            loc.z = newPos.z;
+            pos.x = newPos.x;
+            pos.y = newPos.y;
+            pos.z = newPos.z;
         }
 
         iteration++;
     }*/
-}
+    }
 
-void Player::setSpeed(int speed) {
-    Player::speed = speed;
-}
+    double getCameraHeight()
+    {
+        return pos.y + (movements[ACTION_CROUCH] ? 50 : 80);
+    }
 
-int Player::getSpeed() const {
-    return speed;
-}
+    void decelerate()
+    {
+        if (vel.x > 0.1 || vel.x < -0.1)
+            vel.x *= 0.80;
+        else
+            vel.x = 0;
 
-void Player::setSprintSpeed(int speed) {
-    Player::sprintSpeed = speed;
-}
+        if (vel.y > 0.1 || vel.y < -0.1)
+            vel.y *= 0.80;
+        else
+            vel.y = 0;
 
-int Player::getSprintSpeed() const {
-    return sprintSpeed;
-}
+        if (vel.z > 0.1 || vel.z < -0.1)
+            vel.z *= 0.80;
+        else
+            vel.z = 0;
+    }
+};

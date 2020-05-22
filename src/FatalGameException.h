@@ -8,9 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-using namespace std;
-
-class FatalGameException : public exception {
+class FatalGameException : public std::exception {
 private:
     const char *message;
 

@@ -6,3 +6,4 @@
 #define ACTION_MOVE_UP 5
 #define ACTION_MOVE_DOWN 6
 #define ACTION_CROUCH 7
+#define ACTION_JUMP 8

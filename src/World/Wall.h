@@ -2,68 +2,52 @@
 // Created by Fiskie on 21/06/15.
 //
 
-#pragma once 
+#pragma once
 
 #include "../util/vector.cpp"
 
-class Wall {
+class Wall
+{
 private:
     Vector3 points[4];
+
 public:
-    Vector3 getPoint(int i);
-    Edge getEdge(int i);
+    Wall() {}
 
-    void setPoint(int i, Vector3 pos);
+    Vector3 getPoint(int i)
+    {
+        return points[i];
+    }
 
-    void setPoint(int i, double x, double y, double z);
+    Vector3 getNeighbourPoint(int i)
+    {
+        return points[(i + 1) % 4];
+    }
 
-    void flatten(int axis);
+    Edge3 getEdge(int i)
+    {
+        return {points[i], points[(i + 1) % 4]};
+    }
 
-    enum {
-        axisX,
-        axisY,
-        axisZ
-    };
+    /**
+     * Set a point to the coordinations in this position
+     */
+    void setPoint(int i, Vector3 pos)
+    {
+        points[i] = pos;
+    }
 
-    Wall();
+    /**
+     * Flatten a wall along an axis
+     */
+    void flatten(int axis)
+    {
+        int total = 0;
 
-    Wall(Wall *wall);
-
-    void translate(double x, double y, double z);
-
-    void translatePoint(int i, double x, double y, double z);
-};
-
-Vector3 Wall::getPoint(int i) {
-    return points[i];
-}
-
-Edge Wall::getEdge(int i) {
-    return {points[i], points[(i+1)%4]};
-}
-
-/**
- * Set a point to the coordinations in this position
- */
-void Wall::setPoint(int i, Vector3 pos) {
-    points[i] = pos;
-}
-
-/**
- * Set the point to these coordinates
- */
-void Wall::setPoint(int i, double x, double y, double z) {
-    points[i] = {x, y, z};
-}
-
-/**
- * Flatten a wall along an axis
- */
-void Wall::flatten(int axis) {
-    int total = 0;
-
-    for (int i = 0; i < 4; i++) {
-        switch (axis) {
+        for (int i = 0; i < 4; i++)
+        {
+            switch (axis)
+            {
             default:
                 total += points[i].x;
                 break;
@@ -73,13 +57,15 @@ void Wall::flatten(int axis) {
             case axisZ:
                 total += points[i].z;
                 break;
+            }
         }
-    }
 
-    double mean = ((double) total) / 4;
+        double mean = ((double)total) / 4;
 
-    for (int i = 0; i < 4; i++) {
-        switch (axis) {
+        for (int i = 0; i < 4; i++)
+        {
+            switch (axis)
+            {
             default:
                 points[i].x = mean;
                 break;
@@ -89,27 +75,27 @@ void Wall::flatten(int axis) {
             case axisZ:
                 points[i].z = mean;
                 break;
+            }
         }
     }
-}
 
-Wall::Wall() {
+    enum
+    {
+        axisX,
+        axisY,
+        axisZ
+    };
 
-}
-
-Wall::Wall(Wall *wall) {
-    for (int i = 0; i < 4; i++) {
-        points[i] = wall->points[i];
+    void translate(double x, double y, double z)
+    {
+        for (int i = 0; i < 4; i++)
+            Wall::translatePoint(i, x, y, z);
     }
-}
 
-void Wall::translate(double x, double y, double z) {
-    for (int i = 0; i < 4; i++)
-        Wall::translatePoint(i, x, y, z);
-}
-
-void Wall::translatePoint(int i, double x, double y, double z) {
-    points[i].x += x;
-    points[i].y += y;
-    points[i].z += z;
-}
+    void translatePoint(int i, double x, double y, double z)
+    {
+        points[i].x += x;
+        points[i].y += y;
+        points[i].z += z;
+    }
+};
